@@ -5,7 +5,8 @@ public abstract class ElementoDestruible extends Elemento{
 	
    
  
-   public ElementoDestruible(){
+   public ElementoDestruible(int x, int y ){
+	   super(x,y);
 	   vivo=true;
    }
    public void destruirse() {
