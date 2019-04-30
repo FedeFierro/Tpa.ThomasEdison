@@ -3,10 +3,11 @@ package entidades;
 public abstract class Elemento {
 	private int _x;
 	private int _y;
-
-	public Elemento(int x, int y) {
+    protected Tablero _tablero;
+	public Elemento(int x, int y, Tablero tablero) {
 		_x = x;
 		_y=y;
+		_tablero= tablero;
 	}
 
 	

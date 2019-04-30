@@ -15,7 +15,7 @@ public class TableroTest {
 	@Before
 	public void iniciar() {
 		t = new Tablero(25,30); 
-		p= new Pared(1,1);
+		p= new Pared(1,1,t);
 	}
 	
 	@Test
