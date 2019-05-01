@@ -17,17 +17,38 @@ public class Jugador extends ElementoDestruible{
 	 * @param y Es el movimiento en y de l jugador
 	 */
 	public void moverse(int x, int y) {
+
+		if(this._tablero.obtenerAncho() <= posicionX() + x || posicionX() + x < 0)
+			return;
+		
+		if(this._tablero.obtenerLargo() <= posicionY() + y || posicionY() + y < 0)
+			return;
+		
+		if(this._tablero.obtenerElemento(posicionX() + x, posicionY() + y) != null)
+			return;
+		
 		posicionX(posicionX() + x);
 		posicionY(posicionY() + y);
 	}
 	
+	/**
+	 * Planta una bomba*/
 	public void plantarBomba() {
-		Bomba bomba = new Bomba(posicionX(), posicionY(), tablero());
 		bombasPlantadas += 1;
+		Bomba bomba = new Bomba(posicionX(), posicionY(), tablero(), this);
 	}
 	
+	/**
+	 * Devuelve la cantidad de bombas plantadas
+	 * @return int: Cantidad de bombas*/
 	public int bombasPlantadas() {
 		return bombasPlantadas;
 	}
-	
+
+	/**
+	 * Setea la cantidad de bombas plantadas
+	 * @return int: Cantidad de bombas*/
+	public void bombasPlantadas(int bombasPlantadas) {
+		this.bombasPlantadas = bombasPlantadas;
+	}
 }

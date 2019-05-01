@@ -48,9 +48,9 @@ public class JugadorTest {
 	@Test
 	public void moverse() {
 		System.out.println("posición inicial -> "+j.posicionX()+"-"+j.posicionY());
-		j.moverse(1, 1);
-		assertEquals(2,j.posicionX());
-		assertEquals(2,j.posicionY());
+		j.moverse(23, 28);
+		assertEquals(24,j.posicionX());
+		assertEquals(29,j.posicionY());
 		System.out.println("posición final -> "+j.posicionX()+"-"+j.posicionY());
 	}
 }
