@@ -8,16 +8,17 @@ public abstract class Elemento {
 		_x = x;
 		_y=y;
 		_tablero= tablero;
+		_tablero.agregarElemento(this);
 	}
 
 	/**
-	 *Obtiene el valor de la posición X 
+	 *Obtiene el valor de la posiciï¿½n X 
 	 */
 	public int posicionX() {
 		return _x;
 	}
 	/**
-	 *Obtiene el valor de la posición X
+	 *Obtiene el valor de la posiciï¿½n X
 	 */
 	public int posicionY() {
 		return _y;
@@ -29,14 +30,14 @@ public abstract class Elemento {
 		return _tablero;
 	}
 	/**
-	 *Setea el valor de la posición X 
+	 *Setea el valor de la posiciï¿½n X 
 	 *@param x donde se quiere posicionar
 	 */
 	public void posicionX(int x) {
 		_x = x;
 	}
 	/**
-	 *Setea el valor de la posición X 
+	 *Setea el valor de la posiciï¿½n X 
 	 *@param y donde se quiere posicionar
 	 */
 	public void posicionY(int y) {
