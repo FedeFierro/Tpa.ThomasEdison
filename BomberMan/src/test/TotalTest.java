@@ -60,5 +60,17 @@ public class TotalTest {
 		
 	}
 	
+	@Test
+	public void moverJugadorContraJugador() {
+		//al encontraser contra otro jugador, no puede seguir avanzando
+		Jugador j2 =  new Jugador(3,3,t);
+		j.moverse(1, 0);//se posicion en (1,1)
+		for(int i=1; i<4;i++) {
+			j.moverse(1,1);
+		}
+		assertEquals(2, j.posicionX());
+		assertEquals(2, j.posicionY());		
+	}
+	
 
 }
