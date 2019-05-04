@@ -1,7 +1,13 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.After;
 
+import entidades.Muro;
+import entidades.Tablero;
 
 public class MuroTest {
 
@@ -28,5 +34,4 @@ public class MuroTest {
 		assertEquals(2, m.posicionX());
 		assertEquals(3, m.posicionY());
 	}
-	
 }
