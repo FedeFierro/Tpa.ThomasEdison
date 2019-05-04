@@ -11,6 +11,7 @@ public class TotalTest {
 	private Jugador j;
 	private Pared p;
 	private Muro m;
+	private Bomba b;
 	
 	@Before
 	public void iniciarTest() {
@@ -58,6 +59,7 @@ public class TotalTest {
 		assertEquals(0, j.posicionX());
 		assertEquals(2, j.posicionY());
 		
+		  
 	}
 	
 	@Test
@@ -71,6 +73,42 @@ public class TotalTest {
 		assertEquals(2, j.posicionX());
 		assertEquals(2, j.posicionY());		
 	}
-	
-
+	@Test
+	public void explotarBomba() {
+		j.moverse(0, 1);
+		assertEquals(0, j.posicionX());
+		assertEquals(2, j.posicionY());
+		
+		b= new Bomba(0,1,t,j);
+		b.explotar();
+		assertEquals(m,t.obtenerElemento(0, 0));
+		assertEquals(null,t.obtenerElemento(0, 2)); //jugador
+		assertEquals(null,t.obtenerElemento(0, 1)); //bomba
+		assertEquals(null,t.obtenerElemento(0, 3));//pared
+			
+	}
+	@Test 
+	public void explotarBombaJugadorTrasPared() {
+		j.moverse(1,0);
+		for(int i=1; i<4;i++) {
+			j.moverse(0, 1);
+		}
+		j.moverse(-1, 0);
+		assertEquals(0, j.posicionX());
+		assertEquals(4, j.posicionY());
+		Bomba b = new Bomba(0,2,t,j);
+		b.explotar();
+		assertEquals(null,t.obtenerElemento(0, 3));//pared
+		assertEquals(j,t.obtenerElemento(0, 4));//jugador
+		
+	}
+	@Test
+    public void BombaBomba() {
+    	b = new Bomba(5,5,t,j);
+    	Bomba b2 = new Bomba(5,7,t,j);
+    	assertEquals(b2, t.obtenerElemento(5, 7));
+    	b.explotar();
+    	assertEquals(null, t.obtenerElemento(5, 7));
+    	assertEquals(false, b2.estaVivo());
+    }
 }

@@ -12,7 +12,7 @@ public class Jugador extends ElementoDestruible{
 	}
 	
 	/**
-	 * Método que mueve un jugador
+	 * Mï¿½todo que mueve un jugador
 	 * @param x Es el movimiento en x de l jugador
 	 * @param y Es el movimiento en y de l jugador
 	 */
@@ -26,9 +26,7 @@ public class Jugador extends ElementoDestruible{
 		
 		if(this._tablero.obtenerElemento(posicionX() + x, posicionY() + y) != null)
 			return;
-		
-		posicionX(posicionX() + x);
-		posicionY(posicionY() + y);
+		cambiarPosicionEnTablero(_x+x, _y+y);
 	}
 	
 	/**
@@ -50,5 +48,15 @@ public class Jugador extends ElementoDestruible{
 	 * @return int: Cantidad de bombas*/
 	public void bombasPlantadas(int bombasPlantadas) {
 		this.bombasPlantadas = bombasPlantadas;
+	}
+	private void cambiarPosicionEnTablero(int xFinal, int yFinal) {
+		Elemento e = _tablero.obtenerElemento(_x, _y);
+			if(e instanceof Jugador) {
+				_tablero.eliminarElemento(this);
+			}
+			_x=xFinal;
+			_y=yFinal;
+			_tablero.agregarElemento(this);
+		
 	}
 }

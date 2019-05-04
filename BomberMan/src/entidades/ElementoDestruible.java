@@ -1,7 +1,7 @@
 package entidades;
 
 public abstract class ElementoDestruible extends Elemento{
-   private boolean vivo;
+   protected boolean vivo;
 	
    
  

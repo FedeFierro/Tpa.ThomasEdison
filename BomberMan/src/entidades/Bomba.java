@@ -1,7 +1,5 @@
 package entidades;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Bomba extends ElementoDestruible{
 	private Jugador _jugador;
@@ -28,16 +26,17 @@ public class Bomba extends ElementoDestruible{
 	}//fin explotarBomba
 	private void explotaIzq() {
 		int posFinal = (_x -rango) < 0 ? 0: _x-rango ;
-		for (int i = _x; i >= posFinal; i--) {
-			if(!puedeContinuar(_x-i, _y)) {
-				return;
+		for (int i = _x ; i >= posFinal; i--) {
+			if(! puedeContinuar(i, _y)) {
+				return;	
 			}
 		}
 	}
+	
 	private void explotaDer() {
 		int posFinal = (_x + rango) > _tablero.obtenerAncho() ? _tablero.obtenerAncho(): _x+rango ;
 		for (int i = _x; i <= posFinal; i++) {
-			if(!puedeContinuar(_x+i,_y)) {
+			if(!puedeContinuar(i,_y)) {
 				return;
 			}
 		}
@@ -45,7 +44,7 @@ public class Bomba extends ElementoDestruible{
 	private void explotaArriba() {
 		int posFinal = (_y - rango) < 0 ? 0: _x-rango ;
 		for (int i = _y; i <= posFinal; i--) {
-			if(!puedeContinuar(_x,_y-i)) {
+			if(!puedeContinuar(_x,i)) {
 				return;
 			}
 		}
@@ -53,7 +52,7 @@ public class Bomba extends ElementoDestruible{
 	private void explotaAbajo() {
 		int posFinal = (_y + rango) > _tablero.obtenerLargo() ? _tablero.obtenerLargo(): _y + rango ;
 		for (int i = _y; i <= posFinal; i++) {
-			if(!puedeContinuar(_x,_y+i)) {
+			if(!puedeContinuar(_x,i)) {
 				return;
 			}
 		}
@@ -62,12 +61,15 @@ public class Bomba extends ElementoDestruible{
 	private boolean puedeContinuar(int x, int y) {
 		Elemento e = _tablero.obtenerElemento(x,y);
 		if(e instanceof ElementoDestruible) {
-			((ElementoDestruible) e).destruirse();
+			if(e instanceof Bomba && e != this) {
+				((Bomba) e).explotar();
+			}else {
+			  ((ElementoDestruible) e).destruirse();
+			}
 		}
 		if(e instanceof Pared || e instanceof Muro) {
 			return false;
 		}
 		return true;
 	}
-	
 }
