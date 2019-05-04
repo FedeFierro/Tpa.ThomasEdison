@@ -34,5 +34,13 @@ public class BombaTest {
 		assertEquals(null, t.obtenerElemento(5, 5));
 		assertEquals(false, b.estaVivo());
 	}
+	
+	@Test
+	public void explotarTest() throws InterruptedException{
+		b.explotar();
+		assertEquals(null, t.obtenerElemento(5, 5));
+		
+	}
+	
 
 }

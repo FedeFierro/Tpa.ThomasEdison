@@ -1,23 +1,73 @@
 package entidades;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Bomba extends ElementoDestruible{
 	private Jugador _jugador;
 	protected int _tiempoexplosion;
+	private int rango;
 	/**
 	 * Constructor de la clase Bomba
 	 */
 	public Bomba (int x, int y, Tablero tablero, Jugador jugador) {
 		super(x,y,tablero);
-		_tiempoexplosion=5;
+		_tiempoexplosion=3000;
 		this._jugador = jugador;
+		rango=3;
+	
 	}
 	
-	public void explosion() {
-		Explosion explosion= new Explosion(posicionX(),posicionY(),tablero(),this);
+	public void explotar() {
+		explotaIzq();
+		explotaDer();
+		explotaArriba();
+		explotaAbajo();
+		this.destruirse();
+		
+	}//fin explotarBomba
+	private void explotaIzq() {
+		int posFinal = (_x -rango) < 0 ? 0: _x-rango ;
+		for (int i = _x; i >= posFinal; i--) {
+			if(!puedeContinuar(_x-i, _y)) {
+				return;
+			}
+		}
+	}
+	private void explotaDer() {
+		int posFinal = (_x + rango) > _tablero.obtenerAncho() ? _tablero.obtenerAncho(): _x+rango ;
+		for (int i = _x; i <= posFinal; i++) {
+			if(!puedeContinuar(_x+i,_y)) {
+				return;
+			}
+		}
+	}
+	private void explotaArriba() {
+		int posFinal = (_y - rango) < 0 ? 0: _x-rango ;
+		for (int i = _y; i <= posFinal; i--) {
+			if(!puedeContinuar(_x,_y-i)) {
+				return;
+			}
+		}
+	}
+	private void explotaAbajo() {
+		int posFinal = (_y + rango) > _tablero.obtenerLargo() ? _tablero.obtenerLargo(): _y + rango ;
+		for (int i = _y; i <= posFinal; i++) {
+			if(!puedeContinuar(_x,_y+i)) {
+				return;
+			}
+		}
 	}
 	
-	public int obtenerTiempo() {
-		return _tiempoexplosion;
+	private boolean puedeContinuar(int x, int y) {
+		Elemento e = _tablero.obtenerElemento(x,y);
+		if(e instanceof ElementoDestruible) {
+			((ElementoDestruible) e).destruirse();
+		}
+		if(e instanceof Pared || e instanceof Muro) {
+			return false;
+		}
+		return true;
 	}
 	
 }
