@@ -10,7 +10,7 @@ public class ParedTest {
 	private Pared p;
 	private Tablero t;
 	@Before
-	public void IniciarTest() {
+	public void iniciarTest() {
 		t = new Tablero(25,40);
 		p=new Pared(2,3,t);
 	}
