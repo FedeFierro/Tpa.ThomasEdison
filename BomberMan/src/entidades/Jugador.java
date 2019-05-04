@@ -1,6 +1,6 @@
 package entidades;
 
-public class Jugador extends ElementoDestruible{
+public class Jugador extends Elemento{
 	
 	private int bombasPlantadas;
 	/**
@@ -18,15 +18,25 @@ public class Jugador extends ElementoDestruible{
 	 */
 	public void moverse(int x, int y) {
 
-		if(this._tablero.obtenerAncho() <= posicionX() + x || posicionX() + x < 0)
-			return;
 		
-		if(this._tablero.obtenerLargo() <= posicionY() + y || posicionY() + y < 0)
-			return;
+	if(this.tablero.obtenerElemento(posicionX() + x, posicionY() + y) == null ) 
+	{
+		if( x + posicionX() > 0 && x + posicionX() <= this.tablero.obtenerAncho())
+			cambiarPosicionEnTablero(this.x+x, this.y+y);
 		
-		if(this._tablero.obtenerElemento(posicionX() + x, posicionY() + y) != null)
-			return;
-		cambiarPosicionEnTablero(_x+x, _y+y);
+		if(y+posicionY() > 0 && y + posicionY() <= this.tablero.obtenerLargo())
+			cambiarPosicionEnTablero(this.x+x, this.y+y);
+	}
+		
+//		if(this.tablero.obtenerAncho() <= posicionX() + x || posicionX() + x < 0)
+//			return;
+		
+//		if(this.tablero.obtenerLargo() <= posicionY() + y || posicionY() + y < 0)
+//			return;
+		
+		
+//			return;
+//		cambiarPosicionEnTablero(this.x+x, this.y+y);
 	}
 	
 	/**
@@ -50,13 +60,18 @@ public class Jugador extends ElementoDestruible{
 		this.bombasPlantadas = bombasPlantadas;
 	}
 	private void cambiarPosicionEnTablero(int xFinal, int yFinal) {
-		Elemento e = _tablero.obtenerElemento(_x, _y);
+		Elemento e = tablero.obtenerElemento(this.x, this.y);
 			if(e instanceof Jugador) {
-				_tablero.eliminarElemento(this);
+				tablero.eliminarElemento(this);
 			}
-			_x=xFinal;
-			_y=yFinal;
-			_tablero.agregarElemento(this);
+			x=xFinal;
+			y=yFinal;
+			tablero.agregarElemento(this);
 		
 	}
+	
+	public void destruir() {
+		this.vivo = false;
+	}
+	
 }

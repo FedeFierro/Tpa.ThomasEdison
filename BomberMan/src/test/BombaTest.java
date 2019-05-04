@@ -29,10 +29,10 @@ public class BombaTest {
 	}
 	@Test
 	public void destruir() {
-		assertEquals(true, b.estaVivo());
-		b.destruirse();
+		assertEquals(true, b.getVivo());
+		b.destruir();
 		assertEquals(null, t.obtenerElemento(5, 5));
-		assertEquals(false, b.estaVivo());
+		assertEquals(false, b.getVivo());
 	}
 	
 	@Test

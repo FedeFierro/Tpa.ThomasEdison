@@ -109,7 +109,7 @@ public class TotalTest {
     	assertEquals(b2, t.obtenerElemento(5, 7));
     	b.explotar();
     	assertEquals(null, t.obtenerElemento(5, 7));
-    	assertEquals(false, b2.estaVivo());
+    	assertEquals(false, b2.getVivo());
     }
 	@Test
 	public void bombaNadaParedTest() {

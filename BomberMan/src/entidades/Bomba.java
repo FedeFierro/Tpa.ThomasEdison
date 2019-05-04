@@ -13,7 +13,7 @@ public class Bomba extends Elemento{
 		_tiempoexplosion=3000;
 		this._jugador = jugador;
 		rango=3;
-	
+		this.vivo = true;
 	}
 	
 	public void explotar() {

@@ -6,5 +6,8 @@ public class Muro extends Elemento{
 		super(x,y,tablero);
 	}
 	
+	public void destruir() {
+		
+	}
 	
 }

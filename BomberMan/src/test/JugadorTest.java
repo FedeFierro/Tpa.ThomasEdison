@@ -39,10 +39,10 @@ public class JugadorTest {
 	
 	@Test
 	public void destruirse() {
-		assertEquals(true, j.estaVivo());
-		j.destruirse();
+		assertEquals(true, j.getVivo());
+		j.destruir();
 		assertEquals(null, t.obtenerElemento(1, 1));
-		assertEquals(false, j.estaVivo());
+		assertEquals(false, j.getVivo());
 	}
 	
 	@Test

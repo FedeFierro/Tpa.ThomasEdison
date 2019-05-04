@@ -1,46 +1,58 @@
 package entidades;
 
 public abstract class Elemento {
-	protected int _x;
-	protected int _y;
-    protected Tablero _tablero;
+	protected int x;
+	protected int y;
+    protected Tablero tablero;
+    protected boolean vivo;
+    
 	public Elemento(int x, int y, Tablero tablero) {
-		_x = x;
-		_y=y;
-		_tablero= tablero;
-		_tablero.agregarElemento(this);
+		this.x = x;
+		this.y=y;
+		this.tablero= tablero;
+		this.tablero.agregarElemento(this);
 	}
 
+	/**
+	 * Metodo abstracto para destruir. 
+	 */
+	public abstract void destruir();
+	
+	public boolean getVivo() {
+		return vivo;
+	}
+	
+	
 	/**
 	 *Obtiene el valor de la posici�n X 
 	 */
 	public int posicionX() {
-		return _x;
+		return x;
 	}
 	/**
 	 *Obtiene el valor de la posici�n X
 	 */
 	public int posicionY() {
-		return _y;
+		return y;
 	}
 	/**
 	 *Obtiene el tablero
 	 */
 	public Tablero tablero() {
-		return _tablero;
+		return tablero;
 	}
 	/**
 	 *Setea el valor de la posici�n X 
 	 *@param x donde se quiere posicionar
 	 */
 	public void posicionX(int x) {
-		_x = x;
+		this.x = x;
 	}
 	/**
 	 *Setea el valor de la posici�n X 
 	 *@param y donde se quiere posicionar
 	 */
 	public void posicionY(int y) {
-		_y = y;
+		this.y = y;
 	}
 }

@@ -11,7 +11,7 @@ public abstract class ElementoDestruible extends Elemento{
    }
    public void destruirse() {
 	   vivo=false;
-	   _tablero.eliminarElemento(this);
+	   tablero.eliminarElemento(this);
    }
    
    public boolean estaVivo() {
