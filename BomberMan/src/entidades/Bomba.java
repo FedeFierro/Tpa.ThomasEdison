@@ -43,7 +43,7 @@ public class Bomba extends ElementoDestruible{
 	}
 	private void explotaArriba() {
 		int posFinal = (_y - rango) < 0 ? 0: _x-rango ;
-		for (int i = _y; i >= posFinal; i--) {
+		for (int i = _y; i <= posFinal; i--) {
 			if(!puedeContinuar(_x,i)) {
 				return;
 			}

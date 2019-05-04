@@ -10,7 +10,7 @@ public class ParedTest {
 	private Pared p;
 	private Tablero t;
 	@Before
-	public void iniciarTest() {
+	public void IniciarTest() {
 		t = new Tablero(25,40);
 		p=new Pared(2,3,t);
 	}
@@ -22,6 +22,7 @@ public class ParedTest {
 	}
 	@Test
 	public void constructorTest() {
+		
 		assertEquals(2, p.posicionX());
 		assertEquals(3, p.posicionY());
 	}

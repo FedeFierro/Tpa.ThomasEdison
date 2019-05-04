@@ -2,6 +2,9 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.After;
 
 import entidades.Muro;
 import entidades.Tablero;
