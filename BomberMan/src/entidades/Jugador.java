@@ -33,7 +33,7 @@ public class Jugador extends ElementoDestruible{
 	 * Planta una bomba*/
 	public void plantarBomba() {
 		bombasPlantadas += 1;
-		Bomba bomba = new Bomba(posicionX(), posicionY(), tablero(), this);
+		new Bomba(posicionX(), posicionY(), tablero(), this);
 	}
 	
 	/**
