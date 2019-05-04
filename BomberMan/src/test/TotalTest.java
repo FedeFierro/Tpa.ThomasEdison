@@ -29,7 +29,7 @@ public class TotalTest {
 		t=null;
 	}
 	@Test
-	public void moverJugadorFueraDeLimite() {
+	public void moverJugadorFueraDeLimiteTest() {
 		assertEquals(0, j.posicionX());
 		assertEquals(1, j.posicionY());
 		for(int i=1; i<3;i++) {
@@ -39,7 +39,7 @@ public class TotalTest {
 		assertEquals(1, j.posicionY());
 	}
 	@Test
-	public void moverJugadroContraMuro() {
+	public void moverJugadroContraMuroTest() {
 		assertEquals(0, j.posicionX());
 		assertEquals(1, j.posicionY());
 		for(int i=1; i<3;i++) {
@@ -50,7 +50,7 @@ public class TotalTest {
 	
 	}
 	@Test
-	public void moverJugadorHastaPared() {
+	public void moverJugadorHastaParedTest() {
 		assertEquals(0, j.posicionX());
 		assertEquals(1, j.posicionY());
 		for(int i=1; i<5;i++) {
@@ -63,7 +63,7 @@ public class TotalTest {
 	}
 	
 	@Test
-	public void moverJugadorContraJugador() {
+	public void moverJugadorContraJugadorTest() {
 		//al encontraser contra otro jugador, no puede seguir avanzando
 		Jugador j2 =  new Jugador(3,3,t);
 		j.moverse(1, 0);//se posicion en (1,1)
@@ -74,7 +74,7 @@ public class TotalTest {
 		assertEquals(2, j.posicionY());		
 	}
 	@Test
-	public void explotarBomba() {
+	public void explotarBombaTest() {
 		j.moverse(0, 1);
 		assertEquals(0, j.posicionX());
 		assertEquals(2, j.posicionY());
@@ -88,7 +88,7 @@ public class TotalTest {
 			
 	}
 	@Test 
-	public void explotarBombaJugadorTrasPared() {
+	public void explotarBombaJugadorTrasParedTest() {
 		j.moverse(1,0);
 		for(int i=1; i<4;i++) {
 			j.moverse(0, 1);
@@ -103,7 +103,7 @@ public class TotalTest {
 		
 	}
 	@Test
-    public void BombaBomba() {
+    public void bombaBombaTest() {
     	b = new Bomba(5,5,t,j);
     	Bomba b2 = new Bomba(5,7,t,j);
     	assertEquals(b2, t.obtenerElemento(5, 7));
@@ -111,4 +111,11 @@ public class TotalTest {
     	assertEquals(null, t.obtenerElemento(5, 7));
     	assertEquals(false, b2.estaVivo());
     }
+	@Test
+	public void bombaNadaParedTest() {
+		b = new Bomba(0,5,t,j);
+		b.explotar();
+		assertEquals(null,t.obtenerElemento(0, 3));//pared
+    	
+	}
 }
