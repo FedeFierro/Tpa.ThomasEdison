@@ -1,37 +1,41 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.After;
+import static org.junit.Assert.*;
 
-import entidades.Muro;
-import entidades.Tablero;
+import org.junit.*;
+
+import entidades.*;
 
 public class MuroTest {
 
-	private Muro m;
-	private Tablero t;
+	private Muro muro;
+	private Tablero tablero;
 	
 	
 	@Before
 	public void IniciarTest() {
-		t = new Tablero(25,40);
-		m=new Muro(2,3,t);
+		tablero = new Tablero(25,40);
+		muro=new Muro(2,3,tablero);
 	}
-	
-	
 	
 	@After
 	public void finalizarTest() {
-		t=null;
-		m=null;
+		tablero=null;
+		muro=null;
 		
 	}
 	@Test
 	public void constructorTest() {
-		assertEquals(2, m.posicionX());
-		assertEquals(3, m.posicionY());
+		assertEquals(muro, tablero.obtenerElemento(muro.getPos()));
+	}
+	@Test
+	public void explotarTest() {
+		muro.explotar();
+		assertEquals(muro, tablero.obtenerElemento(muro.getPos()));		
+	}
+	@Test
+	public void seguirExplotandoTransitableTest() {
+		assertFalse(muro.puedeSeguirExplotando());
+		assertFalse(muro.esTransitable());
 	}
 }

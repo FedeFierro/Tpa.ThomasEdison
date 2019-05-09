@@ -1,36 +1,36 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.*;
 import org.junit.*;
 
 import entidades.*;
 
 public class ParedTest {
-	private Pared p;
-	private Tablero t;
+	private Pared pared;
+	private Tablero tablero;
 	@Before
 	public void IniciarTest() {
-		t = new Tablero(25,40);
-		p=new Pared(2,3,t);
+		tablero = new Tablero(25,40);
+		pared=new Pared(2,3,tablero);
 	}
 	@After
 	public void finalizarTest() {
-		p=null;
-		t=null;
+		pared=null;
+		tablero=null;
 		
 	}
 	@Test
 	public void constructorTest() {
-		
-		assertEquals(2, p.posicionX());
-		assertEquals(3, p.posicionY());
+		assertEquals(pared, tablero.obtenerElemento(pared.getPos()));
 	}
 	@Test
-	public void destruirTest() {
-		assertEquals(true, p.estaVivo());
-		p.destruirse();
-		assertEquals(null, t.obtenerElemento(2, 3));
-		assertEquals(false, p.estaVivo());
+	public void explotarTest() {
+		pared.explotar();
+		assertNotEquals(pared, tablero.obtenerElemento(pared.getPos()));		
+	}
+	@Test
+	public void seguirExplotandoTransitableTest() {
+		assertFalse(pared.puedeSeguirExplotando());
+		assertFalse(pared.esTransitable());
 	}
 }

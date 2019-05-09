@@ -1,6 +1,8 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.*;
 
 import org.junit.Before;
@@ -12,34 +14,31 @@ import entidades.Tablero;
 
 public class BombaTest {
 
-	Bomba b;
-	Tablero t;
-	Jugador j;
+	Bomba bomba;
+	Tablero tablero;
+	Jugador jugador;
 	@Before
 	public void inicializar() {
-		t = new Tablero(25,30);
-		j= new Jugador(1,1,t);
-		b=new Bomba(5,5,t,j);
+		tablero = new Tablero(25,30);
+		jugador= new Jugador(1,1,tablero);
+		bomba=new Bomba(5,5,tablero,jugador);
+	}
+	@After
+	public void finalizarTest() {
+		tablero=null;
+		jugador=null;
+		bomba=null;
+		
 	}
 
 	@Test
 	public void constructor() {
-		assertEquals(5, b.posicionX());
-		assertEquals(5, b.posicionY());
+		assertEquals(bomba, tablero.obtenerElemento(bomba.getPos()));
 	}
-	@Test
-	public void destruir() {
-		assertEquals(true, b.getVivo());
-		b.destruir();
-		assertEquals(null, t.obtenerElemento(5, 5));
-		assertEquals(false, b.getVivo());
-	}
-	
 	@Test
 	public void explotarTest() throws InterruptedException{
-		b.explotar();
-		assertEquals(null, t.obtenerElemento(5, 5));
-		
+		bomba.explotar();
+		assertNotEquals(bomba, tablero.obtenerElemento(bomba.getPos()));
 	}
 	
 

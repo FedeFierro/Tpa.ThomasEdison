@@ -2,79 +2,78 @@ package entidades;
 
 
 public class Bomba extends Elemento{
-	private Jugador _jugador;
-	protected int _tiempoexplosion;
+	private Jugador jugador;
+	protected int tiempoexplosion;
 	private int rango;
 	/**
-	 * Constructor de la clase Bomba
+	 * Constructor Solo para Test
 	 */
-	public Bomba (int x, int y, Tablero tablero, Jugador jugador) {
+	public Bomba(int x, int y, Tablero tablero, Jugador jugador) {
 		super(x,y,tablero);
-		_tiempoexplosion=3000;
-		this._jugador = jugador;
+		tiempoexplosion=3000;
+		this.jugador = jugador;
 		rango=3;
-		this.vivo = true;
+		
+	}
+	public Bomba (Tablero tablero, Jugador jugador) {
+		super(jugador.pos,tablero);
+		tiempoexplosion=3000;
+		this.jugador = jugador;
+		rango=3;
 	}
 	
 	public void explotar() {
-		explotaIzq();
-		explotaDer();
-		explotaArriba();
-		explotaAbajo();
-		this.destruir();
-		
+		if(vivo) {
+			vivo =false;
+			boolean aIzquierda , aDerecha, aArriba, aAbajo;
+			 	aIzquierda = aDerecha =aArriba =aAbajo =true;
+			Coordenada posExpIzq = new Coordenada(this.pos);
+			Coordenada posExpDer = new Coordenada(this.pos);
+			Coordenada posExpArr = new Coordenada(this.pos);
+			Coordenada posExpAba = new Coordenada(this.pos);
+			
+			Elemento e = tablero.obtenerJugador(this.pos);
+				if (e!=null) e.explotar();
+			
+			for(int i=1; i<=rango; i++) {
+				/*HACIA ATRAS*/
+				posExpIzq.actualizarPosicion(-1, 0);
+				aIzquierda=aIzquierda && tablero.puedeExplotar(posExpIzq);
+				if(aIzquierda) {
+					e = tablero.obtenerElemento(posExpIzq);
+					e.explotar();
+				 aIzquierda = aIzquierda && e.puedeSeguirExplotando();
+						
+				}
+				
+				/*HACIA ADELANTE*/
+				posExpDer.actualizarPosicion(1, 0);
+				aDerecha= aDerecha && tablero.puedeExplotar(posExpDer);
+				if(aDerecha) {
+					e = tablero.obtenerElemento(posExpDer);
+					e.explotar();
+					aDerecha =  aDerecha && e.puedeSeguirExplotando();
+				}
+				/*HACIA ARRIBA*/
+				posExpDer.actualizarPosicion(0, -1);
+				aArriba=aArriba && tablero.puedeExplotar(posExpArr);
+				if(aArriba) {
+					e = tablero.obtenerElemento(posExpArr);
+					e.explotar();
+					aArriba = aArriba &&  e.puedeSeguirExplotando();
+				}
+				/*HACIA ABAJO*/
+				posExpAba.actualizarPosicion(0, 1);
+				aAbajo = aAbajo && tablero.puedeExplotar(posExpAba);
+				if(aAbajo) {
+					e = tablero.obtenerElemento(posExpAba);
+					e.explotar();
+					aAbajo = aAbajo && e.puedeSeguirExplotando();
+				}
+			}
+			this.jugador.explotoBomba();
+			tablero.eliminarElemento(this);
+		}
 	}//fin explotarBomba
-	private void explotaIzq() {
-		int posFinal = (x -rango) < 0 ? 0: x-rango ;
-		for (int i = x ; i >= posFinal; i--) {
-			if(! puedeContinuar(i, y)) {
-				return;	
-			}
-		}
-	}
-	
-	private void explotaDer() {
-		int posFinal = (x + rango) > tablero.obtenerAncho() ? tablero.obtenerAncho(): x+rango ;
-		for (int i = x; i <= posFinal; i++) {
-			if(!puedeContinuar(i,y)) {
-				return;
-			}
-		}
-	}
-	private void explotaArriba() {
-		int posFinal = (y - rango) < 0 ? 0: x-rango ;
-		for (int i = y; i <= posFinal; i--) {
-			if(!puedeContinuar(x,i)) {
-				return;
-			}
-		}
-	}
-	private void explotaAbajo() {
-		int posFinal = (y + rango) > tablero.obtenerLargo() ? tablero.obtenerLargo(): y + rango ;
-		for (int i = y; i <= posFinal; i++) {
-			if(!puedeContinuar(x,i)) {
-				return;
-			}
-		}
-	}
-	
-	private boolean puedeContinuar(int x, int y) {
-		Elemento e = tablero.obtenerElemento(x,y);
-		if(e instanceof ElementoDestruible) {
-			if(e instanceof Bomba && e != this) {
-				((Bomba) e).explotar();
-			}else {
-			  ((ElementoDestruible) e).destruirse();
-			}
-		}
-		if(e instanceof Pared || e instanceof Muro) {
-			return false;
-		}
-		return true;
-	}
-
-	
-	public void destruir() {
-		this.vivo = false;
-	}
 }
+	
