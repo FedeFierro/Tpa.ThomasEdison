@@ -22,7 +22,7 @@ public class Fondo extends Elemento {
 	}
 	protected void loadImages() {
 		
-		imgFinal= Helper.getImage(this.getClass().getClassLoader(), "fondo/01");
+		imgFinal= Helper.getImage(getClass().getResource("/fondo/01"+Helper.IMG_EXT));
 		
 	}
 

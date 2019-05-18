@@ -29,8 +29,8 @@ public class Pared extends Elemento {
 	protected void loadImages() {
 		imgs= new Image[4];
 		for(int i=1;i<5;i++) {
-			String name = "pared/0"+i;
-			imgs[i-1]=Helper.getImage(this.getClass().getClassLoader(), name);
+			String name = "/pared/0"+i+Helper.IMG_EXT;
+			imgs[i-1]=Helper.getImage(getClass().getResource(name));
 		}
 		imgFinal=imgs[0];
 	}

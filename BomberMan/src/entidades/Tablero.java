@@ -123,8 +123,8 @@ public class Tablero {
 	private void construirMapaAleatorio() {
 		for (int x = 0; x < ancho; x++) {
 			for (int y = 0; y < largo; y++) {
-				if (y == 0 || x == 0
-						|| (x % 2 == 0 && y % 2 == 0)) { /* En los Bordes y las posiciones (par,par) siempre Muro */
+				if (y == 0 || x == 0 || (x % 2 == 0 && y % 2 == 0) 
+						|| x==ancho-1 || y == largo-1) { /* En los Bordes y las posiciones (par,par) siempre Muro */
 					agregarElemneto(new Muro(new Coordenada(x, y), this));
 				} else if (esEspacioReservadoJugador(x, y)) { /* Espacio para que el jugador se pueda mover */
 					agregarElemneto(new Fondo(new Coordenada(x, y), this));
@@ -135,20 +135,22 @@ public class Tablero {
 		}
 	}
 
+
 	private boolean esEspacioReservadoJugador(int x, int y) {
-		return (x == 1 && (y == 1 || y == 2 || y == ancho - 2 || y == ancho - 1))
-				|| (x == 2 && (y == 1 || y == ancho - 1)) || (x == largo - 2 && (y == 1 || y == ancho - 1))
-				|| (x == largo - 1 && (y == 1 || y == 2 || y == ancho - 2 || y == ancho - 1));
+		return ( x == 1 && (y == 1 || y == 2 || y == largo - 2 || y == largo - 3))
+				|| (x == 2 && (y == 1 || y == largo - 2)) || 
+				(x == ancho - 3 && (y == 1 || y == largo - 2))
+				|| (x == ancho - 2 && (y == 1 || y == 2 || y == largo - 3 || y == largo - 2));
 	}
 
 	private Elemento objetoAleatorio(int x, int y) {
 		double rnd = Math.random();
-		double limite = 0.1 + (nivel * 0.025);  /*nivel 1 aprox 25% de pared por cada nivel sube 0.5*/
-		if (rnd > 0.5 - limite && rnd > 0.5 + limite) {
+		double limite = 0.1 + nivel*0.025; /* para nivel 1 aprox 25% de paredes sube 5% por nivel*/
+		
+		if (rnd > 0.5 -limite && rnd < 0.5 + limite){
 			return new Pared(new Coordenada(x, y), this);
 		}
 		return new Fondo(new Coordenada(x, y), this);
-
 	}
 
 	private void inicializarArrays() {

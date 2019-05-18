@@ -61,12 +61,12 @@ public class Jugador extends Elemento{
 		imgDerecha = new Image[5];
 		imgIzquierda = new Image[5];
 		for (int i = 1; i < 6; i++) {
-			String name = "player" + numeroJugador + "/%d%d";
-			imgs[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 4, i));
-			imgArriba[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 0, i));
-			imgAbajo[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 1, i));
-			imgIzquierda[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 2, i));
-			imgDerecha[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 3, i));
+			String name = "/player" + numeroJugador + "/%d%d"+Helper.IMG_EXT;
+			imgs[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 4, i)));
+			imgArriba[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 0, i)));
+			imgAbajo[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 1, i)));
+			imgIzquierda[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 2, i)));
+			imgDerecha[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 3, i)));
 		}
 		imgFinal = imgAbajo[0];
 

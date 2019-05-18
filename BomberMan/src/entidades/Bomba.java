@@ -94,8 +94,8 @@ public class Bomba extends Elemento{
 	protected void loadImages() {
 		imgs=new Image[3];
 		for(int i=1; i<4;i++) {
-			String name ="bomba/0"+i;
-			imgs[i-1]= Helper.getImage(this.getClass().getClassLoader(), name);
+			String name ="/bomba/0"+i+Helper.IMG_EXT;
+			imgs[i-1]= Helper.getImage(getClass().getResource(name));
 		}
 		imgFinal=imgs[0];
 		

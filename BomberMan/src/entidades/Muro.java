@@ -1,5 +1,7 @@
 package entidades;
 
+import java.net.URL;
+
 import helper.Helper;
 
 public class Muro extends Elemento{
@@ -23,7 +25,7 @@ public class Muro extends Elemento{
 		return false;
 	}
 	protected void loadImages() {
-		imgFinal= Helper.getImage(this.getClass().getClassLoader(),"muro/01");
+		imgFinal= Helper.getImage(getClass().getResource("/muro/01"+Helper.IMG_EXT));
 		
 	}
 	
