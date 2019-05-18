@@ -1,6 +1,8 @@
 package entidades;
 
 import java.awt.Image;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import helper.Helper;
 
@@ -15,12 +17,16 @@ public class Pared extends Elemento {
 
 	public Pared(Coordenada pos, Tablero tablero) {
 		super(pos, tablero);
+		loadImages();
 	}
 
 	@Override
 	public void explotar() {
-		super.vivo = false;
-		tablero.quitarElemento(this);
+		if(vivo) {
+			super.vivo = false;
+			animateExplosion();
+			tablero.quitarElemento(this);
+		}
 	}
 	@Override
 	public boolean puedeSeguirExplotando() {
@@ -33,6 +39,23 @@ public class Pared extends Elemento {
 			imgs[i-1]=Helper.getImage(getClass().getResource(name));
 		}
 		imgFinal=imgs[0];
+	}
+	private void animateExplosion() {
+		tablero.setExplosion(this);	
+		Timer t = new Timer();
+		TimerTask d = new TimerTask() {
+			int cont =0;
+        	public void run() {
+        		cont++;
+        		if(cont>3) {
+        			cancel();
+        		}else{
+        		imgFinal=imgs[cont];
+        		}
+			}
+        };
+        
+        t.schedule(d,0, Helper.TIME_EXP/3);
 	}
 	
 	

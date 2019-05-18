@@ -7,8 +7,7 @@ import javax.imageio.ImageIO;
 public class Helper {
 	
 	public final static String IMG_EXT = ".png";
-	public final static String PATH_IMG ="resources/";
-	
+	public final static int TIME_EXP =700; 
 	public static Image getImage(URL u) {
 		try {
 			

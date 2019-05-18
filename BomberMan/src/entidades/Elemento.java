@@ -19,7 +19,6 @@ public abstract class Elemento {
 		
 	}
 	public Elemento(Coordenada pos, Tablero tablero) {
-		loadImages();
 		this.pos = new Coordenada(pos);
 		this.tablero = tablero;
 		vivo=true;
