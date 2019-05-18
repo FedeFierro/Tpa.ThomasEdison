@@ -49,6 +49,9 @@ public class Tablero {
 	public Elemento getExplosion(int x, int y) {
 		return explosiones[getIndex(x,y)];
 	}
+	public Elemento getExplosion(Coordenada pos) {
+		return explosiones[getIndex(pos)];
+	}
 	public void setExplosion(Elemento e) {
 		explosiones[getIndex(e.pos)]=e;
 	}

@@ -1,6 +1,5 @@
 package entidades;
 
-import java.net.URL;
 
 import helper.Helper;
 
@@ -12,6 +11,7 @@ public class Muro extends Elemento{
 	}
 	public Muro (Coordenada pos, Tablero tablero) {
 		super(pos,tablero);
+		loadImages();
 	}
 	
 

@@ -1,11 +1,14 @@
 package entidades;
 
 import java.awt.Image;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import helper.Helper;
 
 public class Jugador extends Elemento{
 	
+	private static int cont=0;
 	private final int MAXBOMBAS =2;
 	private int bombasPlantadas;
 	private Image[] imgs;
@@ -16,7 +19,10 @@ public class Jugador extends Elemento{
 	 */
 	public Jugador (int x, int y, Tablero tablero) {
 		super(new Coordenada (x,y),tablero);
+		cont++;
+		numeroJugador =cont;
 		bombasPlantadas = 0;
+		loadImages();
 		tablero.setJugador(this);
 	}
 	
@@ -31,6 +37,10 @@ public class Jugador extends Elemento{
 				Coordenada posAnterior = new Coordenada(this.pos);
 				this.pos.actualizarPosicion(x, y);
 				tablero.intercambiarJugador(posAnterior);
+				Elemento e = tablero.getExplosion(pos);
+				if(e!=null) {
+					explotar();
+				}
 			}
 			
 		}
@@ -48,13 +58,12 @@ public class Jugador extends Elemento{
 	public void explotar() {
 		vivo = false;
 		bombasPlantadas=0;
-		tablero.quitarJugador(this);
+		animateExplosion(this);
 	}
 	public void explotoBomba() {
 	   bombasPlantadas--;	
 	}
 	protected void loadImages() {
-		numeroJugador = 1;
 		imgs = new Image[5];
 		imgArriba = new Image[5];
 		imgAbajo = new Image[5];
@@ -70,6 +79,24 @@ public class Jugador extends Elemento{
 		}
 		imgFinal = imgAbajo[0];
 
+	}
+	private void animateExplosion(Jugador j) {
+		
+		Timer t = new Timer();
+		TimerTask d = new TimerTask() {
+			int cont =0;
+        	public void run() {
+        		cont++;
+        		if(cont>4) {
+        			tablero.quitarJugador(j);
+        			cancel();
+        		}else{
+        		imgFinal=imgs[cont];
+        		}
+			}
+        };
+        
+        t.schedule(d,0, Helper.TIME_EXP/5);
 	}
 	
 }

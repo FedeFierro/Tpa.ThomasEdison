@@ -6,6 +6,7 @@ public class Fondo extends Elemento {
 
 	public Fondo(Coordenada pos, Tablero tablero) {
 		super(pos, tablero);
+		loadImages();
 	}
 	public Fondo(int x,int y, Tablero tablero) {
 		super(x, y, tablero);
