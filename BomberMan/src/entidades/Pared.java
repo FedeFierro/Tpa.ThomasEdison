@@ -1,7 +1,14 @@
 package entidades;
 
+import java.awt.Image;
+
+import helper.Helper;
+
 public class Pared extends Elemento {
 
+	private Image[] imgs;
+	
+	
 	public Pared(int x, int y, Tablero tablero) {
 		super(x, y, tablero);
 	}
@@ -13,11 +20,20 @@ public class Pared extends Elemento {
 	@Override
 	public void explotar() {
 		super.vivo = false;
-		tablero.eliminarElemento(this);
+		tablero.quitarElemento(this);
 	}
 	@Override
 	public boolean puedeSeguirExplotando() {
 		return false;
 	}
+	protected void loadImages() {
+		imgs= new Image[4];
+		for(int i=1;i<5;i++) {
+			String name = "pared/0"+i;
+			imgs[i-1]=Helper.getImage(this.getClass().getClassLoader(), name);
+		}
+		imgFinal=imgs[0];
+	}
+	
 	
 }

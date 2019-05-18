@@ -21,12 +21,12 @@ public class ParedTest {
 	}
 	@Test
 	public void constructorTest() {
-		assertEquals(pared, tablero.obtenerElemento(pared.getPos()));
+		assertEquals(pared, tablero.getElemento(pared.getPos()));
 	}
 	@Test
 	public void explotarTest() {
 		pared.explotar();
-		assertNotEquals(pared, tablero.obtenerElemento(pared.getPos()));		
+		assertNotEquals(pared, tablero.getElemento(pared.getPos()));		
 	}
 	@Test
 	public void seguirExplotandoTransitableTest() {

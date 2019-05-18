@@ -5,10 +5,12 @@ public class Tablero {
 	private int ancho = 15;
 	private int largo = 15;
 	private Elemento[] elementos;
+	private Elemento[] explosiones;
 	private Jugador[] elementosMov;
+	private int nivel;
 
 	/*
-	 *Constructor de Tests 
+	 * Constructor de Tests
 	 */
 	public Tablero(int a, int l) {
 		this.ancho = a;
@@ -18,55 +20,73 @@ public class Tablero {
 	}
 
 	public Tablero() {
+		nivel = 1;
+		iniciartablero();
+	}
+
+	private void iniciartablero() {
 		inicializarArrays();
 		construirMapaAleatorio();
-
 	}
 
-	public Elemento obtenerElemento(Coordenada pos) {
+	public Elemento getElemento(Coordenada pos) {
 		Elemento e = elementosMov[getIndex(pos)];
+		e= e==null? explosiones[getIndex(pos)]: e;
 		return e == null ? elementos[getIndex(pos)] : e;
 	}
+	
+	public Elemento getElemento(int x, int y) {
+		return elementos[getIndex(x,y)];
+	}
 
-	public void agregarElemento(Elemento e) {
+	public void setElemento(Elemento e) {
 		elementos[getIndex(e.pos)] = e;
 	}
 
-	public void agregarElemento(Jugador j) {
-		elementosMov[getIndex(j.pos)] = j;
-	}
-
-	public void eliminarElemento(Elemento e) {
+	public void quitarElemento(Elemento e) {
 		elementos[getIndex(e.pos)] = new Fondo(e.pos, this);
 	}
+	public Elemento getExplosion(int x, int y) {
+		return explosiones[getIndex(x,y)];
+	}
+	public void setExplosion(Elemento e) {
+		explosiones[getIndex(e.pos)]=e;
+	}
+	public void quitarExplosion(Coordenada pos) {
+		explosiones[getIndex(pos)]=null;
+	}
 
-	public void eliminarElemento(int x, int y) {
+	public void quitarElemento(int x, int y) {
 		elementos[getIndex(x, y)] = new Fondo(x, y, this);
 	}
 
 	public boolean puedeMover(Coordenada pos) {
-		return !fueraDeRango(pos) && obtenerElemento(pos).esTransitable();
+		return !fueraDeRango(pos) && getElemento(pos).esTransitable();
 	}
 
 	public boolean puedeExplotar(Coordenada pos) {
-		return !fueraDeRango(pos);	
+		return !fueraDeRango(pos);
 	}
-	
-	public void eliminarJugador(Jugador j) {
+
+	public void quitarJugador(Jugador j) {
 		elementosMov[getIndex(j.pos)] = null;
 	}
 
-	public void agregarJugador(Jugador j) {
+	public void setJugador(Jugador j) {
 		elementosMov[getIndex(j.pos)] = j;
 	}
 
-	public Elemento obtenerJugador(Coordenada pos) {
+	public Elemento getJugador(Coordenada pos) {
 		return elementosMov[getIndex(pos)];
 	}
+	public Elemento getJugador(int x, int y) {
+		return elementosMov[getIndex(x,y)];
+	}
+
 	public void intercambiarJugador(Coordenada posAnterior) {
 		Jugador aux = elementosMov[getIndex(posAnterior)];
 		elementosMov[getIndex(posAnterior)] = null;
-		agregarJugador(aux);
+		setJugador(aux);
 
 	}
 
@@ -109,7 +129,7 @@ public class Tablero {
 				} else if (esEspacioReservadoJugador(x, y)) { /* Espacio para que el jugador se pueda mover */
 					agregarElemneto(new Fondo(new Coordenada(x, y), this));
 				} else {
-					objetoAleatorio(x, y);
+					agregarElemneto(objetoAleatorio(x, y));
 				}
 			}
 		}
@@ -123,15 +143,19 @@ public class Tablero {
 
 	private Elemento objetoAleatorio(int x, int y) {
 		double rnd = Math.random();
-		if (rnd < 0.33 && rnd > 0.66) {
-			return new Fondo(new Coordenada(x, y), this);
+		double limite = 0.1 + (nivel * 0.025);  /*nivel 1 aprox 25% de pared por cada nivel sube 0.5*/
+		if (rnd > 0.5 - limite && rnd > 0.5 + limite) {
+			return new Pared(new Coordenada(x, y), this);
 		}
-		return new Pared(new Coordenada(x, y), this);
+		return new Fondo(new Coordenada(x, y), this);
 
 	}
 
 	private void inicializarArrays() {
+		explosiones = new Elemento[ancho * largo];
 		elementos = new Elemento[ancho * largo];
 		elementosMov = new Jugador[ancho * largo];
 	}
+
+	
 }

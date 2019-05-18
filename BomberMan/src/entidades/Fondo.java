@@ -1,5 +1,7 @@
 package entidades;
 
+import helper.Helper;
+
 public class Fondo extends Elemento {
 
 	public Fondo(Coordenada pos, Tablero tablero) {
@@ -18,6 +20,12 @@ public class Fondo extends Elemento {
 	public boolean esTransitable() {
 		return true;
 	}
+	protected void loadImages() {
+		
+		imgFinal= Helper.getImage(this.getClass().getClassLoader(), "fondo/01");
+		
+	}
+
 	
 	
 

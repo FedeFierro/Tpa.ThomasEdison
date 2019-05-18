@@ -1,5 +1,7 @@
 package entidades;
 
+import helper.Helper;
+
 public class Muro extends Elemento{
 	
 	
@@ -20,6 +22,9 @@ public class Muro extends Elemento{
 	public boolean puedeSeguirExplotando() {
 		return false;
 	}
-	
+	protected void loadImages() {
+		imgFinal= Helper.getImage(this.getClass().getClassLoader(),"muro/01");
+		
+	}
 	
 }

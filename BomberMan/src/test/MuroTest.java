@@ -26,12 +26,12 @@ public class MuroTest {
 	}
 	@Test
 	public void constructorTest() {
-		assertEquals(muro, tablero.obtenerElemento(muro.getPos()));
+		assertEquals(muro, tablero.getElemento(muro.getPos()));
 	}
 	@Test
 	public void explotarTest() {
 		muro.explotar();
-		assertEquals(muro, tablero.obtenerElemento(muro.getPos()));		
+		assertEquals(muro, tablero.getElemento(muro.getPos()));		
 	}
 	@Test
 	public void seguirExplotandoTransitableTest() {

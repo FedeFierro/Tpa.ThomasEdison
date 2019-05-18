@@ -30,7 +30,7 @@ public class JugadorTest {
 	@Test
 	public void constructorTest()
 	{
-		assertEquals(jugador,tablero.obtenerJugador(jugador.getPos()));
+		assertEquals(jugador,tablero.getJugador(jugador.getPos()));
 	}	
 	@Test
 	public void ponerBombaTest() {
@@ -38,13 +38,13 @@ public class JugadorTest {
 		coordenada = new Coordenada(jugador.getPos());
 		jugador.moverse(1, 0);
 		jugador.moverse(1, 0);
-		assertNotEquals(jugador, tablero.obtenerElemento(coordenada));
+		assertNotEquals(jugador, tablero.getElemento(coordenada));
 	}
 	
 	@Test
 	public void explotarTest() {
 		jugador.explotar();
-		assertNotEquals(jugador, tablero.obtenerElemento(jugador.getPos()));
+		assertNotEquals(jugador, tablero.getElemento(jugador.getPos()));
 	}
 	
 	@Test

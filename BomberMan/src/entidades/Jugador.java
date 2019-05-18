@@ -1,16 +1,23 @@
 package entidades;
 
+import java.awt.Image;
+
+import helper.Helper;
+
 public class Jugador extends Elemento{
 	
 	private final int MAXBOMBAS =2;
 	private int bombasPlantadas;
+	private Image[] imgs;
+	private Image[] imgArriba, imgAbajo, imgIzquierda, imgDerecha;
+	private int numeroJugador;
 	/**
 	 * Constructor de la clase Jugador
 	 */
 	public Jugador (int x, int y, Tablero tablero) {
 		super(new Coordenada (x,y),tablero);
 		bombasPlantadas = 0;
-		tablero.agregarJugador(this);
+		tablero.setJugador(this);
 	}
 	
 	/**
@@ -41,10 +48,28 @@ public class Jugador extends Elemento{
 	public void explotar() {
 		vivo = false;
 		bombasPlantadas=0;
-		tablero.eliminarJugador(this);
+		tablero.quitarJugador(this);
 	}
 	public void explotoBomba() {
 	   bombasPlantadas--;	
+	}
+	protected void loadImages() {
+		numeroJugador = 1;
+		imgs = new Image[5];
+		imgArriba = new Image[5];
+		imgAbajo = new Image[5];
+		imgDerecha = new Image[5];
+		imgIzquierda = new Image[5];
+		for (int i = 1; i < 6; i++) {
+			String name = "player" + numeroJugador + "/%d%d";
+			imgs[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 4, i));
+			imgArriba[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 0, i));
+			imgAbajo[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 1, i));
+			imgIzquierda[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 2, i));
+			imgDerecha[i - 1] = Helper.getImage(this.getClass().getClassLoader(), String.format(name, 3, i));
+		}
+		imgFinal = imgAbajo[0];
+
 	}
 	
 }

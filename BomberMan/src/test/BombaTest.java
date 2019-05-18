@@ -33,12 +33,12 @@ public class BombaTest {
 
 	@Test
 	public void constructor() {
-		assertEquals(bomba, tablero.obtenerElemento(bomba.getPos()));
+		assertEquals(bomba, tablero.getElemento(bomba.getPos()));
 	}
 	@Test
 	public void explotarTest() throws InterruptedException{
 		bomba.explotar();
-		assertNotEquals(bomba, tablero.obtenerElemento(bomba.getPos()));
+		assertNotEquals(bomba, tablero.getElemento(bomba.getPos()));
 	}
 	
 

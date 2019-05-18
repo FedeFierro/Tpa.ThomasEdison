@@ -79,10 +79,10 @@ public class IntegralTest {
 		jugador.moverse(0, 1);
 		bomba= new Bomba(0,1,tablero,jugador);
 		bomba.explotar();
-		assertEquals(muro,tablero.obtenerElemento(muro.getPos()));
-		assertNotEquals(jugador,tablero.obtenerElemento(jugador.getPos())); //jugador
-		assertNotEquals(bomba,tablero.obtenerElemento(bomba.getPos())); //bomba
-		assertNotEquals(pared,tablero.obtenerElemento(pared.getPos()));//pared
+		assertEquals(muro,tablero.getElemento(muro.getPos()));
+		assertNotEquals(jugador,tablero.getElemento(jugador.getPos())); //jugador
+		assertNotEquals(bomba,tablero.getElemento(bomba.getPos())); //bomba
+		assertNotEquals(pared,tablero.getElemento(pared.getPos()));//pared
 
 	}
 	@Test 
@@ -94,23 +94,23 @@ public class IntegralTest {
 		jugador.moverse(-1,0);
 	    bomba = new Bomba(0,2,tablero,jugador);
 		bomba.explotar();
-		assertNotEquals(pared,tablero.obtenerElemento(pared.getPos()));//pared
-		assertEquals(jugador,tablero.obtenerJugador(jugador.getPos()));//jugador
+		assertNotEquals(pared,tablero.getElemento(pared.getPos()));//pared
+		assertEquals(jugador,tablero.getJugador(jugador.getPos()));//jugador
 	
 	}
 	@Test
     public void bombaBombaTest() {
     	bomba = new Bomba(5,5,tablero,jugador);
     	bomba2 = new Bomba(5,7,tablero,jugador);
-    	assertEquals(bomba2, tablero.obtenerElemento(bomba2.getPos()));
+    	assertEquals(bomba2, tablero.getElemento(bomba2.getPos()));
     	bomba.explotar();
-    	assertNotEquals(bomba2, tablero.obtenerElemento(bomba2.getPos()));
+    	assertNotEquals(bomba2, tablero.getElemento(bomba2.getPos()));
     }
 	@Test
 	public void bombaNadaParedTest() {
 		bomba = new Bomba(0,5,tablero,jugador);
 		bomba.explotar();
-		assertNotEquals(bomba, tablero.obtenerElemento(bomba.getPos()));
+		assertNotEquals(bomba, tablero.getElemento(bomba.getPos()));
 		
 		
 	}

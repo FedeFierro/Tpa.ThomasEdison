@@ -1,9 +1,12 @@
 package entidades;
 
+import java.awt.Image;
+
 public abstract class Elemento {
 	protected Coordenada pos;
 	protected Tablero tablero;
 	protected boolean vivo;
+	protected Image imgFinal;
 
 	/*
 	 *Constructor de Test 
@@ -11,11 +14,12 @@ public abstract class Elemento {
 	public Elemento(int x, int y, Tablero tablero) {
 		this.pos = new Coordenada(x, y);
 		this.tablero = tablero;
-		this.tablero.agregarElemento(this);
+		this.tablero.setElemento(this);
 		vivo=true;
 		
 	}
 	public Elemento(Coordenada pos, Tablero tablero) {
+		loadImages();
 		this.pos = new Coordenada(pos);
 		this.tablero = tablero;
 		vivo=true;
@@ -41,5 +45,11 @@ public abstract class Elemento {
 	public Coordenada getPos() {
 		return this.pos;
 	}
+	public Image show() {
+		return imgFinal;
+	}
+	
+	protected abstract void loadImages();
+	
 
 }

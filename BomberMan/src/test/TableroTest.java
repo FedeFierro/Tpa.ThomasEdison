@@ -32,17 +32,17 @@ public class TableroTest {
 	
 	@Test
 	public void agregarQuitarElementoTest() {
-		tablero.agregarElemento(pared);
-		assertEquals(pared, tablero.obtenerElemento(pared.getPos()));
-		tablero.eliminarElemento(pared);
-		assertNotEquals(pared, tablero.obtenerElemento(pared.getPos()));
+		tablero.setElemento(pared);
+		assertEquals(pared, tablero.getElemento(pared.getPos()));
+		tablero.quitarElemento(pared);
+		assertNotEquals(pared, tablero.getElemento(pared.getPos()));
 	
 	}
 	@Test
 	public void agregarQuitarJugadorTest() {
-		assertEquals(jugador,tablero.obtenerElemento(jugador.getPos()));
-		tablero.eliminarJugador(jugador);
-		assertNull(tablero.obtenerJugador(jugador.getPos()));
+		assertEquals(jugador,tablero.getElemento(jugador.getPos()));
+		tablero.quitarJugador(jugador);
+		assertNull(tablero.getJugador(jugador.getPos()));
 	}
 	@Test
 	public void puedeExplotarTest() {
