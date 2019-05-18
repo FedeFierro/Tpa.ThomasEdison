@@ -52,8 +52,8 @@ public class Tablero {
 	public void setExplosion(Elemento e) {
 		explosiones[getIndex(e.pos)]=e;
 	}
-	public void quitarExplosion(Coordenada pos) {
-		explosiones[getIndex(pos)]=null;
+	public void quitarExplosion(Elemento e) {
+		explosiones[getIndex(e.pos)]=null;
 	}
 
 	public void quitarElemento(int x, int y) {

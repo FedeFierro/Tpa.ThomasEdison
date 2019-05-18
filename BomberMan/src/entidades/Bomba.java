@@ -25,7 +25,9 @@ public class Bomba extends Elemento{
 	public Bomba (Tablero tablero, Jugador jugador) {
 		super(jugador.pos,tablero);
 		tiempoexplosion=3000;
+		
 		this.jugador = jugador;
+		tablero.setExplosion(this);
 		rango=3;
 		Timer t = new Timer();
 		TimerTask c = new TimerTask() {
@@ -69,7 +71,7 @@ public class Bomba extends Elemento{
 					aDerecha =  aDerecha && e.puedeSeguirExplotando();
 				}
 				/*HACIA ARRIBA*/
-				posExpDer.actualizarPosicion(0, -1);
+				posExpArr.actualizarPosicion(0, -1);
 				aArriba=aArriba && tablero.puedeExplotar(posExpArr);
 				if(aArriba) {
 					e = tablero.getElemento(posExpArr);
@@ -86,7 +88,7 @@ public class Bomba extends Elemento{
 				}
 			}
 			this.jugador.explotoBomba();
-			tablero.quitarElemento(this);
+			tablero.quitarExplosion(this);;
 		}
 	}//fin explotarBomba
 	

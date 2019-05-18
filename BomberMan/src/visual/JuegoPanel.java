@@ -3,6 +3,8 @@ package visual;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
@@ -17,7 +19,17 @@ public class JuegoPanel extends JPanel{
 	
 	public JuegoPanel(Tablero tablero) {
 		this.tablero = tablero;
-		this.tablero.setJugador(new Jugador(1, 1, tablero));
+		Timer b = new Timer();
+		 
+        TimerTask c = new TimerTask() {
+            public void run() {
+                repaint();
+               
+                
+            }
+        };
+ 
+        b.scheduleAtFixedRate(c, 0, 1000/144);
 	}
 	
 	public void paintComponent(Graphics g) {
