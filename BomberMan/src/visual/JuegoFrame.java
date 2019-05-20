@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import entidades.*;
+import helper.Helper;
 
 public class JuegoFrame extends JFrame{
 
@@ -40,19 +41,19 @@ public class JuegoFrame extends JFrame{
 		public void setMovimiento(KeyEvent evento) {
 			
 			if(evento.getKeyCode() == KeyEvent.VK_UP) {
-				j.moverse(0,-1);
+				j.moverse(0,-Helper.MOV_JUG);
 				
 			}
 			if(evento.getKeyCode() == KeyEvent.VK_DOWN) {
-				j.moverse(0,1);
+				j.moverse(0,Helper.MOV_JUG);
 						
 			}
 			if(evento.getKeyCode() == KeyEvent.VK_LEFT) {
-				j.moverse(-1,0);
+				j.moverse(-Helper.MOV_JUG,0);
 				
 			}
 			if(evento.getKeyCode() == KeyEvent.VK_RIGHT) {
-				j.moverse(1,0);
+				j.moverse(Helper.MOV_JUG,0);
 				
 			}
 			if(evento.getKeyCode() == KeyEvent.VK_SPACE) {
