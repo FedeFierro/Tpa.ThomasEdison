@@ -3,13 +3,14 @@ package entidades;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import helper.DireccionEnum;
 import helper.Helper;
 
 public class Explosion extends Elemento {
-	protected String tipo;
+	protected DireccionEnum tipo;
 	protected Elemento elemento;
 	
-	public Explosion(Coordenada pos, Tablero tablero, String tipo,Elemento e) {
+	public Explosion(Coordenada pos, Tablero tablero, DireccionEnum tipo,Elemento e) {
 		super(pos, tablero);
 		this.tipo=tipo;
 		this.elemento= e;
@@ -23,17 +24,18 @@ public class Explosion extends Elemento {
 		}else {
 			elemento.explotar();
 		}
-		desaparecer(this);
+		desaparecer();
 		
 	}
 
 	@Override
 	protected void loadImages() {
-		String name="/explosion/"+tipo+"6"+Helper.IMG_EXT;
+		String name="/explosion/"+tipo.toString()+Helper.IMG_EXT;
 		imgFinal= Helper.getImage(getClass().getResource(name));
 	}
 	
-	protected void desaparecer(Elemento e) {
+	protected void desaparecer() {
+		Explosion e=this;
 		Timer t = new Timer();
 		
 		TimerTask c = new TimerTask() {    
