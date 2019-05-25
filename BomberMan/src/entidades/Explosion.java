@@ -15,6 +15,7 @@ public class Explosion extends Elemento {
 		this.tipo=tipo;
 		this.elemento= e;
 		loadImages();
+		loadSound();
 		explotar();
 	}
 	@Override
@@ -23,6 +24,7 @@ public class Explosion extends Elemento {
 			tablero.setExplosion(this);
 		}else {
 			elemento.explotar();
+			sonido.start();
 		}
 		desaparecer();
 		
@@ -32,6 +34,12 @@ public class Explosion extends Elemento {
 	protected void loadImages() {
 		String name="/explosion/"+tipo.toString()+Helper.IMG_EXT;
 		imgFinal= Helper.getImage(getClass().getResource(name));
+	}
+	
+	
+	protected void loadSound() {
+		String name="/explosion/Explosion"+Helper.SOUND_EXT;
+		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
 	}
 	
 	protected void desaparecer() {

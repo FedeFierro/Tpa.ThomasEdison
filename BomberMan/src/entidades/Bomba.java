@@ -27,8 +27,9 @@ public class Bomba extends Elemento {
 	public Bomba(Tablero tablero, Jugador jugador) {
 		super(new Coordenada(jugador.pos.x, jugador.pos.y), tablero);
 		loadImages();
+		loadSound();
 		tiempoexplosion = 3000;
-		activar();
+		activar();		
 		this.jugador = jugador;
 		tablero.setBomba(this);
 		rango = 3;
@@ -102,12 +103,13 @@ public class Bomba extends Elemento {
 
 	protected void activar() {
 		Timer t = new Timer();
-
+		
 		TimerTask a = new TimerTask() {
 			int cont = 0;
 
 			@Override
 			public void run() {
+				sonido.start();
 				imgFinal = imgs[cont];
 				cont = cont == 2 ? 0 : cont + 1;
 			}
@@ -130,6 +132,12 @@ public class Bomba extends Elemento {
 		}
 		imgFinal = imgs[0];
 
+	}
+	
+	
+	protected void loadSound() {
+		String name="/bomba/Bomba"+Helper.SOUND_EXT;
+		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
 	}
 
 }

@@ -2,11 +2,14 @@ package entidades;
 
 import java.awt.Image;
 
+import javax.sound.sampled.Clip;
+
 public abstract class Elemento {
 	protected Coordenada pos;
 	protected Tablero tablero;
 	protected boolean vivo;
 	protected Image imgFinal;
+	protected Clip sonido;
 
 	/*
 	 *Constructor de Test 
@@ -48,7 +51,11 @@ public abstract class Elemento {
 		return imgFinal;
 	}
 	
+	public Clip sound() {
+		return sonido;
+	}
 	protected abstract void loadImages();
+	
 	
 
 }

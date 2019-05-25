@@ -18,6 +18,7 @@ public class JuegoPanel extends JPanel {
 	public JuegoPanel(Tablero tablero) {
 		this.tablero = tablero;
 		Timer b = new Timer();
+		tablero.getSound().start();
 
 		TimerTask c = new TimerTask() {
 			public void run() {
@@ -47,7 +48,7 @@ public class JuegoPanel extends JPanel {
 				e = tablero.getExplosion(x, y);
 				if (e != null) {
 					g.drawImage(e.show(), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
-
+					
 				}
 
 			}

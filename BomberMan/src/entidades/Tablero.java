@@ -1,5 +1,9 @@
 package entidades;
 
+import javax.sound.sampled.Clip;
+
+import helper.Helper;
+
 public class Tablero {
 
 	private int ancho = 15;
@@ -9,6 +13,7 @@ public class Tablero {
 	private Elemento[][] explosiones;
 	private Jugador[][] elementosMov;
 	private int nivel;
+	private Clip sonido;
 
 	/*
 	 * Constructor de Tests
@@ -28,6 +33,7 @@ public class Tablero {
 	private void iniciartablero() {
 		inicializarArrays();
 		construirMapaAleatorio();
+		loadSound();
 	}
 
 	public Elemento getElemento(Coordenada pos) {
@@ -165,6 +171,15 @@ public class Tablero {
 	}
 	public int getLargo() {
 		return this.largo;
+	}
+	
+	protected void loadSound() {
+		String name="/sounds/StageTheme"+Helper.SOUND_EXT;
+		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
+	}
+	
+	public Clip getSound() {
+		return sonido;
 	}
 	
 }

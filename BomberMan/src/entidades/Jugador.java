@@ -9,7 +9,7 @@ import helper.Helper;
 public class Jugador extends Elemento {
 
 	private static int cont = 0;
-	private final int MAXBOMBAS = 2;
+	private final int MAXBOMBAS = 10;
 	private int bombasPlantadas;
 	private Image[] imgs;
 	private Image[] imgN, imgS, imgO, imgE;
@@ -26,6 +26,7 @@ public class Jugador extends Elemento {
 		numeroJugador = cont;
 		bombasPlantadas = 0;
 		loadImages();
+		loadSound();
 		tablero.setJugador(this);
 	}
 
@@ -69,10 +70,11 @@ public class Jugador extends Elemento {
 	 * Planta una bomba
 	 */
 	public void plantarBomba() {
-		if (bombasPlantadas < MAXBOMBAS) {
-			bombasPlantadas += 1;
-			new Bomba(tablero, this);
-		}
+		if(vivo)
+			if (bombasPlantadas < MAXBOMBAS) {
+				bombasPlantadas += 1;
+				new Bomba(tablero, this);
+			}
 	}
 
 	@Override
@@ -107,6 +109,7 @@ public class Jugador extends Elemento {
 	private void animateExplosion(Jugador j) {
 
 		Timer t = new Timer();
+		sonido.start();
 		TimerTask d = new TimerTask() {
 			int cont = 0;
 
@@ -180,6 +183,11 @@ public class Jugador extends Elemento {
 
 		}
 		return false;
+	}
+	
+	protected void loadSound() {
+		String name="/sounds/LifeLost"+Helper.SOUND_EXT;
+		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
 	}
 
 }
