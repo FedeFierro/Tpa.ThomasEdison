@@ -50,7 +50,7 @@ public class Bomba extends Elemento {
 			Coordenada posNorte = new Coordenada(this.pos);
 			Coordenada posSur = new Coordenada(this.pos);
 			tablero.quitarBomba(this);
-			;
+			
 			Elemento e = tablero.getJugador(this.pos);
 			new Explosion(this.pos, tablero, DireccionEnum.C, e);
 			// if (e!=null) e.explotar();

@@ -24,8 +24,8 @@ public class Pared extends Elemento {
 	public void explotar() {
 		if(vivo) {
 			super.vivo = false;
-			animateExplosion();
-			tablero.quitarElemento(this);
+			animateExplosion(this);
+//			tablero.quitarElemento(this);
 		}
 	}
 	@Override
@@ -40,7 +40,7 @@ public class Pared extends Elemento {
 		}
 		imgFinal=imgs[0];
 	}
-	private void animateExplosion() {
+	private void animateExplosion(Elemento e) {
 		tablero.setExplosion(this);	
 		Timer t = new Timer();
 		TimerTask d = new TimerTask() {
@@ -48,7 +48,8 @@ public class Pared extends Elemento {
         	public void run() {
         		cont++;
         		if(cont>3) {
-        			cancel();
+        			tablero.quitarElemento(e);
+        			cancel();        			
         		}else{
         		imgFinal=imgs[cont];
         		}

@@ -9,7 +9,7 @@ import helper.Helper;
 public class Jugador extends Elemento {
 
 	private static int cont = 0;
-	private final int MAXBOMBAS = 10;
+	private final int MAXBOMBAS = 2;
 	private int bombasPlantadas;
 	private Image[] imgs;
 	private Image[] imgN, imgS, imgO, imgE;

@@ -18,8 +18,8 @@ public class JuegoPanel extends JPanel {
 	public JuegoPanel(Tablero tablero) {
 		this.tablero = tablero;
 		Timer b = new Timer();
-		tablero.getSound().start();
-
+//		tablero.getSound().start();
+		tablero.getSound().loop(tablero.getSound().LOOP_CONTINUOUSLY);
 		TimerTask c = new TimerTask() {
 			public void run() {
 				repaint();
