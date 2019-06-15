@@ -1,12 +1,11 @@
 package entidades;
 
-import helper.Helper;
 
 public class Fondo extends Elemento {
 
 	public Fondo(Coordenada pos, Tablero tablero) {
 		super(pos, tablero);
-		loadImages();
+		setImageName(1);
 	}
 	public Fondo(int x,int y, Tablero tablero) {
 		super(x, y, tablero);
@@ -21,10 +20,10 @@ public class Fondo extends Elemento {
 	public boolean esTransitable() {
 		return true;
 	}
-	protected void loadImages() {
-		
-		imgFinal= Helper.getImage(getClass().getResource("/fondo/01"+Helper.IMG_EXT));
-		
+	
+	@Override
+	protected void setImageName(Integer numero) {
+		imgFinal= "fondo_0"+numero;	
 	}
 
 	

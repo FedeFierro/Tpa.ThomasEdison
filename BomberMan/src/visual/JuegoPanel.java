@@ -9,14 +9,17 @@ import javax.swing.JPanel;
 
 import entidades.*;
 import helper.Helper;
+import helper.Imagenes;
 
 public class JuegoPanel extends JPanel {
-
+	private Imagenes imgs;
 	private static final long serialVersionUID = 1L;
 	private Tablero tablero;
 
 	public JuegoPanel(Tablero tablero) {
 		this.tablero = tablero;
+		imgs = new Imagenes();
+		imgs.buildImagenes();
 		Timer b = new Timer();
 //		tablero.getSound().start();
 		tablero.getSound().loop(tablero.getSound().LOOP_CONTINUOUSLY);
@@ -37,17 +40,18 @@ public class JuegoPanel extends JPanel {
 
 				Elemento e = tablero.getElemento(x, y);
 
-				g.drawImage(e.show(), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
+				g.drawImage(imgs.getImage(e.show()), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
 				/* BOMBAS */
 				e = tablero.getBomba(x, y);
 				if (e != null) {
-					g.drawImage(e.show(), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
+					g.drawImage(imgs.getImage(e.show()), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
 
 				}
 				/* EXPLOSIONES */
 				e = tablero.getExplosion(x, y);
 				if (e != null) {
-					g.drawImage(e.show(), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
+					
+					g.drawImage(imgs.getImage(e.show()), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
 					
 				}
 
@@ -58,7 +62,7 @@ public class JuegoPanel extends JPanel {
 
 				Elemento j = tablero.getJugador(x, y);
 				if (j != null) {
-					g.drawImage(j.show(), j.getPos().rx, j.getPos().ry, Helper.PX, Helper.PX, null);
+					g.drawImage(imgs.getImage(j.show()), j.getPos().rx, j.getPos().ry, Helper.PX, Helper.PX, null);
 				}
 			}
 		}

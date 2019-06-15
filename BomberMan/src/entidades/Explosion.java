@@ -14,7 +14,7 @@ public class Explosion extends Elemento {
 		super(pos, tablero);
 		this.tipo=tipo;
 		this.elemento= e;
-		loadImages();
+		setImageName(0);
 		loadSound();
 		explotar();
 	}
@@ -29,14 +29,6 @@ public class Explosion extends Elemento {
 		desaparecer();
 		
 	}
-
-	@Override
-	protected void loadImages() {
-		String name="/explosion/"+tipo.toString()+Helper.IMG_EXT;
-		imgFinal= Helper.getImage(getClass().getResource(name));
-	}
-	
-	
 	protected void loadSound() {
 		String name="/explosion/Explosion"+Helper.SOUND_EXT;
 		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
@@ -56,6 +48,10 @@ public class Explosion extends Elemento {
   	}
 	public boolean esTransitable() {
 		return true;
+	}
+	@Override
+	protected void setImageName(Integer numero) {
+		imgFinal = "explosion_"+tipo.toString();
 	}
 	
 	

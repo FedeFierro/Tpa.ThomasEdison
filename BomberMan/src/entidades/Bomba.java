@@ -1,6 +1,4 @@
 package entidades;
-
-import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,7 +9,6 @@ public class Bomba extends Elemento {
 	private Jugador jugador;
 	protected int tiempoexplosion;
 	private int rango;
-	private Image[] imgs;
 
 	/**
 	 * Constructor Solo para Test
@@ -26,7 +23,7 @@ public class Bomba extends Elemento {
 
 	public Bomba(Tablero tablero, Jugador jugador) {
 		super(new Coordenada(jugador.pos.x, jugador.pos.y), tablero);
-		loadImages();
+		setImageName(1);
 		loadSound();
 		tiempoexplosion = 3000;
 		activar();		
@@ -105,39 +102,33 @@ public class Bomba extends Elemento {
 		Timer t = new Timer();
 		
 		TimerTask a = new TimerTask() {
-			int cont = 0;
-
+			int cont = 1;
 			@Override
 			public void run() {
 				sonido.start();
-				imgFinal = imgs[cont];
-				cont = cont == 2 ? 0 : cont + 1;
+				setImageName(cont);
+				cont = cont > 2 ? 1 : cont + 1;
 			}
 		};
 
 		TimerTask c = new TimerTask() {
 			public void run() {
 				explotar();
+				a.cancel();
 			}
 		};
 		t.schedule(a, 0, 1000 / 4);
 		t.schedule(c, tiempoexplosion);
 	}
 
-	protected void loadImages() {
-		imgs = new Image[3];
-		for (int i = 1; i < 4; i++) {
-			String name = "/bomba/0" + i + Helper.IMG_EXT;
-			imgs[i - 1] = Helper.getImage(getClass().getResource(name));
-		}
-		imgFinal = imgs[0];
-
-	}
-	
-	
 	protected void loadSound() {
 		String name="/bomba/Bomba"+Helper.SOUND_EXT;
 		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
+	}
+
+	@Override
+	protected void setImageName(Integer numero) {
+		imgFinal = "bomba_0"+numero;
 	}
 
 }

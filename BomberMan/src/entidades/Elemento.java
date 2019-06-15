@@ -8,7 +8,7 @@ public abstract class Elemento {
 	protected Coordenada pos;
 	protected Tablero tablero;
 	protected boolean vivo;
-	protected Image imgFinal;
+	protected String imgFinal;
 	protected Clip sonido;
 
 	/*
@@ -47,15 +47,12 @@ public abstract class Elemento {
 	public Coordenada getPos() {
 		return this.pos;
 	}
-	public Image show() {
+	public String show() {
 		return imgFinal;
 	}
 	
 	public Clip sound() {
 		return sonido;
 	}
-	protected abstract void loadImages();
-	
-	
-
+	protected abstract void setImageName(Integer numero);
 }

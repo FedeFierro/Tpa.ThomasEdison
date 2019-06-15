@@ -25,26 +25,10 @@ public class Jugador extends Elemento {
 		cont++;
 		numeroJugador = cont;
 		bombasPlantadas = 0;
-		loadImages();
+		setImageName(11);
 		loadSound();
 		tablero.setJugador(this);
 	}
-
-	/**
-	 * M�todo que mueve un jugador
-	 * 
-	 * @param x Es el movimiento en x de l jugador
-	 * @param y Es el movimiento en y de l jugador
-	 */
-	/*
-	 * public void moverse(int x, int y) { if(vivo) {
-	 * if(tablero.puedeMover(pos.obtenerPosicionProvisoria(x, y))) { Coordenada
-	 * posAnterior = new Coordenada(this.pos); this.pos.actualizarPosicion(x, y);
-	 * tablero.intercambiarJugador(posAnterior); Elemento e =
-	 * tablero.getExplosion(pos); if(e!=null) { explotar(); } }
-	 * 
-	 * } }
-	 */
 
 	public void moverse(int x, int y) {
 		if (vivo) {
@@ -88,38 +72,21 @@ public class Jugador extends Elemento {
 		bombasPlantadas--;
 	}
 
-	protected void loadImages() {
-		imgs = new Image[5];
-		imgN = new Image[5];
-		imgS = new Image[5];
-		imgE = new Image[5];
-		imgO = new Image[5];
-		for (int i = 1; i < 6; i++) {
-			String name = "/player" + numeroJugador + "/%d%d" + Helper.IMG_EXT;
-			imgs[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 4, i)));
-			imgN[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 0, i)));
-			imgS[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 1, i)));
-			imgO[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 2, i)));
-			imgE[i - 1] = Helper.getImage(getClass().getResource(String.format(name, 3, i)));
-		}
-		imgFinal = imgS[0];
-
-	}
 
 	private void animateExplosion(Jugador j) {
 
 		Timer t = new Timer();
 		sonido.start();
 		TimerTask d = new TimerTask() {
-			int cont = 0;
+			int cont = 1;
 
 			public void run() {
 				cont++;
-				if (cont > 4) {
+				if (cont > 5) {
 					tablero.quitarJugador(j);
 					cancel();
 				} else {
-					imgFinal = imgs[cont];
+					setImageName(40+cont);
 				}
 			}
 		};
@@ -140,16 +107,16 @@ public class Jugador extends Elemento {
 
 		switch (direccion) {
 		case O:
-			imgFinal = imgO[index];
+			setImageName(20+index+1); 
 			break;
 		case E:
-			imgFinal = imgE[index];
+			setImageName(30+index+1); 
 			break;
 		case N:
-			imgFinal = imgN[index];
+			setImageName(index+1);
 			break;
 		case S:
-			imgFinal = imgS[index];
+			setImageName(10+index+1);
 			break;
 		default:
 			break;
@@ -188,6 +155,13 @@ public class Jugador extends Elemento {
 	protected void loadSound() {
 		String name="/sounds/LifeLost"+Helper.SOUND_EXT;
 		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
+	}
+
+	@Override
+	protected void setImageName(Integer numero) {
+		String num = numero<10?"0"+numero: numero.toString();
+		imgFinal = "player"+numeroJugador+"_"+num;
+		
 	}
 
 }
