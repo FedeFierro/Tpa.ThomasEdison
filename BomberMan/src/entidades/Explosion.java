@@ -9,51 +9,60 @@ import helper.Helper;
 public class Explosion extends Elemento {
 	protected DireccionEnum tipo;
 	protected Elemento elemento;
-	
-	public Explosion(Coordenada pos, Tablero tablero, DireccionEnum tipo,Elemento e) {
+
+	public Explosion(Coordenada pos, Tablero tablero, DireccionEnum tipo, Elemento e) {
 		super(pos, tablero);
-		this.tipo=tipo;
-		this.elemento= e;
+		this.tipo = tipo;
+		this.elemento = e;
 		setImageName(0);
 		loadSound();
 		explotar();
 	}
+
 	@Override
 	public void explotar() {
-		if(elemento == null || elemento.esTransitable()) {
+		if (elemento == null || elemento.esTransitable()) {
 			tablero.setExplosion(this);
-		}else {
+		} else if (elemento instanceof Jugador) {
+			tablero.setExplosion(this);
+			elemento.explotar();
+
+		} else
+
+		{
 			elemento.explotar();
 			sonido.start();
 		}
+
 		desaparecer();
-		
+
 	}
+
 	protected void loadSound() {
-		String name="/explosion/Explosion"+Helper.SOUND_EXT;
+		String name = "/explosion/Explosion" + Helper.SOUND_EXT;
 		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
 	}
-	
+
 	protected void desaparecer() {
-		Explosion e=this;
+		Explosion e = this;
 		Timer t = new Timer();
-		
-		TimerTask c = new TimerTask() {    
+
+		TimerTask c = new TimerTask() {
 			public void run() {
-            	
-                tablero.quitarExplosion(e);
-            }
-        };
-        t.schedule(c, Helper.TIME_EXP);
-  	}
+
+				tablero.quitarExplosion(e);
+			}
+		};
+		t.schedule(c, Helper.TIME_EXP);
+	}
+
 	public boolean esTransitable() {
 		return true;
 	}
+
 	@Override
 	protected void setImageName(Integer numero) {
-		imgFinal = "explosion_"+tipo.toString();
+		imgFinal = String.format(Helper.METHOD_EXPLOSION, tipo.toString());
 	}
-	
-	
 
 }

@@ -21,7 +21,7 @@ public class JuegoFrame extends JFrame{
 		super("BomberMan");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 650);
+		setBounds(100, 100, 600, 700);
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -29,8 +29,14 @@ public class JuegoFrame extends JFrame{
 			}
 		});
 		Tablero t = new Tablero();
-		j = new Jugador(1, 1, t);
+		j = new Jugador(t);
 		t.setJugador(j);
+		Jugador j2 = new Jugador(t);
+		t.setJugador(j2);
+		Jugador j3 = new Jugador(t);
+		t.setJugador(j3);
+		Jugador j4 = new Jugador(t);
+		t.setJugador(j4);
 		contentPane = new JuegoPanel(t);
 		setBackground(Color.WHITE);
 		setContentPane(contentPane);
@@ -67,4 +73,5 @@ public class JuegoFrame extends JFrame{
 	public static void main(String[] args) throws IOException {
 		new JuegoFrame().setVisible(true);
 		}
+	
 }

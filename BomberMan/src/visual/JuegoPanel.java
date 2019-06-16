@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -10,6 +11,9 @@ import javax.swing.JPanel;
 import entidades.*;
 import helper.Helper;
 import helper.Imagenes;
+import serializable.ElementSerializable;
+import serializable.JugadorInfo;
+import serializable.Serialize;
 
 public class JuegoPanel extends JPanel {
 	private Imagenes imgs;
@@ -34,37 +38,27 @@ public class JuegoPanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-
-		for (int x = 0; x < tablero.getAncho(); x++) {
-			for (int y = 0; y < tablero.getLargo(); y++) {
-
-				Elemento e = tablero.getElemento(x, y);
-
-				g.drawImage(imgs.getImage(e.show()), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
-				/* BOMBAS */
-				e = tablero.getBomba(x, y);
-				if (e != null) {
-					g.drawImage(imgs.getImage(e.show()), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
-
-				}
-				/* EXPLOSIONES */
-				e = tablero.getExplosion(x, y);
-				if (e != null) {
-					
-					g.drawImage(imgs.getImage(e.show()), e.getPos().rx, e.getPos().ry, Helper.PX, Helper.PX, null);
-					
-				}
-
-			}
+  		setBackground(Color.BLACK);
+		Font f = new Font("Arial",Font.BOLD , 15);
+		g.setColor(Color.WHITE);
+		g.setFont(f);
+		
+		/*Este data hay que pedirselo al cliente*/
+		Serialize data = tablero.getSerialize();
+		g.drawString(String.format(Helper.TEXT_NIVEL, data.nivel), 250 , 30);
+		g.drawString(String.format(Helper.TEXT_TIEMPO, data.tiempo), 250 , 60);
+		
+		for (JugadorInfo info : data.jugadoresInfo) {
+			g.drawImage(imgs.getImage(info.imagen),info.x, info.y, Helper.PX, Helper.PX ,null);
+			g.drawString(info.nombre, info.x+Helper.PX+10, info.y+20);
+			g.drawString(String.format(Helper.TEXT_PUNTOS_NIVEL,info.puntosNivel) , info.x+Helper.PX+10, info.y+40);
+			g.drawString(String.format(Helper.TEXT_PUNTOS,info.puntoPartida,data.nivel), info.x+100, info.y+40);
+			
+			
 		}
-		for (int x = 0; x < tablero.getAncho(); x++) {
-			for (int y = 0; y < tablero.getLargo(); y++) {
-
-				Elemento j = tablero.getJugador(x, y);
-				if (j != null) {
-					g.drawImage(imgs.getImage(j.show()), j.getPos().rx, j.getPos().ry, Helper.PX, Helper.PX, null);
-				}
-			}
+		for(ElementSerializable e : data.elementos) {
+			g.drawImage(imgs.getImage(e.img), e.x, e.y, e.width,e.height, null);
+			
 		}
 	}
 

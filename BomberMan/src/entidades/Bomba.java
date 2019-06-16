@@ -128,7 +128,7 @@ public class Bomba extends Elemento {
 
 	@Override
 	protected void setImageName(Integer numero) {
-		imgFinal = "bomba_0"+numero;
+		imgFinal = String.format(Helper.METHOD_BOMBA,numero);
 	}
 
 }

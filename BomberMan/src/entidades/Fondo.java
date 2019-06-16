@@ -1,5 +1,6 @@
 package entidades;
 
+import helper.Helper;
 
 public class Fondo extends Elemento {
 
@@ -23,7 +24,7 @@ public class Fondo extends Elemento {
 	
 	@Override
 	protected void setImageName(Integer numero) {
-		imgFinal= "fondo_0"+numero;	
+		imgFinal= String.format(Helper.METHOD_FONDO, numero);
 	}
 
 	

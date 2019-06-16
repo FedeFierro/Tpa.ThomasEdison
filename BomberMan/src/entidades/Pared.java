@@ -31,13 +31,14 @@ public class Pared extends Elemento {
 	
 	private void animateExplosion(Elemento e) {
 		tablero.setExplosion(this);	
+		tablero.quitarElemento(e);
 		Timer t = new Timer();
 		TimerTask d = new TimerTask() {
 			int cont =1;
         	public void run() {
         		cont++;
         		if(cont > 4) {
-        			tablero.quitarElemento(e);
+        			
         			cancel();        			
         		}else{
         		setImageName(cont);
@@ -50,7 +51,7 @@ public class Pared extends Elemento {
 
 	@Override
 	protected void setImageName(Integer numero) {
-		imgFinal = "pared_0"+numero;
+		imgFinal= String.format(Helper.METHOD_PARED, numero);
 		
 	}
 	

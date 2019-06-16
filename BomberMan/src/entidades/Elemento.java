@@ -21,6 +21,10 @@ public abstract class Elemento {
 		vivo=true;
 		
 	}
+	public Elemento(Tablero tablero) {
+		this.tablero = tablero;
+		vivo=true;
+	}
 	public Elemento(Coordenada pos, Tablero tablero) {
 		this.pos = new Coordenada(pos);
 		this.tablero = tablero;

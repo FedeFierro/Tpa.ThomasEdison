@@ -1,6 +1,5 @@
 package entidades;
 
-import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 import helper.DireccionEnum;
@@ -11,15 +10,24 @@ public class Jugador extends Elemento {
 	private static int cont = 0;
 	private final int MAXBOMBAS = 2;
 	private int bombasPlantadas;
-	private Image[] imgs;
-	private Image[] imgN, imgS, imgO, imgE;
-	private int numeroJugador;
+	public int numeroJugador;
 	private int index = 0;
 	private DireccionEnum direccion;
-
+	
 	/**
 	 * Constructor de la clase Jugador
 	 */
+	public Jugador(Tablero tablero) {
+		super(tablero);
+		cont++;
+		numeroJugador = cont;
+		pos =  tablero.getPosicionInicialJugador(numeroJugador);
+		bombasPlantadas = 0;
+		setImageName(11);
+		loadSound();
+		tablero.setJugador(this);
+	}
+	
 	public Jugador(int x, int y, Tablero tablero) {
 		super(new Coordenada(x, y), tablero);
 		cont++;
@@ -160,7 +168,7 @@ public class Jugador extends Elemento {
 	@Override
 	protected void setImageName(Integer numero) {
 		String num = numero<10?"0"+numero: numero.toString();
-		imgFinal = "player"+numeroJugador+"_"+num;
+		imgFinal =  String.format(Helper.METHOD_JUGADOR, numeroJugador,num);
 		
 	}
 

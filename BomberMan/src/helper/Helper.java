@@ -15,6 +15,19 @@ public class Helper {
 	public final static int PX = 40;
 	public final static int MOV_JUG =10;
 	public final static String SOUND_EXT = ".wav";
+	public final static int HEAD_Y=80;
+	public final static String METHOD_JUGADOR = "player%d_%s";
+	public final static String METHOD_BOMBA = "bomba_0%d";
+	public final static String METHOD_EXPLOSION = "explosion_%s";
+	public final static String METHOD_FONDO = "fondo_0%d";
+	public final static String METHOD_MURO = "muro_0%d";
+	public final static String METHOD_PARED = "pared_0%d";
+	public final static String TEXT_NIVEL = "NIVEL: %d";
+	public final static String TEXT_TIEMPO = "Tiempo: %S";
+	public final static String TEXT_PUNTOS = "%d/%d";
+	public final static String TEXT_PUNTOS_NIVEL = "%d";
+	
+	
 	public static Image getImage(URL u) {
 		try {
 			
