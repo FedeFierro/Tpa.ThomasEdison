@@ -11,10 +11,10 @@ public class JugadorInfo {
 	public int x;
 	public int y;
 	
-	public JugadorInfo(int numero) {
+	public JugadorInfo(int numero, String nombre) {
 		this.numero = numero;
 		this.imagen = String.format(Helper.METHOD_JUGADOR,numero,11);
-		this.nombre = "Jugador "+numero;
+		this.nombre = nombre;
 		this.puntosNivel = 0;
 		this.puntoPartida= 0;
 		setPosition();

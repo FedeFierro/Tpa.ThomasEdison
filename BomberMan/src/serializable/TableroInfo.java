@@ -14,11 +14,11 @@ public class TableroInfo {
 	public List<JugadorInfo> jugadoresInfo;
 	public List<ElementoInfo> elementos;
 	
-	public TableroInfo() {
+	public TableroInfo(int puntosPartida) {
 		this.nivel=0;
 		this.tiempo="--";
 		this.ganador="";
-		puntosPartida=2;
+		this.puntosPartida=puntosPartida;
 		pausa=true;
 		finJuego = false;
 		jugadoresInfo = new ArrayList<JugadorInfo>();

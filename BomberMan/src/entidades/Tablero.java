@@ -29,17 +29,20 @@ public class Tablero {
 	/*
 	 * Constructor de Tests
 	 */
-	public Tablero(int a, int l) {
+	public Tablero(int a, int l, int tiempo, int puntosPartida){
 		this.ancho = a;
 		this.largo = l;
 		inicializarArrays();
 		construirMapaVacio();
+		info = new TableroInfo(puntosPartida);
+		this.tiempo = tiempo;
 		jugadores = new ArrayList<Jugador>();
+	
 	}
 
-	public Tablero() {
-		info = new TableroInfo();
-		tiempo = 20;
+	public Tablero(int tiempo, int puntosPartida) {
+		info = new TableroInfo(puntosPartida);
+		this.tiempo = tiempo;
 		jugadores = new ArrayList<Jugador>();
 		loadSound();
 	}

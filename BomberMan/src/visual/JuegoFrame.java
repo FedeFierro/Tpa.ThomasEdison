@@ -28,14 +28,14 @@ public class JuegoFrame extends JFrame{
 				setMovimiento(arg0);
 			}
 		});
-		Tablero t = new Tablero();
-		j = new Jugador(t);
+		Tablero t = new Tablero(100,3);
+		j = new Jugador(t, "Jugador1");
 		t.setJugador(j);
-		Jugador j2 = new Jugador(t);
+		Jugador j2 = new Jugador(t, "Jugador2");
 		t.setJugador(j2);
-		Jugador j3 = new Jugador(t);
+		Jugador j3 = new Jugador(t, "Jugador3");
 		t.setJugador(j3);
-		Jugador j4 = new Jugador(t);
+		Jugador j4 = new Jugador(t, "Jugador4");
 		t.setJugador(j4);
 		contentPane = new JuegoPanel(t);
 		setBackground(Color.WHITE);
@@ -45,29 +45,8 @@ public class JuegoFrame extends JFrame{
 	}
 	
 		public void setMovimiento(KeyEvent evento) {
-			
-			if(evento.getKeyCode() == KeyEvent.VK_UP) {
-				j.moverse(0,-Helper.MOV_JUG);
-				
-			}
-			if(evento.getKeyCode() == KeyEvent.VK_DOWN) {
-				j.moverse(0,Helper.MOV_JUG);
-						
-			}
-			if(evento.getKeyCode() == KeyEvent.VK_LEFT) {
-				j.moverse(-Helper.MOV_JUG,0);
-				
-			}
-			if(evento.getKeyCode() == KeyEvent.VK_RIGHT) {
-				j.moverse(Helper.MOV_JUG,0);
-				
-			}
-			if(evento.getKeyCode() == KeyEvent.VK_SPACE) {
-				j.plantarBomba();
-				
-			}
-			
-		
+		/* pasarlo al cliente y que el cliente se lo envie al server y este al jugador que le corresponda*/	
+			j.setMovimeiento(evento.getKeyCode());
 		}
 
 	public static void main(String[] args) throws IOException {

@@ -14,24 +14,30 @@ public class Jugador extends Elemento {
 	private int index = 0;
 	private DireccionEnum direccion;
 	public JugadorInfo info;
-	
+	private int codeUp = 38;
+	private int codeDown = 40;
+	private int codeLeft = 37;
+	private int codeRight = 39;
+	private int codeBomb = 32;
+
 	/**
 	 * Constructor de la clase Jugador
 	 */
-	public Jugador(Tablero tablero) {
+	public Jugador(Tablero tablero,String nombre) {
 		super(tablero);
 		cont++;
-		info = new JugadorInfo(cont);
-		pos =  tablero.getPosicionInicialJugador(info.numero);
+		info = new JugadorInfo(cont, nombre);
+		pos = tablero.getPosicionInicialJugador(info.numero);
 		bombasPlantadas = 0;
 		setImageName(11);
 		loadSound();
 	}
-	
+
 	public Jugador(int x, int y, Tablero tablero) {
-		super(new Coordenada(x, y), tablero);
+		super(tablero);
+		pos = new Coordenada(x,y);
 		cont++;
-		info= new JugadorInfo(cont);
+		info = new JugadorInfo(cont,"jugador "+cont);
 		bombasPlantadas = 0;
 		setImageName(11);
 		loadSound();
@@ -62,7 +68,7 @@ public class Jugador extends Elemento {
 	 * Planta una bomba
 	 */
 	public void plantarBomba() {
-		if(vivo)
+		if (vivo)
 			if (bombasPlantadas < MAXBOMBAS) {
 				bombasPlantadas += 1;
 				new Bomba(tablero, this);
@@ -80,7 +86,6 @@ public class Jugador extends Elemento {
 		bombasPlantadas--;
 	}
 
-
 	private void animateExplosion() {
 		Jugador j = this;
 		Timer t = new Timer();
@@ -95,7 +100,7 @@ public class Jugador extends Elemento {
 					tablero.quitarJugador(j);
 					cancel();
 				} else {
-					setImageName(40+cont);
+					setImageName(40 + cont);
 				}
 			}
 		};
@@ -116,16 +121,16 @@ public class Jugador extends Elemento {
 
 		switch (direccion) {
 		case O:
-			setImageName(20+index+1); 
+			setImageName(20 + index + 1);
 			break;
 		case E:
-			setImageName(30+index+1); 
+			setImageName(30 + index + 1);
 			break;
 		case N:
-			setImageName(index+1);
+			setImageName(index + 1);
 			break;
 		case S:
-			setImageName(10+index+1);
+			setImageName(10 + index + 1);
 			break;
 		default:
 			break;
@@ -143,7 +148,7 @@ public class Jugador extends Elemento {
 			if (pos.rx % Helper.PX > 0) {
 				return true;
 			}
-			return tablero.puedeMover(pos.obtenerPosicionProvisoriaJugador(x*5, y*5));
+			return tablero.puedeMover(pos.obtenerPosicionProvisoriaJugador(x * 5, y * 5));
 
 		case N:
 		case S:
@@ -153,40 +158,66 @@ public class Jugador extends Elemento {
 			if (pos.ry % Helper.PX > 0) {
 				return true;
 			}
-			return tablero.puedeMover(pos.obtenerPosicionProvisoriaJugador(x*5, y*5));
+			return tablero.puedeMover(pos.obtenerPosicionProvisoriaJugador(x * 5, y * 5));
 		default:
 			break;
 
 		}
 		return false;
 	}
-	
+
 	protected void loadSound() {
-		String name="/sounds/LifeLost"+Helper.SOUND_EXT;
+		String name = "/sounds/LifeLost" + Helper.SOUND_EXT;
 		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
 	}
 
 	@Override
 	protected void setImageName(Integer numero) {
-		String num = numero<10?"0"+numero: numero.toString();
-		imgFinal =  String.format(Helper.METHOD_JUGADOR, info.numero,num);
-		
+		String num = numero < 10 ? "0" + numero : numero.toString();
+		imgFinal = String.format(Helper.METHOD_JUGADOR, info.numero, num);
+
 	}
+
 	public void sumarPuntos(int puntos) {
-		if(vivo) {
-		info.puntosNivel+=puntos;
+		if (vivo) {
+			info.puntosNivel += puntos;
 		}
 	}
+
 	public void sumarPuntoPartida(int puntos) {
-		if(vivo) {
-			info.puntoPartida+=puntos;
+		if (vivo) {
+			info.puntoPartida += puntos;
 		}
 	}
+
 	public void reiniciarNivel() {
-		vivo=true;
-		info.puntosNivel=0;
+		vivo = true;
+		info.puntosNivel = 0;
 		setImageName(11);
 		pos = tablero.getPosicionInicialJugador(info.numero);
+	}
+
+	public void setMovimeiento(int keyCode) {
+		if (keyCode == codeUp) {
+			moverse(0, -Helper.MOV_JUG);
+
+		}
+		if (keyCode == codeDown) {
+			moverse(0, Helper.MOV_JUG);
+
+		}
+		if (keyCode == codeLeft) {
+			moverse(-Helper.MOV_JUG, 0);
+
+		}
+		if (keyCode == codeRight) {
+			moverse(Helper.MOV_JUG, 0);
+
+		}
+		if (keyCode == codeBomb) {
+			plantarBomba();
+
+		}
 	}
 
 }
