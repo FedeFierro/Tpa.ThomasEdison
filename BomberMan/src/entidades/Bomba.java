@@ -33,7 +33,7 @@ public class Bomba extends Elemento {
 
 	}
 
-	public void explotar() {
+	public int explotar() {
 		if (vivo) {
 			vivo = false;
 			boolean oeste, este, norte, sur;
@@ -49,7 +49,7 @@ public class Bomba extends Elemento {
 			tablero.quitarBomba(this);
 			
 			Elemento e = tablero.getJugador(this.pos);
-			new Explosion(this.pos, tablero, DireccionEnum.C, e);
+			new Explosion(this.pos, tablero, DireccionEnum.C, e,jugador);
 			// if (e!=null) e.explotar();
 
 			for (int i = 1; i <= rango; i++) {
@@ -59,7 +59,7 @@ public class Bomba extends Elemento {
 				oeste = oeste && tablero.puedeExplotar(posOeste);
 				if (oeste) {
 					e = tablero.getElemento(posOeste);
-					new Explosion(posOeste, tablero, (fin ? DireccionEnum.O : DireccionEnum.H), e);
+					new Explosion(posOeste, tablero, (fin ? DireccionEnum.O : DireccionEnum.H), e, jugador);
 					// e.explotar();
 					oeste = oeste && e.puedeSeguirExplotando();
 
@@ -70,7 +70,7 @@ public class Bomba extends Elemento {
 				este = este && tablero.puedeExplotar(posEste);
 				if (este) {
 					e = tablero.getElemento(posEste);
-					new Explosion(posEste, tablero, (fin ? DireccionEnum.E : DireccionEnum.H), e);
+					new Explosion(posEste, tablero, (fin ? DireccionEnum.E : DireccionEnum.H), e,jugador);
 					// e.explotar();
 					este = este && e.puedeSeguirExplotando();
 				}
@@ -79,7 +79,7 @@ public class Bomba extends Elemento {
 				norte = norte && tablero.puedeExplotar(posNorte);
 				if (norte) {
 					e = tablero.getElemento(posNorte);
-					new Explosion(posNorte, tablero, (fin ? DireccionEnum.N : DireccionEnum.V), e);
+					new Explosion(posNorte, tablero, (fin ? DireccionEnum.N : DireccionEnum.V), e,jugador);
 					// e.explotar();
 					norte = norte && e.puedeSeguirExplotando();
 				}
@@ -88,7 +88,7 @@ public class Bomba extends Elemento {
 				sur = sur && tablero.puedeExplotar(posSur);
 				if (sur) {
 					e = tablero.getElemento(posSur);
-					new Explosion(posSur, tablero, (fin ? DireccionEnum.S : DireccionEnum.V), e);
+					new Explosion(posSur, tablero, (fin ? DireccionEnum.S : DireccionEnum.V), e,jugador);
 					// e.explotar();
 					sur = sur && e.puedeSeguirExplotando();
 				}
@@ -96,6 +96,7 @@ public class Bomba extends Elemento {
 			this.jugador.explotoBomba();
 
 		}
+		return Helper.PUNTO_NULOS;
 	}// fin explotarBomba
 
 	protected void activar() {

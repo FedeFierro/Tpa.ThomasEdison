@@ -13,8 +13,8 @@ public class Fondo extends Elemento {
 	}
 	
 	@Override
-	public void explotar() {
-		return;
+	public int explotar() {
+		return Helper.PUNTO_NULOS;
 		
 	}
 	@Override

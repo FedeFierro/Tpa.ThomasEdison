@@ -17,12 +17,14 @@ public class Pared extends Elemento {
 	}
 
 	@Override
-	public void explotar() {
+	public int explotar() {
 		if(vivo) {
 			super.vivo = false;
 			animateExplosion(this);
 //			tablero.quitarElemento(this);
+			return Helper.PUNTO_PARED;
 		}
+		return Helper.PUNTO_NULOS;
 	}
 	@Override
 	public boolean puedeSeguirExplotando() {

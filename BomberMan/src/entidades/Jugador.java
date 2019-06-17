@@ -4,15 +4,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 import helper.DireccionEnum;
 import helper.Helper;
+import serializable.JugadorInfo;
 
 public class Jugador extends Elemento {
 
 	private static int cont = 0;
 	private final int MAXBOMBAS = 2;
 	private int bombasPlantadas;
-	public int numeroJugador;
 	private int index = 0;
 	private DireccionEnum direccion;
+	public JugadorInfo info;
 	
 	/**
 	 * Constructor de la clase Jugador
@@ -20,18 +21,17 @@ public class Jugador extends Elemento {
 	public Jugador(Tablero tablero) {
 		super(tablero);
 		cont++;
-		numeroJugador = cont;
-		pos =  tablero.getPosicionInicialJugador(numeroJugador);
+		info = new JugadorInfo(cont);
+		pos =  tablero.getPosicionInicialJugador(info.numero);
 		bombasPlantadas = 0;
 		setImageName(11);
 		loadSound();
-		tablero.setJugador(this);
 	}
 	
 	public Jugador(int x, int y, Tablero tablero) {
 		super(new Coordenada(x, y), tablero);
 		cont++;
-		numeroJugador = cont;
+		info= new JugadorInfo(cont);
 		bombasPlantadas = 0;
 		setImageName(11);
 		loadSound();
@@ -70,10 +70,10 @@ public class Jugador extends Elemento {
 	}
 
 	@Override
-	public void explotar() {
-		vivo = false;
+	public int explotar() {
 		bombasPlantadas = 0;
-		animateExplosion(this);
+		animateExplosion();
+		return Helper.PUNTO_JUGADOR;
 	}
 
 	public void explotoBomba() {
@@ -81,8 +81,8 @@ public class Jugador extends Elemento {
 	}
 
 
-	private void animateExplosion(Jugador j) {
-
+	private void animateExplosion() {
+		Jugador j = this;
 		Timer t = new Timer();
 		sonido.start();
 		TimerTask d = new TimerTask() {
@@ -91,6 +91,7 @@ public class Jugador extends Elemento {
 			public void run() {
 				cont++;
 				if (cont > 5) {
+					vivo = false;
 					tablero.quitarJugador(j);
 					cancel();
 				} else {
@@ -168,8 +169,24 @@ public class Jugador extends Elemento {
 	@Override
 	protected void setImageName(Integer numero) {
 		String num = numero<10?"0"+numero: numero.toString();
-		imgFinal =  String.format(Helper.METHOD_JUGADOR, numeroJugador,num);
+		imgFinal =  String.format(Helper.METHOD_JUGADOR, info.numero,num);
 		
+	}
+	public void sumarPuntos(int puntos) {
+		if(vivo) {
+		info.puntosNivel+=puntos;
+		}
+	}
+	public void sumarPuntoPartida(int puntos) {
+		if(vivo) {
+			info.puntoPartida+=puntos;
+		}
+	}
+	public void reiniciarNivel() {
+		vivo=true;
+		info.puntosNivel=0;
+		setImageName(11);
+		pos = tablero.getPosicionInicialJugador(info.numero);
 	}
 
 }

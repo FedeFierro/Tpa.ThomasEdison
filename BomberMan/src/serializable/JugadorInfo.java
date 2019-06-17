@@ -15,8 +15,8 @@ public class JugadorInfo {
 		this.numero = numero;
 		this.imagen = String.format(Helper.METHOD_JUGADOR,numero,11);
 		this.nombre = "Jugador "+numero;
-		this.puntosNivel = 100;
-		this.puntoPartida= 1;
+		this.puntosNivel = 0;
+		this.puntoPartida= 0;
 		setPosition();
 	}
 	

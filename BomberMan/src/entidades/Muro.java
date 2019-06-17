@@ -15,8 +15,8 @@ public class Muro extends Elemento{
 	
 
 	@Override
-	public void explotar() {
-		return;
+	public int explotar() {
+		return Helper.PUNTO_NULOS;
 		
 	}
 	@Override

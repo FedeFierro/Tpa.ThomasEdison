@@ -18,7 +18,7 @@ public class Imagenes {
 
 	public Image fondo_01;
 	public Image muro_01;
-	
+
 	public Image pared_01;
 	public Image pared_02;
 	public Image pared_03;
@@ -127,9 +127,8 @@ public class Imagenes {
 	public Image player4_43;
 	public Image player4_44;
 	public Image player4_45;
-	public Image noImage_01;
-
-
+	public Image otras_win;
+	
 	public void buildImagenes() {
 		/**
 		 * Utiliza reflection, cicla por todas las propiedaes de este objeto parsea su
@@ -139,31 +138,34 @@ public class Imagenes {
 		Field[] properties = this.getClass().getFields();
 		try {
 			for (Field prop : properties) {
-				String ruta = "/"+prop.getName().replace('_','/')+Helper.IMG_EXT;
+				String ruta = "/" + prop.getName().replace('_', '/');
+				if (prop.getName().startsWith("otras")) {
+					ruta = ruta + Helper.IMG_EXT_GIF;
+				} else {
+					ruta = ruta + Helper.IMG_EXT;
+				}
 				prop.set(this, Helper.getImage(this.getClass().getResource(ruta)));
 
 			}
-			
+
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
-	
-	
-	
+
 	public Image getImage(String name) {
 		Field prop;
 		try {
 			prop = this.getClass().getField(name);
 			return (Image) prop.get(this);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return noImage_01;
-		
+		return null;
+
 	}
 
 }

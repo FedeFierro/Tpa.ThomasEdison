@@ -1,15 +1,16 @@
 package entidades;
 
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.sound.sampled.Clip;
 
 import helper.Helper;
-import serializable.ElementSerializable;
+import serializable.ElementoInfo;
 import serializable.JugadorInfo;
-import serializable.Serialize;
+import serializable.TableroInfo;
 
 public class Tablero {
 
@@ -19,11 +20,11 @@ public class Tablero {
 	private Elemento[][] bombas;
 	private Elemento[][] explosiones;
 	private Jugador[][] elementosMov;
-	private int nivel;
+	private List<Jugador> jugadores;
 	private Clip sonido;
 	private int tiempo;
 	private long start;
-	private boolean pausa;
+	public TableroInfo info;
 
 	/*
 	 * Constructor de Tests
@@ -33,18 +34,20 @@ public class Tablero {
 		this.largo = l;
 		inicializarArrays();
 		construirMapaVacio();
+		jugadores = new ArrayList<Jugador>();
 	}
 
 	public Tablero() {
-		nivel = 1;
-		iniciartablero();
+		info = new TableroInfo();
+		tiempo = 20;
+		jugadores = new ArrayList<Jugador>();
+		loadSound();
 	}
 
 	private void iniciartablero() {
 		inicializarArrays();
 		construirMapaAleatorio();
-		loadSound();
-		start = System.currentTimeMillis();
+
 	}
 
 	public Elemento getElemento(Coordenada pos) {
@@ -111,7 +114,9 @@ public class Tablero {
 	}
 
 	public void setJugador(Jugador j) {
-		elementosMov[j.pos.x][j.pos.y] = j;
+		// elementosMov[j.pos.x][j.pos.y] = j;
+		jugadores.add(j);
+		info.jugadoresInfo.add(j.info);
 	}
 
 	public Elemento getJugador(Coordenada pos) {
@@ -125,8 +130,67 @@ public class Tablero {
 	public void intercambiarJugador(Coordenada posAnterior) {
 		Jugador aux = elementosMov[posAnterior.x][posAnterior.y];
 		elementosMov[posAnterior.x][posAnterior.y] = null;
-		setJugador(aux);
+		elementosMov[aux.pos.x][aux.pos.y] = aux;
 	}
+
+	public int getAncho() {
+		return this.ancho;
+	}
+
+	public int getLargo() {
+		return this.largo;
+	}
+
+	public Coordenada getPosicionInicialJugador(int numJugador) {
+		int x = numJugador == 1 || numJugador == 3 ? 1 : ancho - 2;
+		int y = numJugador == 1 || numJugador == 2 ? 1 : largo - 2;
+		return new Coordenada(x, y);
+	}
+	public TableroInfo getSerializeInfo() {
+
+		if (info.pausa) {
+			return info;
+		}
+		List<JugadorInfo> jugInfo = new ArrayList<JugadorInfo>();
+		List<ElementoInfo> elements = new ArrayList<ElementoInfo>();
+		List<ElementoInfo> bombs = new ArrayList<ElementoInfo>();
+		List<ElementoInfo> exps = new ArrayList<ElementoInfo>();
+		List<ElementoInfo> players = new ArrayList<ElementoInfo>();
+		for (int x = 0; x < ancho; x++) {
+			for (int y = 0; y < ancho; y++) {
+				Elemento e = elementos[x][y];
+				elements.add(new ElementoInfo(e.pos.rx, Helper.HEAD_Y + e.pos.ry, e.imgFinal, Helper.PX, Helper.PX));
+				Elemento b = bombas[x][y];
+				if (b != null) {
+					bombs.add(new ElementoInfo(b.pos.rx, Helper.HEAD_Y + b.pos.ry, b.imgFinal, Helper.PX, Helper.PX));
+				}
+				Elemento exp = explosiones[x][y];
+				if (exp != null) {
+					exps.add(new ElementoInfo(exp.pos.rx, Helper.HEAD_Y + exp.pos.ry, exp.imgFinal, Helper.PX,
+							Helper.PX));
+				}
+				Jugador j = elementosMov[x][y];
+				if (j != null) {
+					players.add(new ElementoInfo(j.pos.rx, Helper.HEAD_Y + j.pos.ry, j.imgFinal, Helper.PX, Helper.PX));
+				}
+
+			}
+		}
+		for (Jugador j : jugadores) {
+			jugInfo.add(j.info);
+		}
+		info.tiempo = getTime().toString();
+		info.elementos = new ArrayList<ElementoInfo>();
+		info.elementos.addAll(elements);
+		info.elementos.addAll(bombs);
+		info.elementos.addAll(exps);
+		info.elementos.addAll(players);
+		return info;
+	}
+	public void iniciarJuego() {
+		crearNuevoNivel();
+	}
+
 
 	/*
 	 * metodos privados internos
@@ -169,7 +233,7 @@ public class Tablero {
 
 	private Elemento objetoAleatorio(int x, int y) {
 		double rnd = Math.random();
-		double limite = 0.1 + nivel * 0.025; /* para nivel 1 aprox 25% de paredes sube 5% por nivel */
+		double limite = 0.1 + info.nivel * 0.025; /* para nivel 1 aprox 25% de paredes sube 5% por nivel */
 
 		if (rnd > 0.5 - limite && rnd < 0.5 + limite) {
 			return new Pared(new Coordenada(x, y), this);
@@ -182,14 +246,7 @@ public class Tablero {
 		bombas = new Elemento[ancho][largo];
 		elementos = new Elemento[ancho][largo];
 		elementosMov = new Jugador[ancho][largo];
-	}
 
-	public int getAncho() {
-		return this.ancho;
-	}
-
-	public int getLargo() {
-		return this.largo;
 	}
 
 	protected void loadSound() {
@@ -201,57 +258,79 @@ public class Tablero {
 		return sonido;
 	}
 
-	public Coordenada getPosicionInicialJugador(int numJugador) {
-		int x = numJugador == 1 || numJugador == 3 ? 1 : ancho - 2;
-		int y = numJugador == 1 || numJugador == 2 ? 1 : largo - 2;
-		return new Coordenada(x, y);
+	
+	private Integer getTime() {
+		if (info.pausa || info.finJuego) {
+			return 0;
+		}
+		int cont = 0;
+		for (Jugador j : jugadores) {
+			if (j.vivo) {
+				cont++;
+			}
+
+		}
+		int time = (int) ((System.currentTimeMillis() - start) / 1000);
+		if (time > tiempo || cont == 1) {
+			finalizarNivel();
+			return 0;
+		}
+		return time;
+	}
+	
+	private void finalizarNivel() {
+		info.pausa = true;
+		setGanador();
+		crearNuevoNivel();
 	}
 
-	public Serialize getSerialize() {
-		List<JugadorInfo> jugInfo = new ArrayList<JugadorInfo>();
-		List<ElementSerializable> elements = new ArrayList<ElementSerializable>();
-		List<ElementSerializable> bombs = new ArrayList<ElementSerializable>();
-		List<ElementSerializable> exps = new ArrayList<ElementSerializable>();
-		List<ElementSerializable> players = new ArrayList<ElementSerializable>();
-		for (int x = 0; x < ancho; x++) {
-			for (int y = 0; y < ancho; y++) {
-				Elemento e = elementos[x][y];
-				elements.add(new ElementSerializable(e.pos.rx, Helper.HEAD_Y+e.pos.ry, e.imgFinal, Helper.PX, Helper.PX));
-				Elemento b = bombas[x][y];
-				if (b != null) {
-					bombs.add(new ElementSerializable(b.pos.rx, Helper.HEAD_Y+b.pos.ry, b.imgFinal, Helper.PX, Helper.PX));
-				}
-				Elemento exp = explosiones[x][y];
-				if (exp != null) {
-					exps.add(new ElementSerializable(exp.pos.rx, Helper.HEAD_Y+exp.pos.ry, exp.imgFinal, Helper.PX, Helper.PX));
-				}
-				Jugador j = elementosMov[x][y];
-				if (j != null) {
-					players.add(new ElementSerializable(j.pos.rx, Helper.HEAD_Y+j.pos.ry, j.imgFinal, Helper.PX, Helper.PX));
-					jugInfo.add(new JugadorInfo(j.numeroJugador));
-				}
-
+	private void setGanador() {
+		Jugador ganador = null;
+		for(Jugador jug : jugadores){
+			if(ganador==null) {
+				ganador =jug;
+			}
+			else if(jug.info.puntosNivel > ganador.info.puntosNivel) {
+				ganador = jug;
+			}else if(jug.info.puntosNivel == ganador.info.puntosNivel ){
+				
 			}
 		}
-		Serialize result = new Serialize();
-		result.nivel = nivel;
-		result.tiempo=getTime().toString();
-		result.jugadoresInfo.addAll(jugInfo);
-		result.elementos.addAll(elements);
-		result.elementos.addAll(bombs);
-		result.elementos.addAll(exps);
-		result.elementos.addAll(players);
-		return result;
+		if (ganador != null) {
+			ganador.sumarPuntoPartida(Helper.PUNTO_PARTIDA);
+			info.ganador = String.format(Helper.TEXT_WIN, ganador.info.nombre);
+			if (ganador.info.puntoPartida >= info.puntosPartida) {
+				finalizarJuego();
+			}
+		} else {
+			info.ganador = Helper.TEXT_EMPATE;
+		}
+		
+
+	}
+	private void finalizarJuego() {
+		info.finJuego=true;
 		
 	}
-	public Integer getTime() {
-		return (int) ((System.currentTimeMillis()-start)/1000);
-	}
-	public void Start() {
-		pausa=false;
-	}
-	private void cambioNivel(){
-		pausa=true;
+	
+	
+	private void crearNuevoNivel() {
+		info.nivel++;
+		Timer tim = new Timer();
+		TimerTask cambio = new TimerTask() {
+
+			@Override
+			public void run() {
+				iniciartablero();
+				for (Jugador j : jugadores) {
+					j.reiniciarNivel();
+					elementosMov[j.pos.x][j.pos.y] = j;
+				}
+				info.pausa = false;
+				start = System.currentTimeMillis();
+			}
+		};
+		tim.schedule(cambio, Helper.DELAY);
 	}
 
 }

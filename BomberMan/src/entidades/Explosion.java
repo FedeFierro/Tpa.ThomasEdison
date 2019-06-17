@@ -9,32 +9,37 @@ import helper.Helper;
 public class Explosion extends Elemento {
 	protected DireccionEnum tipo;
 	protected Elemento elemento;
+	protected Jugador jugador;
 
-	public Explosion(Coordenada pos, Tablero tablero, DireccionEnum tipo, Elemento e) {
+	public Explosion(Coordenada pos, Tablero tablero, DireccionEnum tipo, Elemento e,Jugador j) {
 		super(pos, tablero);
 		this.tipo = tipo;
 		this.elemento = e;
+		this.jugador=j;
 		setImageName(0);
 		loadSound();
 		explotar();
 	}
 
 	@Override
-	public void explotar() {
+	public int explotar() {
+		int puntos =0;
 		if (elemento == null || elemento.esTransitable()) {
 			tablero.setExplosion(this);
 		} else if (elemento instanceof Jugador) {
 			tablero.setExplosion(this);
-			elemento.explotar();
+			puntos+=elemento.explotar();	
+			
 
 		} else
 
 		{
-			elemento.explotar();
+			puntos +=elemento.explotar();
 			sonido.start();
 		}
-
+		jugador.sumarPuntos(puntos);
 		desaparecer();
+		return Helper.PUNTO_NULOS;
 
 	}
 

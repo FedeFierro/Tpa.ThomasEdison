@@ -34,7 +34,7 @@ public abstract class Elemento {
 	/**
 	 * Metodo abstracto para destruir.
 	 */
-	public abstract void explotar();
+	public abstract int explotar();
 	
 	/*Hacer override en fondo*/
 	public boolean esTransitable() {

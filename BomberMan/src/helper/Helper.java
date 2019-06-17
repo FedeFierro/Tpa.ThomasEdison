@@ -11,6 +11,7 @@ import javax.sound.sampled.Clip;
 public class Helper {
 	
 	public final static String IMG_EXT = ".png";
+	public final static String IMG_EXT_GIF = ".gif";
 	public final static int TIME_EXP =700; 
 	public final static int PX = 40;
 	public final static int MOV_JUG =10;
@@ -26,6 +27,17 @@ public class Helper {
 	public final static String TEXT_TIEMPO = "Tiempo: %S";
 	public final static String TEXT_PUNTOS = "%d/%d";
 	public final static String TEXT_PUNTOS_NIVEL = "%d";
+	public final static String TEXT_END_GAME = "FIN DEL JUEGO";
+	public final static String TEXT_WIN = "GANADOR: %s";
+	public final static String TEXT_EMPATE = "HAY EMPATE";
+	
+	public final static int PUNTO_NULOS =0;
+	public final static int PUNTO_PARED =5;
+	public final static int PUNTO_JUGADOR =10;
+	public final static int PUNTO_PARTIDA=1;
+	
+	public final static int DELAY =5000;
+	
 	
 	
 	public static Image getImage(URL u) {
