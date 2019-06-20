@@ -1,15 +1,9 @@
-package Servidor;
+package servidor;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import Servidor.Conexion;
-import entidades.Tablero;
-import entidades.Jugador;
+
 
 public class Servidor {
+	/**
 	private Tablero tablero;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
@@ -42,6 +36,6 @@ public class Servidor {
         	servidor.close();
 		}
 	}
-	
+	**/
 }
 	

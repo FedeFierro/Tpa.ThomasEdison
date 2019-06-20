@@ -1,4 +1,4 @@
-package Servidor;
+package servidor;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 public class Conexion extends Thread{
-	private ObjectInputStream in;
+	/*private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Socket socket;
 	private ObjectInputStream inServer;
@@ -80,5 +80,5 @@ public class Conexion extends Thread{
 		}
 	}
 
-
+*/
 }
