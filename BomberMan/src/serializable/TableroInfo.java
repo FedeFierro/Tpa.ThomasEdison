@@ -75,7 +75,7 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	 JsonObject jo = jsonElement.getAsJsonObject();
 	 
 	 JsonArray ja =jo.getAsJsonArray("jugadoresInfo");
-	 
+	 System.out.println(ja);
 	    for(JsonElement je : ja) {
 	    	tablero.jugadoresInfo.add(new Gson().fromJson(je, JugadorInfo.class));
 	    	
@@ -85,7 +85,7 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 		    	tablero.elementos.add(new Gson().fromJson(je, ElementoInfo.class));
 		    	
 			 } 
-		
+		System.out.println(ja);
 	    return tablero;
 	}
 	

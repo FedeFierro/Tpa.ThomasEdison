@@ -33,7 +33,8 @@ public class JuegoPanel extends JPanel {
 	private Clip sonidoEnd;
 	private TableroInfo data;
 	private Client client;
-	public JuegoPanel(Tablero tablero) {
+	
+	public JuegoPanel() {
 //		this.tablero = tablero;
 		data = new TableroInfo(0);
 		imgs = new Imagenes();
@@ -51,13 +52,18 @@ public class JuegoPanel extends JPanel {
 		};
 
 		b.scheduleAtFixedRate(repintar, 0, 1000 / 144);
-
-		tablero.iniciarJuego();
 	}
 
 	public void paintComponent(Graphics g) {
 		setBackground(Color.BLACK);
 		/* Este data hay que pedirselo al cliente */
+//		System.out.println(data.elementos.size());
+//		if(data.elementos.size() >0) {
+//			System.out.println(data.elementos.get(0));
+//			System.out.println(data.elementos.get(1));
+//		}
+//		System.out.println(data.jugadoresInfo.size());
+		
 		
 		if (data.finJuego) {
 			if(data.sonido!=null&&!data.sonido.isEmpty()) {

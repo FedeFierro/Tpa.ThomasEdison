@@ -28,25 +28,16 @@ public class JuegoFrame extends JFrame{
 				setMovimiento(arg0);
 			}
 		});
-		Tablero t = new Tablero(50,1);
-		j = new Jugador(t, "Jugador1");
-		t.setJugador(j);
-		Jugador j2 = new Jugador(t, "Jugador2");
-		t.setJugador(j2);
-		Jugador j3 = new Jugador(t, "Jugador3");
-		t.setJugador(j3);
-		Jugador j4 = new Jugador(t, "Jugador4");
-		t.setJugador(j4);
-		contentPane = new JuegoPanel(t);
+		contentPane = new JuegoPanel();
 		setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
-			
 	}
 	
 		public void setMovimiento(KeyEvent evento) {
 		/* pasarlo al cliente y que el cliente se lo envie al server y este al jugador que le corresponda*/	
 			contentPane.getCodTecla(evento.getKeyCode());
+			System.out.println(evento.getKeyCode());
 			
 		}
 
