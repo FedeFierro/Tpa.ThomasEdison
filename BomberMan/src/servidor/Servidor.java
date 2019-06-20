@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import entidades.Jugador;
 import entidades.Tablero;
+import serializable.TableroInfo;
 
 public class Servidor {
 	private Tablero tablero;
@@ -15,7 +16,7 @@ public class Servidor {
 	private Thread buscarConexion;
 	private ArrayList<ConexionCliente> listaClientes;
 	private Timer timer;
-	private TimerTask senData;
+	private TimerTask sendData;
 
 	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre) {
 		try {
@@ -31,10 +32,12 @@ public class Servidor {
 					try {
 						int cantJugador = cantJugadores;
 						for (int i = 0; i < cantJugador; i++) {
-							Jugador j = new Jugador(tablero,nombre);
+							Jugador j = new Jugador(tablero,"Oscar");
+							Jugador j2 = new Jugador(tablero, "Jonny");
 							ConexionCliente cliente = new ConexionCliente(serverSocket.accept(), j);
 							listaClientes.add(cliente);
 							tablero.setJugador(j);
+							tablero.setJugador(j2);
 							cliente.start();
 							
 						}
@@ -66,16 +69,19 @@ public class Servidor {
 	public void iniciarPartida() {
 		buscarConexion.interrupt();
 		timer = new Timer();
-		senData = new TimerTask() {
+		sendData = new TimerTask() {
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
+				for(ConexionCliente cc : listaClientes) {
+					TableroInfo ti =tablero.getSerializeInfo();
+					cc.sendData(ti);
+				}
 				
 			}
 		};
 		tablero.iniciarJuego();
-		
+		timer.schedule(sendData, 0, 1000/60);
 	}
 
 }
