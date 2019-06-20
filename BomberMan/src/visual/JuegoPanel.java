@@ -11,6 +11,8 @@ import java.util.TimerTask;
 import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
+import com.google.gson.Gson;
+
 import entidades.*;
 import helper.Helper;
 import helper.Imagenes;
@@ -53,6 +55,14 @@ public class JuegoPanel extends JPanel {
 		setBackground(Color.BLACK);
 
 		TableroInfo data = tablero.getSerializeInfo();
+		Gson gson = new Gson();
+		String s = gson.toJson(data);
+		System.out.println(s);
+		
+		TableroInfo resulta = new TableroInfo(10);
+		resulta = gson.fromJson(s, resulta.getClass());
+		
+		
 		/* Este data hay que pedirselo al cliente */
 	
 		if (data.finJuego) {
