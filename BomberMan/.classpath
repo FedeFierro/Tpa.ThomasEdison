@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="libreria"/>
 	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="src" path="libs"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -285,6 +284,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/vibur-object-pool-22.2.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libreria/gson-2.8.5.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
