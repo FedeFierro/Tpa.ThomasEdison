@@ -191,6 +191,9 @@ public class Jugador extends Elemento {
 	}
 
 	public void setMovimeiento(int keyCode) {
+		if(!vivo || tablero.info.pausa) {
+			return;
+		}
 		if (keyCode == codeUp) {
 			moverse(0, -Helper.MOV_JUG);
 

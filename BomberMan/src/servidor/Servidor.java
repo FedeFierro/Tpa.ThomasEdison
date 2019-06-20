@@ -1,47 +1,67 @@
-package Servidor;
+package servidor;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
-import Servidor.Conexion;
-import entidades.Tablero;
+import java.util.ArrayList;
+
 import entidades.Jugador;
+import entidades.Tablero;
 
 public class Servidor {
 	private Tablero tablero;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
-	
-	public static void main(String[] args) throws IOException{
-		Servidor server = new Servidor();
-		server.iniciarConexion();
-		server.tablero=new Tablero();
-		
+	private ServerSocket serverSocket;
+	private Thread buscarConexion;
+	private ArrayList<ConexionCliente> listaClientes;
+
+	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre) {
+		try {
+			InetAddress ipDireccion = InetAddress.getLocalHost();
+			serverSocket = new ServerSocket(port);
+			tablero = new Tablero(tiempo, puntosPartida);
+			/* guardar en la base de datos */
+			listaClientes = new ArrayList<ConexionCliente>();
+			buscarConexion = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						int cantJugador = cantJugadores;
+						for (int i = 0; i < cantJugador; i++) {
+							Jugador j = new Jugador(tablero,nombre);
+							ConexionCliente cliente = new ConexionCliente(serverSocket.accept(), j);
+							listaClientes.add(cliente);
+							tablero.setJugador(j);
+							cliente.start();
+							
+						}
+						iniciarPartida();
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+					
+				}
+
+			});
+			buscarConexion.start();
+
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+
 	}
-	
-	public void iniciarConexion() throws IOException {
-		int puerto=5000;
-		ServerSocket servidor = null; 
-        Socket nuevousuario = null;
-        try {
-        	
-        	servidor = new ServerSocket(puerto);
-	            
-            while (true) {
-            	System.out.println("esperando que se conecten");
-                nuevousuario = servidor.accept();
-                Jugador jugador=new Jugador(this.tablero);
-                Conexion cc = new Conexion(nuevousuario);
-				cc.start();
-            }
-        } catch (IOException ex) {
-        	System.out.println("Error: " + ex.getMessage());
-        } finally {
-        	servidor.close();
+
+	public void serverClose() {
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	
+
+	public void iniciarPartida() {
+		buscarConexion.interrupt();
+		tablero.iniciarJuego();
+	}
 }
-	
