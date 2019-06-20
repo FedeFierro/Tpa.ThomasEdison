@@ -1,4 +1,5 @@
 package servidor;
+<<<<<<< HEAD
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -7,8 +8,13 @@ import java.util.ArrayList;
 
 import entidades.Jugador;
 import entidades.Tablero;
+=======
+
+
+>>>>>>> eabb1155435b9859deeb2408d4a80583c5631964
 
 public class Servidor {
+	/**
 	private Tablero tablero;
 	private ServerSocket serverSocket;
 	private Thread buscarConexion;
@@ -59,9 +65,13 @@ public class Servidor {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 
 	public void iniciarPartida() {
 		buscarConexion.interrupt();
 		tablero.iniciarJuego();
 	}
+=======
+	**/
+>>>>>>> eabb1155435b9859deeb2408d4a80583c5631964
 }

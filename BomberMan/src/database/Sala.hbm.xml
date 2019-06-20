@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-mapping>
+	<class name="Sala" table="SALA">
+		<id column="ID" name="ID" type="int" />
+		<property column="CantJugadores" name="CantJugadores" type="int" />
+		<property column="Nombre" name="nombre" type="string" />
+		<property column="IP" name="IP" type="string" />
+		<property column="Puerto" name="ouerto" type="int" />
+		<property column="JugConect" name="JugConect" type="int" />
+		<property column="Estado" name="Estado" type="int"></property>
+	</class>
+	
+	<query name="DniPersonas"><![CDATA[SELECT p.dni FROM Persona p]]></query>
+	<query name="SalasActivas"> <![CDATA[SELECT * FROM Sala s]]> </query>
+	<query name="EntrarEnSala"> <![CDATA[SELECT s.puerto, s.IP FROM Sala s]]></query>
+</hibernate-mapping>
