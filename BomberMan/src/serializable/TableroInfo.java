@@ -70,16 +70,12 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	@Override
 	public TableroInfo deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context)
 			throws JsonParseException {
-<<<<<<< HEAD
 		Gson gson = new Gson();
 	    TableroInfo tablero = gson.fromJson(jsonElement, type);
-=======
 	 JsonObject jo = jsonElement.getAsJsonObject();
 	 
 	 JsonArray ja =jo.getAsJsonArray("jugadoresInfo");
 	 
-		
-	    TableroInfo tablero = new Gson().fromJson(jsonElement, type);
 	    for(JsonElement je : ja) {
 	    	tablero.jugadoresInfo.add(new Gson().fromJson(je, JugadorInfo.class));
 	    	
@@ -90,7 +86,6 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 		    	
 			 } 
 		
->>>>>>> branch 'master' of https://github.com/FedeFierro/Tpa.ThomasEdison.git
 	    return tablero;
 	}
 	
