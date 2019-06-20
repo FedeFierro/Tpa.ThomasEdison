@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 
+import cliente.Client;
 import entidades.*;
 import helper.Helper;
 import helper.Imagenes;
@@ -30,11 +31,14 @@ public class JuegoPanel extends JPanel {
 	private Clip sonidoJuego;
 	private Clip sonidoStart;
 	private Clip sonidoEnd;
-
+	private TableroInfo data;
+	private Client client;
 	public JuegoPanel(Tablero tablero) {
-		this.tablero = tablero;
+//		this.tablero = tablero;
+		data = new TableroInfo(0);
 		imgs = new Imagenes();
 		snds = new Sonidos();
+		client = new Client("192.168.0.73", 11000, data);
 		// imgs.buildImagenes();
 		Timer b = new Timer();
 //		tablero.getSound().start();
@@ -53,27 +57,8 @@ public class JuegoPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		setBackground(Color.BLACK);
-
-		TableroInfo data = tablero.getSerializeInfo();
-		Gson gson = new Gson();
-		String s = gson.toJson(data);
-		
-		TableroInfo resulta = new TableroInfo(10);
-		resulta = gson.fromJson(s, resulta.getClass());
-		
-		for(JugadorInfo ji : resulta.jugadoresInfo) {
-			System.out.println(ji.nombre);
-			System.out.println(ji.imagen);
-			
-		}
-		for(ElementoInfo ei : resulta.elementos) {
-			System.out.println(ei.x);
-			System.out.println(ei.imagen);
-			
-		}
-		
 		/* Este data hay que pedirselo al cliente */
-	
+		
 		if (data.finJuego) {
 			if(data.sonido!=null&&!data.sonido.isEmpty()) {
 				snds.close(sonidoStart);
@@ -137,6 +122,10 @@ public class JuegoPanel extends JPanel {
 
 			}
 		}
+	}
+	
+	public void getCodTecla(int codTecla) {
+		client.sendMessage(codTecla);
 	}
 
 }

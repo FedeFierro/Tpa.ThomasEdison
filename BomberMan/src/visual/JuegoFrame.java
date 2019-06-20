@@ -46,7 +46,8 @@ public class JuegoFrame extends JFrame{
 	
 		public void setMovimiento(KeyEvent evento) {
 		/* pasarlo al cliente y que el cliente se lo envie al server y este al jugador que le corresponda*/	
-			j.setMovimeiento(evento.getKeyCode());
+			contentPane.getCodTecla(evento.getKeyCode());
+			
 		}
 
 	public static void main(String[] args) throws IOException {
