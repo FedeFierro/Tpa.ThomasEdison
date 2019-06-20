@@ -5,7 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Client {
+import serializable.TableroInfo;
+
+public class Client{
 	private Socket client;
 	private DataInputStream input;
 	private DataOutputStream output;
@@ -13,16 +15,25 @@ public class Client {
 	public Client(String ip, int puerto) {
 		try {
 			client = new Socket(ip, puerto);
+			input = new DataInputStream(client.getInputStream());
+			output = new DataOutputStream(client.getOutputStream());
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					getMessage();
+					sendMessage();
+				}
+			});
+			thread.start();
 		} catch (IOException e) {
 			System.out.println("Error del cliente..." + e.getMessage());
 		}
 	}
 	
-	public void sendMessage (String text) {
+	public void sendMessage () {
 		
 		try {
 			output = new DataOutputStream(client.getOutputStream());
-			output.writeUTF(text);
+//			output.writeUTF(text);
 //			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -30,16 +41,10 @@ public class Client {
 		}
 	}
 	
-	public String getMessage() {
-		try {
-			input = new DataInputStream(client.getInputStream());
-			String text =  input.readUTF();
-//			input.close();
-			return text;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			return e.getMessage();
-		}
+	public TableroInfo getMessage() {
+//		String text =  input.readUTF();
+		return null;
+
 	}
 	
 	public void closeClient() {
