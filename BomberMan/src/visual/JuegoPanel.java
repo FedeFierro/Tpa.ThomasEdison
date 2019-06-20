@@ -57,11 +57,20 @@ public class JuegoPanel extends JPanel {
 		TableroInfo data = tablero.getSerializeInfo();
 		Gson gson = new Gson();
 		String s = gson.toJson(data);
-		System.out.println(s);
 		
 		TableroInfo resulta = new TableroInfo(10);
 		resulta = gson.fromJson(s, resulta.getClass());
 		
+		for(JugadorInfo ji : resulta.jugadoresInfo) {
+			System.out.println(ji.nombre);
+			System.out.println(ji.imagen);
+			
+		}
+		for(ElementoInfo ei : resulta.elementos) {
+			System.out.println(ei.x);
+			System.out.println(ei.imagen);
+			
+		}
 		
 		/* Este data hay que pedirselo al cliente */
 	

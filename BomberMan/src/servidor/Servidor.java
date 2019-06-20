@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import entidades.Jugador;
 import entidades.Tablero;
@@ -12,6 +14,8 @@ public class Servidor {
 	private ServerSocket serverSocket;
 	private Thread buscarConexion;
 	private ArrayList<ConexionCliente> listaClientes;
+	private Timer timer;
+	private TimerTask senData;
 
 	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre) {
 		try {
@@ -61,7 +65,17 @@ public class Servidor {
 
 	public void iniciarPartida() {
 		buscarConexion.interrupt();
+		timer = new Timer();
+		senData = new TimerTask() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 		tablero.iniciarJuego();
+		
 	}
 
 }

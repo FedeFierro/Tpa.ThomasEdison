@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Spliterator;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -69,8 +70,27 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	@Override
 	public TableroInfo deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context)
 			throws JsonParseException {
+<<<<<<< HEAD
 		Gson gson = new Gson();
 	    TableroInfo tablero = gson.fromJson(jsonElement, type);
+=======
+	 JsonObject jo = jsonElement.getAsJsonObject();
+	 
+	 JsonArray ja =jo.getAsJsonArray("jugadoresInfo");
+	 
+		
+	    TableroInfo tablero = new Gson().fromJson(jsonElement, type);
+	    for(JsonElement je : ja) {
+	    	tablero.jugadoresInfo.add(new Gson().fromJson(je, JugadorInfo.class));
+	    	
+		 }
+	     ja =jo.getAsJsonArray("elementos");
+	     for(JsonElement je : ja) {
+		    	tablero.elementos.add(new Gson().fromJson(je, ElementoInfo.class));
+		    	
+			 } 
+		
+>>>>>>> branch 'master' of https://github.com/FedeFierro/Tpa.ThomasEdison.git
 	    return tablero;
 	}
 	
