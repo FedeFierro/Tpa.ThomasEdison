@@ -1,62 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path=""/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/antlr-2.7.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/byte-buddy-1.9.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/cache-api-1.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/classmate-1.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/classmate-1.3.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/dom4j-2.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/ehcache-2.10.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/FastInfoset-1.2.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/geolatte-geom-1.4.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/gson-2.8.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate4-sqlite-dialect-0.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-commons-annotations-5.0.1.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-commons-annotations-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-core-5.2.11.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-core-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-ehcache-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-entitymanager.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-envers-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-hikaricp-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-jcache-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-jpamodelgen-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-osgi-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-proxool-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-spatial-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/hibernate-vibur-5.4.3.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/HikariCP-3.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/istack-commons-runtime-3.0.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jandex-2.0.5.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/javassist-3.20.0-GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/javassist-3.24.0-GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/javax.activation-api-1.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/javax.interceptor-api-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/javax.persistence-api-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jaxb-api-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jaxb-runtime-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jboss-logging-3.3.0.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jboss-logging-3.3.2.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jboss-transaction-api_1.2_spec-1.0.1.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jboss-transaction-api_1.2_spec-1.1.1.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jta.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/jts-core-1.16.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/org.osgi.compendium-5.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/org.osgi.core-6.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/postgresql-42.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/proxool-0.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/slf4j-api-1.7.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/slf4j-api-1.7.13.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/slf4j-api-1.7.25.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/slf4j-simple-1.7.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/sqlite-jdbc-3.7.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/stax-ex-1.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/txw2-2.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/vibur-dbcp-22.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/salguerojonatan/git/Tpa.ThomasEdison/BomberMan/libreria/vibur-object-pool-22.2.jar"/>
+	<classpathentry excluding="resources/|src/|libs/" kind="src" path=""/>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="libs"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 12 [12]">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="libs/antlr-2.7.7.jar"/>
+	<classpathentry kind="lib" path="libs/byte-buddy-1.9.10.jar"/>
+	<classpathentry kind="lib" path="libs/classmate-1.3.4.jar"/>
+	<classpathentry kind="lib" path="libs/dom4j-2.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/FastInfoset-1.2.15.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-commons-annotations-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-core-5.4.3.Final.jar"/>
+	<classpathentry kind="lib" path="libs/istack-commons-runtime-3.0.7.jar"/>
+	<classpathentry kind="lib" path="libs/jandex-2.0.5.Final.jar"/>
+	<classpathentry kind="lib" path="libs/javassist-3.24.0-GA.jar"/>
+	<classpathentry kind="lib" path="libs/javax.activation-api-1.2.0.jar"/>
+	<classpathentry kind="lib" path="libs/javax.persistence-api-2.2.jar"/>
+	<classpathentry kind="lib" path="libs/jaxb-api-2.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/jaxb-runtime-2.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/jboss-logging-3.3.2.Final.jar"/>
+	<classpathentry kind="lib" path="libs/jboss-transaction-api_1.2_spec-1.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="libs/stax-ex-1.8.jar"/>
+	<classpathentry kind="lib" path="libs/txw2-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
