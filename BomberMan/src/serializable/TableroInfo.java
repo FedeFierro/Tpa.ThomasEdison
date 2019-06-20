@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -68,10 +69,22 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	@Override
 	public TableroInfo deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context)
 			throws JsonParseException {
-		// TODO Auto-generated method stub
-//		Type typeToken = new TypeToken<ArrayList<TableroInfo>>() { }.getType();
+	 JsonObject jo = jsonElement.getAsJsonObject();
 	 
+	 JsonArray ja =jo.getAsJsonArray("jugadoresInfo");
+	 
+		
 	    TableroInfo tablero = new Gson().fromJson(jsonElement, type);
+	    for(JsonElement je : ja) {
+	    	tablero.jugadoresInfo.add(new Gson().fromJson(je, JugadorInfo.class));
+	    	
+		 }
+	     ja =jo.getAsJsonArray("elementos");
+	     for(JsonElement je : ja) {
+		    	tablero.elementos.add(new Gson().fromJson(je, ElementoInfo.class));
+		    	
+			 } 
+		
 	    return tablero;
 	}
 	
