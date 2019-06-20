@@ -129,7 +129,7 @@ public class Imagenes {
 	public Image player4_45;
 	public Image otras_win;
 	
-	public void buildImagenes() {
+	public Imagenes() {
 		/**
 		 * Utiliza reflection, cicla por todas las propiedaes de este objeto parsea su
 		 * nombre para generar la url de la imagen y carga la Imagen y la propiedad
@@ -148,7 +148,7 @@ public class Imagenes {
 
 			}
 
-		} catch (IllegalArgumentException | IllegalAccessException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

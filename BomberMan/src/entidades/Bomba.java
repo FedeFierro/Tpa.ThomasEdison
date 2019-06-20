@@ -4,6 +4,7 @@ import java.util.TimerTask;
 
 import helper.DireccionEnum;
 import helper.Helper;
+import helper.Sonidos;
 
 public class Bomba extends Elemento {
 	private Jugador jugador;
@@ -24,7 +25,6 @@ public class Bomba extends Elemento {
 	public Bomba(Tablero tablero, Jugador jugador) {
 		super(new Coordenada(jugador.pos.x, jugador.pos.y), tablero);
 		setImageName(1);
-		loadSound();
 		tiempoexplosion = 3000;
 		activar();		
 		this.jugador = jugador;
@@ -49,9 +49,10 @@ public class Bomba extends Elemento {
 			tablero.quitarBomba(this);
 			
 			Elemento e = tablero.getJugador(this.pos);
+			
 			new Explosion(this.pos, tablero, DireccionEnum.C, e,jugador);
 			// if (e!=null) e.explotar();
-
+			
 			for (int i = 1; i <= rango; i++) {
 				fin = i == rango;
 				/* HACIA ATRAS */
@@ -100,13 +101,14 @@ public class Bomba extends Elemento {
 	}// fin explotarBomba
 
 	protected void activar() {
+		sonido = Sonidos.BOMB_SND;
+		
 		Timer t = new Timer();
 		
 		TimerTask a = new TimerTask() {
 			int cont = 1;
 			@Override
 			public void run() {
-				sonido.start();
 				setImageName(cont);
 				cont = cont > 2 ? 1 : cont + 1;
 			}
@@ -120,11 +122,6 @@ public class Bomba extends Elemento {
 		};
 		t.schedule(a, 0, 1000 / 4);
 		t.schedule(c, tiempoexplosion);
-	}
-
-	protected void loadSound() {
-		String name="/bomba/Bomba"+Helper.SOUND_EXT;
-		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
 	}
 
 	@Override

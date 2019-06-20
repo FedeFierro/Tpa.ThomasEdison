@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import helper.DireccionEnum;
 import helper.Helper;
+import helper.Sonidos;
 
 public class Explosion extends Elemento {
 	protected DireccionEnum tipo;
@@ -17,37 +18,28 @@ public class Explosion extends Elemento {
 		this.elemento = e;
 		this.jugador=j;
 		setImageName(0);
-		loadSound();
 		explotar();
 	}
 
 	@Override
 	public int explotar() {
 		int puntos =0;
+		sonido= (tipo == DireccionEnum.C) ? Sonidos.EXP_SND :"";
 		if (elemento == null || elemento.esTransitable()) {
 			tablero.setExplosion(this);
 		} else if (elemento instanceof Jugador) {
 			tablero.setExplosion(this);
-			puntos+=elemento.explotar();	
-			
-
+			puntos+=elemento.explotar();
 		} else
 
 		{
 			puntos +=elemento.explotar();
-			sonido.start();
 		}
 		jugador.sumarPuntos(puntos);
 		desaparecer();
 		return Helper.PUNTO_NULOS;
 
 	}
-
-	protected void loadSound() {
-		String name = "/explosion/Explosion" + Helper.SOUND_EXT;
-		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
-	}
-
 	protected void desaparecer() {
 		Explosion e = this;
 		Timer t = new Timer();

@@ -17,7 +17,7 @@ public class TableroTest {
 		tablero = new Tablero(5,5,100,2); 
 		pared= new Pared(2,2,tablero);
 		jugador = new Jugador(1,1,tablero);
-		tablero.setJugador(jugador);
+		tablero.setJugadorTest(jugador);
 		muro = new Muro(4,4,tablero);
 		coordenada = new Coordenada(1,2);
  	}

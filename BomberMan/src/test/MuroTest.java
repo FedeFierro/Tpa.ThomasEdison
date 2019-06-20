@@ -14,7 +14,7 @@ public class MuroTest {
 	
 	@Before
 	public void IniciarTest() {
-		tablero = new Tablero(25,40);
+		tablero = new Tablero(25,40,200,5);
 		muro=new Muro(2,3,tablero);
 	}
 	

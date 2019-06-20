@@ -11,6 +11,7 @@ public class TableroInfo {
 	public int puntosPartida;
 	public String ganador;
 	public boolean finJuego;
+	public String sonido;
 	public List<JugadorInfo> jugadoresInfo;
 	public List<ElementoInfo> elementos;
 	

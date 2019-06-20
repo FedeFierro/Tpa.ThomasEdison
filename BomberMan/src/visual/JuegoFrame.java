@@ -28,7 +28,7 @@ public class JuegoFrame extends JFrame{
 				setMovimiento(arg0);
 			}
 		});
-		Tablero t = new Tablero(100,3);
+		Tablero t = new Tablero(50,1);
 		j = new Jugador(t, "Jugador1");
 		t.setJugador(j);
 		Jugador j2 = new Jugador(t, "Jugador2");

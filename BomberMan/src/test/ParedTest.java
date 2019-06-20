@@ -10,7 +10,7 @@ public class ParedTest {
 	private Tablero tablero;
 	@Before
 	public void IniciarTest() {
-		tablero = new Tablero(25,40);
+		tablero = new Tablero(25,40,200,5);
 		pared=new Pared(2,3,tablero);
 	}
 	@After
@@ -24,8 +24,9 @@ public class ParedTest {
 		assertEquals(pared, tablero.getElemento(pared.getPos()));
 	}
 	@Test
-	public void explotarTest() {
+	public void explotarTest() throws InterruptedException {
 		pared.explotar();
+		Thread.sleep(3000);
 		assertNotEquals(pared, tablero.getElemento(pared.getPos()));		
 	}
 	@Test

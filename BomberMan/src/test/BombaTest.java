@@ -19,7 +19,7 @@ public class BombaTest {
 	Jugador jugador;
 	@Before
 	public void inicializar() {
-		tablero = new Tablero(25,30);
+		tablero = new Tablero(25,30,200,4);
 		jugador= new Jugador(1,1,tablero);
 		bomba=new Bomba(5,5,tablero,jugador);
 	}

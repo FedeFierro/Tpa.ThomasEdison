@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import javax.sound.sampled.Clip;
 
 import helper.Helper;
+import helper.Sonidos;
 import serializable.ElementoInfo;
 import serializable.JugadorInfo;
 import serializable.TableroInfo;
@@ -21,7 +22,7 @@ public class Tablero {
 	private Elemento[][] explosiones;
 	private Jugador[][] elementosMov;
 	private List<Jugador> jugadores;
-	private Clip sonido;
+	private boolean playSound;
 	private int tiempo;
 	private long start;
 	public TableroInfo info;
@@ -44,7 +45,6 @@ public class Tablero {
 		info = new TableroInfo(puntosPartida);
 		this.tiempo = tiempo;
 		jugadores = new ArrayList<Jugador>();
-		loadSound();
 	}
 
 	private void iniciartablero() {
@@ -116,6 +116,9 @@ public class Tablero {
 		elementosMov[j.pos.x][j.pos.y] = null;
 	}
 
+	public void setJugadorTest(Jugador j) {
+		 elementosMov[j.pos.x][j.pos.y] = j;
+	}
 	public void setJugador(Jugador j) {
 		// elementosMov[j.pos.x][j.pos.y] = j;
 		jugadores.add(j);
@@ -150,7 +153,12 @@ public class Tablero {
 		return new Coordenada(x, y);
 	}
 	public TableroInfo getSerializeInfo() {
-
+		if(info.sonido!=null && !info.sonido.isEmpty()&&!playSound) {
+			playSound=true;
+		}else {
+			playSound=false;
+			info.sonido="";
+		}
 		if (info.pausa) {
 			return info;
 		}
@@ -162,19 +170,19 @@ public class Tablero {
 		for (int x = 0; x < ancho; x++) {
 			for (int y = 0; y < ancho; y++) {
 				Elemento e = elementos[x][y];
-				elements.add(new ElementoInfo(e.pos.rx, Helper.HEAD_Y + e.pos.ry, e.imgFinal, Helper.PX, Helper.PX));
+				elements.add(new ElementoInfo(e.pos.rx, Helper.HEAD_Y + e.pos.ry, e.imgFinal, Helper.PX, Helper.PX,e.getSound()));
+				
 				Elemento b = bombas[x][y];
 				if (b != null) {
-					bombs.add(new ElementoInfo(b.pos.rx, Helper.HEAD_Y + b.pos.ry, b.imgFinal, Helper.PX, Helper.PX));
+					bombs.add(new ElementoInfo(b.pos.rx, Helper.HEAD_Y + b.pos.ry, b.imgFinal, Helper.PX, Helper.PX, b.getSound()));
 				}
 				Elemento exp = explosiones[x][y];
-				if (exp != null) {
-					exps.add(new ElementoInfo(exp.pos.rx, Helper.HEAD_Y + exp.pos.ry, exp.imgFinal, Helper.PX,
-							Helper.PX));
+				if (exp != null) {exps.add(new ElementoInfo(exp.pos.rx, Helper.HEAD_Y + exp.pos.ry, exp.imgFinal, Helper.PX,
+							Helper.PX,exp.getSound()));
 				}
 				Jugador j = elementosMov[x][y];
 				if (j != null) {
-					players.add(new ElementoInfo(j.pos.rx, Helper.HEAD_Y + j.pos.ry, j.imgFinal, Helper.PX, Helper.PX));
+					players.add(new ElementoInfo(j.pos.rx, Helper.HEAD_Y + j.pos.ry, j.imgFinal, Helper.PX, Helper.PX,j.getSound()));
 				}
 
 			}
@@ -183,6 +191,7 @@ public class Tablero {
 			jugInfo.add(j.info);
 		}
 		info.tiempo = getTime().toString();
+	
 		info.elementos = new ArrayList<ElementoInfo>();
 		info.elementos.addAll(elements);
 		info.elementos.addAll(bombs);
@@ -252,16 +261,6 @@ public class Tablero {
 
 	}
 
-	protected void loadSound() {
-		String name = "/sounds/StageTheme" + Helper.SOUND_EXT;
-		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
-	}
-
-	public Clip getSound() {
-		return sonido;
-	}
-
-	
 	private Integer getTime() {
 		if (info.pausa || info.finJuego) {
 			return 0;
@@ -312,6 +311,7 @@ public class Tablero {
 
 	}
 	private void finalizarJuego() {
+		info.sonido=Sonidos.END_SND;
 		info.finJuego=true;
 		
 	}
@@ -319,11 +319,13 @@ public class Tablero {
 	
 	private void crearNuevoNivel() {
 		info.nivel++;
+		info.sonido=Sonidos.START_SND;
 		Timer tim = new Timer();
 		TimerTask cambio = new TimerTask() {
 
 			@Override
 			public void run() {
+				
 				iniciartablero();
 				for (Jugador j : jugadores) {
 					j.reiniciarNivel();
@@ -331,6 +333,7 @@ public class Tablero {
 				}
 				info.pausa = false;
 				start = System.currentTimeMillis();
+				info.sonido = Sonidos.GAME_SND;
 			}
 		};
 		tim.schedule(cambio, Helper.DELAY);

@@ -40,7 +40,7 @@ public class Pared extends Elemento {
         	public void run() {
         		cont++;
         		if(cont > 4) {
-        			
+        			tablero.quitarExplosion(e);
         			cancel();        			
         		}else{
         		setImageName(cont);

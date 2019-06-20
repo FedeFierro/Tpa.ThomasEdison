@@ -9,7 +9,8 @@ public abstract class Elemento {
 	protected Tablero tablero;
 	protected boolean vivo;
 	protected String imgFinal;
-	protected Clip sonido;
+	protected String sonido;
+	protected boolean playSound;
 
 	/*
 	 *Constructor de Test 
@@ -55,7 +56,13 @@ public abstract class Elemento {
 		return imgFinal;
 	}
 	
-	public Clip sound() {
+	public String getSound() {
+		if(sonido!=null && !sonido.isEmpty() && !playSound) {
+			playSound=true;
+		}else {
+			playSound=false;
+			sonido="";
+		}
 		return sonido;
 	}
 	protected abstract void setImageName(Integer numero);

@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import helper.DireccionEnum;
 import helper.Helper;
+import helper.Sonidos;
 import serializable.JugadorInfo;
 
 public class Jugador extends Elemento {
@@ -30,7 +31,6 @@ public class Jugador extends Elemento {
 		pos = tablero.getPosicionInicialJugador(info.numero);
 		bombasPlantadas = 0;
 		setImageName(11);
-		loadSound();
 	}
 
 	public Jugador(int x, int y, Tablero tablero) {
@@ -40,7 +40,6 @@ public class Jugador extends Elemento {
 		info = new JugadorInfo(cont,"jugador "+cont);
 		bombasPlantadas = 0;
 		setImageName(11);
-		loadSound();
 		tablero.setJugador(this);
 	}
 
@@ -89,7 +88,7 @@ public class Jugador extends Elemento {
 	private void animateExplosion() {
 		Jugador j = this;
 		Timer t = new Timer();
-		sonido.start();
+		sonido=Sonidos.LIFE_SND;
 		TimerTask d = new TimerTask() {
 			int cont = 1;
 
@@ -165,12 +164,6 @@ public class Jugador extends Elemento {
 		}
 		return false;
 	}
-
-	protected void loadSound() {
-		String name = "/sounds/LifeLost" + Helper.SOUND_EXT;
-		sonido = Helper.getSonido(getClass().getResourceAsStream(name));
-	}
-
 	@Override
 	protected void setImageName(Integer numero) {
 		String num = numero < 10 ? "0" + numero : numero.toString();
