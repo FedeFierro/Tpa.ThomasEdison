@@ -2,9 +2,7 @@ package serializable;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Spliterator;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -27,10 +25,14 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	public String ganador;
 	public boolean finJuego;
 	public String sonido;
+	public boolean iniciado;
+	public String mensaje;
 	public List<JugadorInfo> jugadoresInfo;
 	public List<ElementoInfo> elementos;
 	
 	public TableroInfo(int puntosPartida) {
+		this.iniciado=false;
+		this.mensaje= "Esperando Conexion de jugadores...";
 		this.nivel=0;
 		this.tiempo="--";
 		this.ganador="";
@@ -43,9 +45,10 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 
 	@Override
 	public JsonElement serialize(TableroInfo tableroInfo, Type type, JsonSerializationContext conext) {
-		// TODO Auto-generated method stub
 				
 		JsonObject resultado = new JsonObject();
+		resultado.add("iniciado", new JsonPrimitive(iniciado));
+		resultado.add("mensaje", new JsonPrimitive(mensaje));
 		resultado.add("nivel", new JsonPrimitive(nivel));
 		resultado.add("tiempo", new JsonPrimitive(tiempo));
 		resultado.add("imagen", new JsonPrimitive(imagen));
@@ -90,6 +93,8 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	}
 	
 	public void copyData(TableroInfo tablero) {
+		this.iniciado = tablero.iniciado;
+		this.mensaje= tablero.mensaje;
 		this.nivel = tablero.nivel;
 		this.tiempo =  tablero.tiempo;
 		this.imagen =  tablero.imagen;

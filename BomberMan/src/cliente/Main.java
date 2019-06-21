@@ -8,11 +8,9 @@ public class Main {
 	public static void main(String[] args) {
 		TableroInfo ti = new TableroInfo(0);
 		System.out.println("iniciando cliente....");
-		 Client c = new Client("192.168.100.100", 11000, ti);
+		 Client c = new Client("192.168.100.100", 11000, ti, "Oscar");
 		 
-		 int cont =0;
 		 while(true) {
-			 cont++;
 			
 			 System.out.println(ti.imagen);
 			 

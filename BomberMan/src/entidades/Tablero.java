@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.sound.sampled.Clip;
-
 import helper.Helper;
 import helper.Sonidos;
 import serializable.ElementoInfo;
@@ -207,7 +204,14 @@ public class Tablero {
 	}
 
 	public void iniciarJuego() {
+		info.iniciado=true;
+		info.mensaje="";
 		crearNuevoNivel();
+	}
+	public void removerJugador(Jugador j) {
+		quitarJugador(j);
+		jugadores.remove(j);
+		info.jugadoresInfo.remove(j.info);
 	}
 
 	/*

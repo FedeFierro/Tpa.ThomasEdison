@@ -1,9 +1,5 @@
 package entidades;
 
-import java.awt.Image;
-
-import javax.sound.sampled.Clip;
-
 public abstract class Elemento {
 	protected Coordenada pos;
 	protected Tablero tablero;

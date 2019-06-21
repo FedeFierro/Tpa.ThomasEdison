@@ -1,7 +1,5 @@
 package visual;
 
-import static javax.sound.sampled.Clip.LOOP_CONTINUOUSLY;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -10,11 +8,7 @@ import java.util.TimerTask;
 
 import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
-
-import com.google.gson.Gson;
-
 import cliente.Client;
-import entidades.*;
 import helper.Helper;
 import helper.Imagenes;
 import helper.Sonidos;
@@ -22,11 +16,10 @@ import serializable.ElementoInfo;
 import serializable.JugadorInfo;
 import serializable.TableroInfo;
 
+@SuppressWarnings("serial")
 public class JuegoPanel extends JPanel {
 	private Imagenes imgs;
 	private Sonidos snds;
-	private static final long serialVersionUID = 1L;
-	private Tablero tablero;
 	private TimerTask repintar;
 	private Clip sonidoJuego;
 	private Clip sonidoStart;
@@ -34,11 +27,11 @@ public class JuegoPanel extends JPanel {
 	private TableroInfo data;
 	private Client client;
 
-	public JuegoPanel() {
+	public JuegoPanel(String ip, int port, String usuario) {
 		data = new TableroInfo(0);
 		imgs = new Imagenes();
 		snds = new Sonidos();
-		client = new Client("192.168.100.100", 11000, data);
+		client = new Client(ip, port, data, usuario);
 		Timer b = new Timer();
 		repintar = new TimerTask() {
 			public void run() {
@@ -51,15 +44,18 @@ public class JuegoPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		setBackground(Color.BLACK);
-		/* Este data hay que pedirselo al cliente */
-//		System.out.println(data.elementos.size());
-//		if(data.elementos.size() >0) {
-//			System.out.println(data.elementos.get(0));
-//			System.out.println(data.elementos.get(1));
-//		}
-//		System.out.println(data.jugadoresInfo.size());
-
-		if (data.finJuego) {
+		Font font;
+		g.setColor(Color.WHITE);
+		
+		if(!data.iniciado) {
+			font = new Font("Arial",Font.BOLD,20);
+			g.setFont(font);
+			g.drawString(data.mensaje, 0, 200);
+			
+		}else if (data.finJuego) {
+			font= new Font("Arial", Font.BOLD, 40);
+			g.setFont(font);
+					 
 			if (data.sonido != null && !data.sonido.isEmpty()) {
 				snds.close(sonidoStart);
 				snds.close(sonidoJuego);
@@ -68,15 +64,15 @@ public class JuegoPanel extends JPanel {
 					snds.start(sonidoEnd, false);
 				}
 			}
-			Font f = new Font("Arial", Font.BOLD, 40);
-			g.setColor(Color.WHITE);
-			g.setFont(f);
 			g.drawImage(imgs.getImage("otras_win"), 0, 50, 600, 600, null);
 			g.drawString(data.ganador, 100, 200);
 			g.drawString(Helper.TEXT_END_GAME, 150, 100);
 			repintar.cancel();
 
 		} else if (data.pausa) {
+			font= new Font("Arial", Font.BOLD, 40);
+			g.setFont(font);
+			
 			if (data.sonido != null && !data.sonido.isEmpty()) {
 				snds.close(sonidoJuego);
 				if (!snds.isRunning(sonidoStart)) {
@@ -84,14 +80,14 @@ public class JuegoPanel extends JPanel {
 					snds.start(sonidoStart, false);
 				}
 			}
-			Font f = new Font("Arial", Font.BOLD, 40);
-			g.setColor(Color.WHITE);
-			g.setFont(f);
 			g.drawString(data.ganador, 100, 200);
 
 			g.drawString(String.format(Helper.TEXT_NIVEL, data.nivel), 200, 400);
 
 		} else {
+			font= new Font("Arial", Font.BOLD, 15);
+			g.setFont(font);
+			
 			if (data.sonido != null && !data.sonido.isEmpty()) {
 				snds.close(sonidoStart);
 				if (!snds.isRunning(sonidoJuego)) {
@@ -100,10 +96,7 @@ public class JuegoPanel extends JPanel {
 				}
 
 			}
-			Font f = new Font("Arial", Font.BOLD, 15);
-			g.setColor(Color.WHITE);
-			g.setFont(f);
-
+			
 			g.drawString(String.format(Helper.TEXT_NIVEL, data.nivel), 250, 30);
 			g.drawString(String.format(Helper.TEXT_TIEMPO, data.tiempo), 250, 60);
 
@@ -132,6 +125,9 @@ public class JuegoPanel extends JPanel {
 
 	public void getCodTecla(int codTecla) {
 		client.sendMessage(codTecla);
+	}
+	public void close() {
+		client.close();
 	}
 
 }

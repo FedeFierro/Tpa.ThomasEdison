@@ -17,13 +17,14 @@ public class ServerFrame  extends JFrame{
 	JTextArea txtArea;
 	JButton btnStart;
 	JButton btnStop;
+	JButton btnIniciarPartida;
 	JPanel contentPane;
 	ConsolePane consolePane;
 
 	public ServerFrame() {	
 	setTitle("Chat Server");
 	setResizable(false);
-	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 600, 500);
 	JPanel pane1 = new JPanel();
 	contentPane = new JPanel();
@@ -41,7 +42,7 @@ public class ServerFrame  extends JFrame{
 	});
 	pane1.add(btnStart);
 	btnStop = new JButton("Finalizar Server");
-	btnStop.setBounds(400, 0, 150, 50);
+	btnStop.setBounds(250, 0, 150, 50);
 	btnStop.addActionListener(new ActionListener() {
 
 	    @Override
@@ -52,9 +53,22 @@ public class ServerFrame  extends JFrame{
 	});	
 	btnStop.setEnabled(false);
 	pane1.add(btnStop);
+	btnIniciarPartida = new JButton("Iniciar Partida");
+	btnIniciarPartida.setBounds(450, 0, 150, 50);
+	btnIniciarPartida.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+	        iniciarPartida();
+	    }
+
+	});	
+	btnIniciarPartida.setEnabled(false);
+	pane1.add(btnIniciarPartida);
 	add(pane1, BorderLayout.BEFORE_FIRST_LINE);
 	consolePane  = new ConsolePane();
 	add(consolePane);
+	
 	addWindowListener(new WindowAdapter() {
 		@Override
 		public void windowClosing(WindowEvent arg0) {
@@ -62,6 +76,7 @@ public class ServerFrame  extends JFrame{
 			close();
 		}
 	});
+	
 	setLocationRelativeTo(null);
 	}
 	
@@ -72,11 +87,16 @@ public class ServerFrame  extends JFrame{
 		consolePane.startServer();
 		btnStart.setEnabled(false);
 		btnStop.setEnabled(true);
+		btnIniciarPartida.setEnabled(true);
 	}
 	private void stopServer() {
 		consolePane.stopServer();
 		btnStart.setEnabled(true);
 		btnStop.setEnabled(false);
+		btnIniciarPartida.setEnabled(false);
 	}
-	
+	private void iniciarPartida() {
+		btnIniciarPartida.setEnabled(false);
+		consolePane.iniciarPartida();
+	}
 }

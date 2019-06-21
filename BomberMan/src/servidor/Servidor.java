@@ -1,7 +1,10 @@
 package servidor;
+
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,12 +24,12 @@ public class Servidor {
 	private TimerTask sendData;
 	private ObservableData data;
 
-	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre,ObservableData data) {
+	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre, ObservableData data) {
 		try {
 			InetAddress ipDireccion = InetAddress.getLocalHost();
-			this.data=data;
+			this.data = data;
 			serverSocket = new ServerSocket(port);
-			data.setData("Servidor iniciado IP: "+ ipDireccion.getHostAddress().toString() + " puerto: "+port);
+			data.setData("Servidor iniciado IP: " + ipDireccion.getHostAddress().toString() + " puerto: " + port);
 			tablero = new Tablero(tiempo, puntosPartida);
 			/* guardar en la base de datos */
 			listaClientes = new ArrayList<ConexionCliente>();
@@ -36,21 +39,24 @@ public class Servidor {
 				public void run() {
 					try {
 						int cantJugador = cantJugadores;
-						for (int i = 0; i < cantJugador; i++) {
-							Jugador j = new Jugador(tablero,"Oscar");
-							ConexionCliente cliente = new ConexionCliente(serverSocket.accept(), j);
-							data.setData("Cliente conectado: "+(i+1));
+						for (int i = 1; i <= cantJugador; i++) {
+							Socket sc = serverSocket.accept();
+							DataInputStream input = new DataInputStream(sc.getInputStream());
+							String usuario = input.readUTF();
+							Jugador j = new Jugador(tablero, usuario, i);
+							ConexionCliente cliente = new ConexionCliente(sc, j);
+							data.setData("Cliente " + i + " " + usuario + " conectado");
 							listaClientes.add(cliente);
-							data.setData("Clientes conectados: "+listaClientes.size());
+							data.setData("Clientes conectados: " + listaClientes.size() + "/" + cantJugadores);
 							tablero.setJugador(j);
 							cliente.start();
-							
+
 						}
 						iniciarPartida();
 					} catch (Exception e) {
 						data.setData(e.getMessage());
 					}
-					
+
 				}
 
 			});
@@ -73,27 +79,39 @@ public class Servidor {
 	}
 
 	public void iniciarPartida() {
-		data.setData("iniciando Partida....");
-		buscarConexion.interrupt();
-		timer = new Timer();
-		sendData = new TimerTask() {
-			@Override
-			public void run() {
-				TableroInfo ti =tablero.getSerializeInfo();
-				Gson gson = new Gson();
-				String datos  = gson.toJson(ti);
-				boolean hayClietes=false;
-				for(ConexionCliente cc : listaClientes) {
-					cc.sendData(datos);
+		if (!tablero.info.iniciado) {
+			data.setData("iniciando Partida....");
+			buscarConexion.interrupt();
+			timer = new Timer();
+			sendData = new TimerTask() {
+				@Override
+				public void run() {
+					TableroInfo ti = tablero.getSerializeInfo();
+					Gson gson = new Gson();
+					String datos = gson.toJson(ti);
+					ArrayList<ConexionCliente> desconectados = new ArrayList<ConexionCliente>();
+					for (ConexionCliente cc : listaClientes) {
+						if (!cc.sendData(datos)) {
+							desconectados.add(cc);
+						}
+					}
+					elimiarDesconectados(desconectados);
+
 				}
-				
-				
-			}
-		};
-		tablero.iniciarJuego();
-		
-		timer.schedule(sendData, 0, 1000/100);
+			};
+			tablero.iniciarJuego();
+
+			timer.schedule(sendData, 0, 1000 / 100);
+		}
 	}
-	
+
+	private void elimiarDesconectados(ArrayList<ConexionCliente> desconectados) {
+		for (ConexionCliente desc : desconectados) {
+			data.setData( desc.usuario+" desconectado");
+			desc.removerJugador();
+			listaClientes.remove(desc);
+		}
+
+	}
 
 }
