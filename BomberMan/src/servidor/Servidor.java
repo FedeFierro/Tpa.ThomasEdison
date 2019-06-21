@@ -36,15 +36,13 @@ public class Servidor {
 				public void run() {
 					try {
 						int cantJugador = cantJugadores;
-						for (int i = 0; i < 1; i++) {
+						for (int i = 0; i < cantJugador; i++) {
 							Jugador j = new Jugador(tablero,"Oscar");
-							Jugador j2 = new Jugador(tablero, "Jonny");
 							ConexionCliente cliente = new ConexionCliente(serverSocket.accept(), j);
 							data.setData("Cliente conectado: "+(i+1));
 							listaClientes.add(cliente);
 							data.setData("Clientes conectados: "+listaClientes.size());
 							tablero.setJugador(j);
-							tablero.setJugador(j2);
 							cliente.start();
 							
 						}

@@ -30,7 +30,7 @@ public class Tablero {
 	/*
 	 * Constructor de Tests
 	 */
-	public Tablero(int a, int l, int tiempo, int puntosPartida){
+	public Tablero(int a, int l, int tiempo, int puntosPartida) {
 		this.ancho = a;
 		this.largo = l;
 		inicializarArrays();
@@ -38,7 +38,7 @@ public class Tablero {
 		info = new TableroInfo(puntosPartida);
 		this.tiempo = tiempo;
 		jugadores = new ArrayList<Jugador>();
-	
+
 	}
 
 	public Tablero(int tiempo, int puntosPartida) {
@@ -117,8 +117,9 @@ public class Tablero {
 	}
 
 	public void setJugadorTest(Jugador j) {
-		 elementosMov[j.pos.x][j.pos.y] = j;
+		elementosMov[j.pos.x][j.pos.y] = j;
 	}
+
 	public void setJugador(Jugador j) {
 		// elementosMov[j.pos.x][j.pos.y] = j;
 		jugadores.add(j);
@@ -152,12 +153,13 @@ public class Tablero {
 		int y = numJugador == 1 || numJugador == 2 ? 1 : largo - 2;
 		return new Coordenada(x, y);
 	}
+
 	public TableroInfo getSerializeInfo() {
-		if(info.sonido!=null && !info.sonido.isEmpty()&&!playSound) {
-			playSound=true;
-		}else {
-			playSound=false;
-			info.sonido="";
+		if (info.sonido != null && !info.sonido.isEmpty() && !playSound) {
+			playSound = true;
+		} else {
+			playSound = false;
+			info.sonido = "";
 		}
 		if (info.pausa) {
 			return info;
@@ -170,19 +172,23 @@ public class Tablero {
 		for (int x = 0; x < ancho; x++) {
 			for (int y = 0; y < ancho; y++) {
 				Elemento e = elementos[x][y];
-				elements.add(new ElementoInfo(e.pos.rx, Helper.HEAD_Y + e.pos.ry, e.imgFinal, Helper.PX, Helper.PX,e.getSound()));
-				
+				elements.add(new ElementoInfo(e.pos.rx, Helper.HEAD_Y + e.pos.ry, e.imgFinal, Helper.PX, Helper.PX,
+						e.getSound()));
+
 				Elemento b = bombas[x][y];
 				if (b != null) {
-					bombs.add(new ElementoInfo(b.pos.rx, Helper.HEAD_Y + b.pos.ry, b.imgFinal, Helper.PX, Helper.PX, b.getSound()));
+					bombs.add(new ElementoInfo(b.pos.rx, Helper.HEAD_Y + b.pos.ry, b.imgFinal, Helper.PX, Helper.PX,
+							b.getSound()));
 				}
 				Elemento exp = explosiones[x][y];
-				if (exp != null) {exps.add(new ElementoInfo(exp.pos.rx, Helper.HEAD_Y + exp.pos.ry, exp.imgFinal, Helper.PX,
-							Helper.PX,exp.getSound()));
+				if (exp != null) {
+					exps.add(new ElementoInfo(exp.pos.rx, Helper.HEAD_Y + exp.pos.ry, exp.imgFinal, Helper.PX,
+							Helper.PX, exp.getSound()));
 				}
 				Jugador j = elementosMov[x][y];
 				if (j != null) {
-					players.add(new ElementoInfo(j.pos.rx, Helper.HEAD_Y + j.pos.ry, j.imgFinal, Helper.PX, Helper.PX,j.getSound()));
+					players.add(new ElementoInfo(j.pos.rx, Helper.HEAD_Y + j.pos.ry, j.imgFinal, Helper.PX, Helper.PX,
+							j.getSound()));
 				}
 
 			}
@@ -191,7 +197,7 @@ public class Tablero {
 			jugInfo.add(j.info);
 		}
 		info.tiempo = getTime().toString();
-	
+
 		info.elementos = new ArrayList<ElementoInfo>();
 		info.elementos.addAll(elements);
 		info.elementos.addAll(bombs);
@@ -199,10 +205,10 @@ public class Tablero {
 		info.elementos.addAll(players);
 		return info;
 	}
+
 	public void iniciarJuego() {
 		crearNuevoNivel();
 	}
-
 
 	/*
 	 * metodos privados internos
@@ -279,7 +285,7 @@ public class Tablero {
 		}
 		return time;
 	}
-	
+
 	private void finalizarNivel() {
 		info.pausa = true;
 		setGanador();
@@ -288,14 +294,15 @@ public class Tablero {
 
 	private void setGanador() {
 		Jugador ganador = null;
-		for(Jugador jug : jugadores){
-			if(ganador==null) {
-				ganador =jug;
-			}
-			else if(jug.info.puntosNivel > ganador.info.puntosNivel) {
-				ganador = jug;
-			}else if(jug.info.puntosNivel == ganador.info.puntosNivel ){
-				
+		for (Jugador jug : jugadores) {
+			if (jug.vivo) {
+				if (ganador == null) {
+					ganador = jug;
+				} else if (jug.info.puntosNivel > ganador.info.puntosNivel) {
+					ganador = jug;
+				} else if (jug.info.puntosNivel == ganador.info.puntosNivel) {
+					ganador = null;
+				}
 			}
 		}
 		if (ganador != null) {
@@ -307,25 +314,24 @@ public class Tablero {
 		} else {
 			info.ganador = Helper.TEXT_EMPATE;
 		}
-		
 
 	}
+
 	private void finalizarJuego() {
-		info.sonido=Sonidos.END_SND;
-		info.finJuego=true;
-		
+		info.sonido = Sonidos.END_SND;
+		info.finJuego = true;
+
 	}
-	
-	
+
 	private void crearNuevoNivel() {
 		info.nivel++;
-		info.sonido=Sonidos.START_SND;
+		info.sonido = Sonidos.START_SND;
 		Timer tim = new Timer();
 		TimerTask cambio = new TimerTask() {
 
 			@Override
 			public void run() {
-				
+
 				iniciartablero();
 				for (Jugador j : jugadores) {
 					j.reiniciarNivel();
