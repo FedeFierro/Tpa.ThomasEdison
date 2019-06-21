@@ -14,7 +14,6 @@ public class JuegoFrame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JuegoPanel  contentPane;
-	private Jugador j;
 	public JuegoFrame() {
 		
 		
@@ -37,7 +36,6 @@ public class JuegoFrame extends JFrame{
 		public void setMovimiento(KeyEvent evento) {
 		/* pasarlo al cliente y que el cliente se lo envie al server y este al jugador que le corresponda*/	
 			contentPane.getCodTecla(evento.getKeyCode());
-			System.out.println(evento.getKeyCode());
 			
 		}
 

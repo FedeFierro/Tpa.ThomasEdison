@@ -33,21 +33,16 @@ public class JuegoPanel extends JPanel {
 	private Clip sonidoEnd;
 	private TableroInfo data;
 	private Client client;
-	
+
 	public JuegoPanel() {
-//		this.tablero = tablero;
 		data = new TableroInfo(0);
 		imgs = new Imagenes();
 		snds = new Sonidos();
-		client = new Client("192.168.0.73", 11000, data);
-		// imgs.buildImagenes();
+		client = new Client("192.168.100.100", 11000, data);
 		Timer b = new Timer();
-//		tablero.getSound().start();
-		// tablero.getSound().loop(tablero.getSound().LOOP_CONTINUOUSLY);
 		repintar = new TimerTask() {
 			public void run() {
 				repaint();
-
 			}
 		};
 
@@ -63,14 +58,15 @@ public class JuegoPanel extends JPanel {
 //			System.out.println(data.elementos.get(1));
 //		}
 //		System.out.println(data.jugadoresInfo.size());
-		
-		
+
 		if (data.finJuego) {
-			if(data.sonido!=null&&!data.sonido.isEmpty()) {
+			if (data.sonido != null && !data.sonido.isEmpty()) {
 				snds.close(sonidoStart);
 				snds.close(sonidoJuego);
-				sonidoEnd= snds.getSonido(data.sonido);
-				snds.start(sonidoEnd, false);
+				if (!snds.isRunning(sonidoEnd)) {
+					sonidoEnd = snds.getSonido(data.sonido);
+					snds.start(sonidoEnd, false);
+				}
 			}
 			Font f = new Font("Arial", Font.BOLD, 40);
 			g.setColor(Color.WHITE);
@@ -81,10 +77,12 @@ public class JuegoPanel extends JPanel {
 			repintar.cancel();
 
 		} else if (data.pausa) {
-			if(data.sonido!=null && !data.sonido.isEmpty()) {
+			if (data.sonido != null && !data.sonido.isEmpty()) {
 				snds.close(sonidoJuego);
-				sonidoStart = snds.getSonido(data.sonido);
-				snds.start(sonidoStart, false);
+				if (!snds.isRunning(sonidoStart)) {
+					sonidoStart = snds.getSonido(data.sonido);
+					snds.start(sonidoStart, false);
+				}
 			}
 			Font f = new Font("Arial", Font.BOLD, 40);
 			g.setColor(Color.WHITE);
@@ -96,8 +94,10 @@ public class JuegoPanel extends JPanel {
 		} else {
 			if (data.sonido != null && !data.sonido.isEmpty()) {
 				snds.close(sonidoStart);
-				sonidoJuego = snds.getSonido(data.sonido);
-				snds.start(sonidoJuego, true);
+				if (!snds.isRunning(sonidoJuego)) {
+					sonidoJuego = snds.getSonido(data.sonido);
+					snds.start(sonidoJuego, true);
+				}
 
 			}
 			Font f = new Font("Arial", Font.BOLD, 15);
@@ -121,7 +121,7 @@ public class JuegoPanel extends JPanel {
 					Clip sndElemento = snds.getSonido(e.sonido);
 					if (sndElemento != null) {
 						sndElemento.start();
-						
+
 					}
 				}
 				g.drawImage(imgs.getImage(e.imagen), e.x, e.y, e.width, e.height, null);
@@ -129,7 +129,7 @@ public class JuegoPanel extends JPanel {
 			}
 		}
 	}
-	
+
 	public void getCodTecla(int codTecla) {
 		client.sendMessage(codTecla);
 	}

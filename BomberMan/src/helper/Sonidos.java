@@ -32,7 +32,13 @@ public class Sonidos {
 			return;
 		}
 		
-		
+	}
+	public boolean isRunning(Clip sonido) {
+		if(sonido==null) {
+			return false;
+		}
+		return sonido.isRunning();
+
 	}
 
 	

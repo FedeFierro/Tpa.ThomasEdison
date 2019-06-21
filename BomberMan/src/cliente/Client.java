@@ -11,23 +11,22 @@ import serializable.TableroInfo;
 
 public class Client{
 	private Socket client;
-//	private DataInputStream input;
-	private DataOutputStream output;
 	private TableroInfo tableroInfo;
+	private Thread hilo;
+	private DataInputStream input;
+	private DataOutputStream output;
 	
 	public Client(String ip, int puerto, TableroInfo tableroInfo) {
 		try {
 			this.tableroInfo =  tableroInfo;
-			
 			client = new Socket(ip, puerto);
-			output = new DataOutputStream(client.getOutputStream());
 			
-			Thread thread = new Thread(new Runnable() {
+			 hilo = new Thread(new Runnable() {
 				public void run() {
 					getMessage();
 				}
 			});
-			thread.start();
+			hilo.start();
 			
 		} catch (IOException e) {
 			System.out.println("Error del cliente..." + e.getMessage());
@@ -39,7 +38,7 @@ public class Client{
 		try {
 			output = new DataOutputStream(client.getOutputStream());
 			output.write(codTecla);
-//			output.close();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Error del cliente enviando mensaje..." + e.getMessage());
@@ -47,15 +46,19 @@ public class Client{
 	}
 	
 	public void getMessage() {
-		while(true) {
+		
+		while(true && !client.isClosed()&& client.isConnected()) {
 			try {
-				DataInputStream input = new DataInputStream(client.getInputStream());
+				
+				input = new DataInputStream(client.getInputStream());
 				String strInput = input.readUTF();
 				Gson gson = new Gson();
 				TableroInfo tb = gson.fromJson(strInput, tableroInfo.getClass());
 				tableroInfo.copyData(tb);
-			} catch (IOException e) {
+				
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				System.out.println("exeption  "+e.getMessage());
 				e.printStackTrace();
 			}
 		}

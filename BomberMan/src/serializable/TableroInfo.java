@@ -98,6 +98,8 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 		this.ganador = tablero.ganador;
 		this.finJuego = tablero.finJuego;
 		this.sonido = tablero.sonido;
+		this.elementos=tablero.elementos;
+		this.jugadoresInfo = tablero.jugadoresInfo;
 	}
 	
 }

@@ -4,15 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
-import com.google.gson.Gson;
-
 import entidades.Jugador;
-import serializable.TableroInfo;
 
 public class ConexionCliente extends Thread {
 	private Socket socketCliente;
 	private Jugador jugador;
+	DataInputStream input;
+	DataOutputStream output;
 
 	public ConexionCliente(Socket cliente, Jugador jugador) {
 		this.jugador = jugador;
@@ -23,9 +21,9 @@ public class ConexionCliente extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				DataInputStream di = new DataInputStream(socketCliente.getInputStream());
-				int keyCode = di.read();
+			while (true && !socketCliente.isClosed() && socketCliente.isConnected()) {
+				input = new DataInputStream(socketCliente.getInputStream());
+				int keyCode = input.read();
 				System.out.println(keyCode);
 				jugador.setMovimeiento(keyCode);
 			}
@@ -34,16 +32,19 @@ public class ConexionCliente extends Thread {
 		}
 	}
 
-	public void sendData(TableroInfo ti) {
+	public boolean sendData(String datos) {
 		try {
-			DataOutputStream salida = new DataOutputStream(socketCliente.getOutputStream());
-			Gson gson = new Gson();
-			String data  = gson.toJson(ti);
-			System.out.println(data);
-			salida.writeUTF(data);
+			if (!socketCliente.isClosed() && socketCliente.isConnected()) {
+			output = new DataOutputStream(socketCliente.getOutputStream());
+			output.writeUTF(datos);
+			output.flush();
+			return true;
+		}
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 	}
 

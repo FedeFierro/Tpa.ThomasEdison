@@ -1,9 +1,17 @@
 package servidor;
 
+import javax.swing.JFrame;
+
+import visual.ServerFrame;
+
 public class Main {
 
 	public static void main(String[] args) {
-		Servidor s = new Servidor(11000, 50, 2, 1, "SalaVIP");
+		
+		JFrame servFrame = new ServerFrame();
+		servFrame.setVisible(true);
+		
+	
 		
 	}
 
