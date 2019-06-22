@@ -46,11 +46,14 @@ public class ConsolePane extends JPanel implements PropertyChangeListener{
 	}
 	public void startServer() {
 		txtArea.setText("");
-		serverClient = new Servidor(11000,50,3,2,"salavip", data);
+		serverClient = new Servidor(11000,50,3,4,"salavip", data);
 	
 	}
 	public void stopServer() {
 		serverClient.serverClose();
+	}
+	public void iniciarPartida() {
+		serverClient.iniciarPartida();
 	}
 
 }

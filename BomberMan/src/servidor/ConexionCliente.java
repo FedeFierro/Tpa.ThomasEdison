@@ -9,10 +9,12 @@ import entidades.Jugador;
 public class ConexionCliente extends Thread {
 	private Socket socketCliente;
 	private Jugador jugador;
+	public String usuario;
 	DataInputStream input;
 	DataOutputStream output;
 
 	public ConexionCliente(Socket cliente, Jugador jugador) {
+		this.usuario=jugador.info.nombre;
 		this.jugador = jugador;
 		socketCliente = cliente;
 
@@ -46,6 +48,9 @@ public class ConexionCliente extends Thread {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	public void removerJugador() {
+		this.jugador.desconectar();
 	}
 
 }

@@ -18,6 +18,7 @@ public class Usuario {
 		this.Email = e;
 		this.Password = p;
 	}
+	
 
 	
 	

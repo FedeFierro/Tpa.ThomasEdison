@@ -9,7 +9,6 @@ import serializable.JugadorInfo;
 
 public class Jugador extends Elemento {
 
-	private static int cont = 0;
 	private final int MAXBOMBAS = 2;
 	private int bombasPlantadas;
 	private int index = 0;
@@ -24,10 +23,9 @@ public class Jugador extends Elemento {
 	/**
 	 * Constructor de la clase Jugador
 	 */
-	public Jugador(Tablero tablero,String nombre) {
+	public Jugador(Tablero tablero,String nombre,int numero) {
 		super(tablero);
-		cont++;
-		info = new JugadorInfo(cont, nombre);
+		info = new JugadorInfo(numero, nombre);
 		pos = tablero.getPosicionInicialJugador(info.numero);
 		bombasPlantadas = 0;
 		setImageName(11);
@@ -36,8 +34,7 @@ public class Jugador extends Elemento {
 	public Jugador(int x, int y, Tablero tablero) {
 		super(tablero);
 		pos = new Coordenada(x,y);
-		cont++;
-		info = new JugadorInfo(cont,"jugador "+cont);
+		info = new JugadorInfo(1,"jugador 1");
 		bombasPlantadas = 0;
 		setImageName(11);
 		tablero.setJugador(this);
@@ -214,6 +211,10 @@ public class Jugador extends Elemento {
 			plantarBomba();
 
 		}
+	}
+	public void desconectar() {
+		vivo = false;
+		tablero.removerJugador(this);
 	}
 
 }

@@ -3,12 +3,11 @@ package visual;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-
-import entidades.*;
-import helper.Helper;
 
 public class JuegoFrame extends JFrame{
 
@@ -27,16 +26,26 @@ public class JuegoFrame extends JFrame{
 				setMovimiento(arg0);
 			}
 		});
-		contentPane = new JuegoPanel();
+		contentPane = new JuegoPanel("192.168.100.102",11000,"Fede");
 		setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				
+			}
+		});
 	}
 	
 		public void setMovimiento(KeyEvent evento) {
 		/* pasarlo al cliente y que el cliente se lo envie al server y este al jugador que le corresponda*/	
 			contentPane.getCodTecla(evento.getKeyCode());
 			
+		}
+		public void close() {
+			contentPane.close();
+			System.exit(0);
 		}
 
 	public static void main(String[] args) throws IOException {
