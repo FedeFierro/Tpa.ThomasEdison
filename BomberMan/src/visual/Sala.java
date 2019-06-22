@@ -82,7 +82,8 @@ public class Sala extends JFrame {
 			
 			List<database.Sala> lista = db.getSalas();
 			
-			DefaultTableModel dtm = new DefaultTableModel();
+			String nombreColumnas[] = {"ID", "Cantidad de Jugadores", "IP", "Puerto", "Estado"};
+			DefaultTableModel dtm = new DefaultTableModel(null, nombreColumnas);
 			for(database.Sala sala :lista) {
 				Object[] o = new Object[5];
 				o[0]= sala.getID();
