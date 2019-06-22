@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import javax.persistence.Entity;
+import javax.swing.JOptionPane;
 public class DataBase {
 
 	private String nombreBD;
@@ -125,7 +126,8 @@ public class DataBase {
 		}
 		 catch (HibernateException he)
         {
-            
+			 JOptionPane.showMessageDialog(null, "ERROR INICIANDO SESION");
+            return null;
         }
         finally
         {

@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Client;
+import database.DataBase;
 import database.Usuario;
 
 import javax.swing.JLabel;
@@ -34,28 +35,22 @@ public class IniciarSesion extends JFrame {
 	private JLabel lblUsuario;
 	private JLabel lblContrasena;
 	private JButton btnRegistrarse;
-	private Client cliente;
-	public static boolean conectado = false;
+	private static Usuario user;
+	private DataBase database;
+
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IniciarSesion frame = new IniciarSesion(conectado);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { IniciarSesion frame = new
+	 * IniciarSesion(); frame.setVisible(true); } catch (Exception e) {
+	 * e.printStackTrace(); } } }); }
+	 * 
+	 * /** Create the frame.
 	 */
-	public IniciarSesion(boolean conectado) {
+	public IniciarSesion(Usuario usuario) {
+		this.user = usuario;
 		setTitle("Iniciar Sesion");
 		setType(Type.POPUP);
 		setResizable(false);
@@ -95,8 +90,7 @@ public class IniciarSesion extends JFrame {
 		contentPane.add(btnRegistrarse);
 
 		JButton btnCancelar = new JButton("Cancelar");
-		
-		
+
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmarCierreVentana();
@@ -104,7 +98,7 @@ public class IniciarSesion extends JFrame {
 		});
 		btnCancelar.setBounds(250, 112, 110, 23);
 		contentPane.add(btnCancelar);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -126,13 +120,17 @@ public class IniciarSesion extends JFrame {
 
 	}
 
-	private void iniciarSesion(boolean conectado) {
+	private void iniciarSesion() {
+
+		user.setUsuario(txtUsuario.getText());
+		user.setPassword(String.valueOf(txtContrasena.getPassword()));
+
+		database = new DataBase();
+		database.conectar();
+
 		usuario = txtUsuario.getText();
 		pass = String.valueOf(txtContrasena.getPassword());
-		Menu conect = new Menu();
-		conect.conectado = this.isConectado();
-		
-		
+
 		if (usuario.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un usuario", "Error login", JOptionPane.WARNING_MESSAGE);
 			return;
@@ -145,18 +143,13 @@ public class IniciarSesion extends JFrame {
 		}
 
 //		int state = cliente.loguear(new Usuario(usuario,null,null,null,pass)); 
-		int state = 1;
-		if (state == 1) {
-//			new Menu(usuario, cliente);
-			JOptionPane.showMessageDialog(null, "TE LOGUEASTE OK BRO, AHORA MODIFICAME");
-			conectado = true;
-			IniciarSesion.setConectado(true);
-			conect.conectado = true;
-			
-			dispose();
-			// LOGIN BD
+		user = database.logear(user);
 
-		} else if (state == 0) {
+		if (user.getID() > 0) {
+			JOptionPane.showMessageDialog(null, "Inicio de sesion exitoso");
+			dispose();
+
+		} else if (user.getID() == 0) {
 			JOptionPane.showMessageDialog(null, "Nombre de usuario o contrase\u00F1a incorrectos", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 		} else {
@@ -177,19 +170,19 @@ public class IniciarSesion extends JFrame {
 
 		txtContrasena.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				iniciarSesion(conectado);
+				iniciarSesion();
 			}
 		});
 
 		txtUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				iniciarSesion(conectado);
+				iniciarSesion();
 			}
 		});
 
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				iniciarSesion(conectado);
+				iniciarSesion();
 				// LOGIN BASE DATOS
 
 			}
@@ -197,11 +190,4 @@ public class IniciarSesion extends JFrame {
 
 	}
 
-	public static boolean isConectado() {
-		return conectado;
-	}
-
-	public static void setConectado(boolean conectado) {
-		IniciarSesion.conectado = conectado;
-	}
 }
