@@ -27,8 +27,6 @@ public class Servidor {
 	private DataBase db;
 	private Sala sala;
 
-
-
 	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre,ObservableData data) {
 		sala = new Sala();
 		db = new DataBase();
