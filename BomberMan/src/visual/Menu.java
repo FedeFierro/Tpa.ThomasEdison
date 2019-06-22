@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import org.hibernate.result.NoMoreReturnsException;
 
 import cliente.Client;
+import helper.Helper;
 
 public class Menu extends JFrame {
 
@@ -232,8 +233,7 @@ public class Menu extends JFrame {
 		btnSalir.setBounds(306, 366, 246, 23);
 		contentPane.add(btnSalir);
 
-		JLabel fondoGUI = new JLabel(new ImageIcon(
-				"C:\\Users\\user - lenovo\\Documents\\PA\\EclipseProjects\\Pruebas\\PruebaGrafica\\src\\Interfaz\\superBombermanGUI.png"));
+		JLabel fondoGUI = new JLabel(new ImageIcon(this.getClass().getResource("/otras/superBombermanGUI.png")));
 		fondoGUI.setLocation(0, 10);
 		fondoGUI.setSize(810, 400);
 		contentPane.add(fondoGUI);
