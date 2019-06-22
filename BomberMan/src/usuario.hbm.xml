@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping">
+<hibernate-mapping>
+	<class name="database.Usuario" table="USUARIOS">
+		<id column="ID" name="ID" type="int">
+			
+			<generator class="increment" />
+		</id>
+
+		<property column="USUARIO" name="Usuario" type="string" />
+		<property column="EMAIL" name="Email" type="string" />
+		<property column="PASSWORD" name="Password" type="string" />
+		<property column="NOMBRE" name="Nombre" type="string" />
+		<property column="APELLIDO" name="Apellido" type="string" />
+
+		<query name="idUsuarios"><![CDATA[SELECT p.ID FROM Usuario p]]></query>
+
+
+	</class>
+</hibernate-mapping>

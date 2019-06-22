@@ -99,4 +99,13 @@ public class ServerFrame  extends JFrame{
 		btnIniciarPartida.setEnabled(false);
 		consolePane.iniciarPartida();
 	}
+	public static void main(String[] args) {
+		
+		JFrame servFrame = new ServerFrame();
+		servFrame.setVisible(true);
+		
+
+		
+	}
 }
+
