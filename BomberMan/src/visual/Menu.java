@@ -1,12 +1,10 @@
 package visual;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -20,9 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.hibernate.result.NoMoreReturnsException;
 
 import cliente.Client;
+import database.Usuario;
 
 public class Menu extends JFrame {
 
@@ -32,7 +30,8 @@ public class Menu extends JFrame {
 	private int menuOpt = 1;
 	private String nombre;
 	Client cliente;
-	
+	private Usuario usuario = null;
+
 	/**
 	 * Launch the application.
 	 */
@@ -54,6 +53,7 @@ public class Menu extends JFrame {
 	 */
 	public Menu() {
 		super("Bomberman");
+
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 810, 436);
@@ -89,6 +89,7 @@ public class Menu extends JFrame {
 
 		btnSalir.setBorderPainted(false);
 		btnSalir.setContentAreaFilled(false);
+		conectado=true;
 
 		btnIniciarSesion.setFont(fntBold);
 
@@ -105,7 +106,7 @@ public class Menu extends JFrame {
 		 * btnIniciarSesion.setFont(fntPlain); btnRegistrarse.setFont(fntPlain);
 		 * btnSala.setFont(fntBold); menuOpt = 3; } } });
 		 */
-		
+
 		// opcion por clic
 		btnIniciarSesion.addMouseListener(new MouseAdapter() {
 
@@ -118,8 +119,8 @@ public class Menu extends JFrame {
 				btnSalir.setFont(fntPlain);
 
 				if (menuOpt == 1 && btnIniciarSesion.isFocusOwner()) {
-					new IniciarSesion(conectado).setVisible(true);
-					
+					JFrame iniciar = new IniciarSesion(usuario);
+					iniciar.setVisible(true);
 				}
 				menuOpt = 1;
 			}
@@ -160,7 +161,8 @@ public class Menu extends JFrame {
 				btnSala.setFont(fntPlain);
 				btnSalir.setFont(fntPlain);
 				if (menuOpt == 2 && btnRegistrarse.isFocusOwner()) {
-					new Registrarse().setVisible(true);;
+					new Registrarse().setVisible(true);
+
 				}
 				menuOpt = 2;
 
@@ -196,11 +198,11 @@ public class Menu extends JFrame {
 				btnIniciarSesion.setFont(fntPlain);
 				btnRegistrarse.setFont(fntPlain);
 				btnSalir.setFont(fntPlain);
-				if(!conectado) {
-					JOptionPane.showMessageDialog(null,"PRIMERO DEBE INICIAR SESION");
+				if (usuario == null) {
+					JOptionPane.showMessageDialog(null, "PRIMERO DEBE INICIAR SESION");
 				}
-				if (menuOpt == 3 && btnSala.isFocusOwner() && conectado) {
-					new Sala(nombre,cliente).setVisible(true);
+				if (menuOpt == 3 && btnSala.isFocusOwner() && usuario != null) {
+					new Sala(nombre, cliente).setVisible(true);
 
 				}
 				menuOpt = 3;
@@ -232,20 +234,18 @@ public class Menu extends JFrame {
 		btnSalir.setBounds(306, 366, 246, 23);
 		contentPane.add(btnSalir);
 
-		JLabel fondoGUI = new JLabel(new ImageIcon(
-				"C:\\Users\\user - lenovo\\Documents\\PA\\EclipseProjects\\Pruebas\\PruebaGrafica\\src\\Interfaz\\superBombermanGUI.png"));
+		JLabel fondoGUI = new JLabel(new ImageIcon(this.getClass().getResource("/otras/superBombermanGUI.png")));
 		fondoGUI.setLocation(0, 10);
 		fondoGUI.setSize(810, 400);
 		contentPane.add(fondoGUI);
 
-		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				confirmarCierreVentana();
 			}
 		});
-		
+
 		setContentPane(contentPane);
 	}
 
@@ -254,11 +254,9 @@ public class Menu extends JFrame {
 				JOptionPane.YES_NO_OPTION);
 		if (respuesta == JOptionPane.YES_OPTION) {
 			System.exit(0);
-		}
-		else
+		} else
 
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			
 
 	}
 }

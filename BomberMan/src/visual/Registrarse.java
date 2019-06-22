@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.JPasswordField;
 import cliente.*;
+import database.DataBase;
+import database.Usuario;
 
 public class Registrarse extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +35,7 @@ public class Registrarse extends JFrame {
 	private JLabel lblNombre;
 	private JLabel lblApellido;
 	private JTextField txtApellido;
+	private DataBase db;
 
 	/**
 	 * Launch the application.
@@ -74,7 +77,7 @@ public class Registrarse extends JFrame {
 		lblNombreUsuario.setBounds(27, 123, 118, 14);
 		contentPane.add(lblNombreUsuario);
 
-		JLabel lblContrasena = new JLabel("Contraseña");
+		JLabel lblContrasena = new JLabel("Contraseï¿½a");
 		lblContrasena.setBounds(155, 123, 86, 14);
 		contentPane.add(lblContrasena);
 
@@ -161,7 +164,18 @@ public class Registrarse extends JFrame {
 			return;
 		}
 	
-
+		db = new DataBase();
+		db.conectar();
+		Usuario user = new Usuario();
+		user.setApellido(apellido);
+		user.setNombre(nombre);
+		user.setEmail(mail);
+		user.setUsuario(usuario);
+		user.setPassword(pass);
+		db.crearUsuario(user);
+		JOptionPane.showMessageDialog(this, "Usuario creado.");
+		dispose();
+		
 		/*AGREGAR BD
 		 * if (Client.crearUsuario(nombre, pass)) { JOptionPane.showMessageDialog(null,
 		 * "Usuario registrado con exito"); dispose(); }

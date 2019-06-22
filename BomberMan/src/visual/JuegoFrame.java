@@ -26,7 +26,9 @@ public class JuegoFrame extends JFrame{
 				setMovimiento(arg0);
 			}
 		});
+
 		contentPane = new JuegoPanel("10.5.135.131",11000,"Jonatan");
+
 		setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);

@@ -35,15 +35,15 @@ public class IniciarSesion extends JFrame {
 	private JLabel lblContrasena;
 	private JButton btnRegistrarse;
 	private Client cliente;
-	public static boolean conectado = false;
+	private static Usuario user;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IniciarSesion frame = new IniciarSesion(conectado);
+					IniciarSesion frame = new IniciarSesion();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +55,8 @@ public class IniciarSesion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IniciarSesion(boolean conectado) {
+	public IniciarSesion(Usuario usuario) {
+		this.user = usuario;
 		setTitle("Iniciar Sesion");
 		setType(Type.POPUP);
 		setResizable(false);
@@ -126,12 +127,13 @@ public class IniciarSesion extends JFrame {
 
 	}
 
-	private void iniciarSesion(boolean conectado) {
+	private void iniciarSesion() {
+		user.setPassword(String.valueOf(txtContrasena.getPassword()));
+		user.setUsuario(txtUsuario.getText());
+		
 		usuario = txtUsuario.getText();
 		pass = String.valueOf(txtContrasena.getPassword());
-		Menu conect = new Menu();
-		conect.conectado = this.isConectado();
-		
+	
 		
 		if (usuario.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un usuario", "Error login", JOptionPane.WARNING_MESSAGE);
@@ -149,9 +151,9 @@ public class IniciarSesion extends JFrame {
 		if (state == 1) {
 //			new Menu(usuario, cliente);
 			JOptionPane.showMessageDialog(null, "TE LOGUEASTE OK BRO, AHORA MODIFICAME");
-			conectado = true;
-			IniciarSesion.setConectado(true);
-			conect.conectado = true;
+			
+			
+			
 			
 			dispose();
 			// LOGIN BD
@@ -177,19 +179,19 @@ public class IniciarSesion extends JFrame {
 
 		txtContrasena.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				iniciarSesion(conectado);
+				iniciarSesion();
 			}
 		});
 
 		txtUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				iniciarSesion(conectado);
+				iniciarSesion();
 			}
 		});
 
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				iniciarSesion(conectado);
+				iniciarSesion();
 				// LOGIN BASE DATOS
 
 			}
@@ -197,11 +199,5 @@ public class IniciarSesion extends JFrame {
 
 	}
 
-	public static boolean isConectado() {
-		return conectado;
-	}
 
-	public static void setConectado(boolean conectado) {
-		IniciarSesion.conectado = conectado;
-	}
 }
