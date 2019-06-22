@@ -6,8 +6,16 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import com.google.gson.Gson;
 
+import database.DataBase;
+import database.Sala;
 import entidades.Jugador;
 import entidades.Tablero;
 import serializable.TableroInfo;
@@ -20,18 +28,32 @@ public class Servidor {
 	private Timer timer;
 	private TimerTask sendData;
 	private ObservableData data;
+	private DataBase db;
+	private Sala sala;
+
 
 	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre,ObservableData data) {
+		sala = new Sala();
+		db = new DataBase();
+		db.conectar();
 		try {
+			
 			InetAddress ipDireccion = InetAddress.getLocalHost();
 			this.data=data;
 			serverSocket = new ServerSocket(port);
 			data.setData("Servidor iniciado IP: "+ ipDireccion.getHostAddress().toString() + " puerto: "+port);
+			
+			sala.setCantJugadores(cantJugadores);
+			sala.setNombre(nombre);
+			sala.setPuerto(port);
+			sala.setIP(ipDireccion.getHostAddress().toString());
+			sala.setTope(4);
+			db.guardarSala(sala);
+			
+
 			tablero = new Tablero(tiempo, puntosPartida);
-			/* guardar en la base de datos */
 			listaClientes = new ArrayList<ConexionCliente>();
 			buscarConexion = new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					try {
@@ -49,6 +71,7 @@ public class Servidor {
 						iniciarPartida();
 					} catch (Exception e) {
 						data.setData(e.getMessage());
+						System.out.println("ERROR");
 					}
 					
 				}
@@ -63,6 +86,8 @@ public class Servidor {
 	}
 
 	public void serverClose() {
+		db.borrarSala(sala);
+		db.desconectar();
 		data.setData("cerrando Servidor...");
 		try {
 			serverSocket.close();

@@ -1,18 +1,32 @@
 package database;
 
 public class Usuario {
+	private int ID;
 	private String Usuario;
 	private String Nombre;
 	private String Apellido;
 	private String Email;
 	private String Password;
 	
-	public Usuario(String u,String n,String a,String e,String p) {
+	public Usuario() {}
+	
+	public Usuario(int i,String u,String n,String a,String e,String p) {
+		this.ID = i;
 		this.Usuario = u;
 		this.Nombre= n;
 		this.Apellido = a;
 		this.Email = e;
 		this.Password = p;
+	}
+
+	
+	
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getUsuario() {
@@ -53,6 +67,12 @@ public class Usuario {
 
 	public void setPassword(String password) {
 		Password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [ID=" + ID + ", Usuario=" + Usuario + ", Nombre=" + Nombre + ", Apellido=" + Apellido
+				+ ", Email=" + Email + ", Password=" + Password + "]";
 	}
 
 	
