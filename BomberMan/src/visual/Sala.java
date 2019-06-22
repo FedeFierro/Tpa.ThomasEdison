@@ -8,14 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import cliente.Client;
+import database.*;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -33,6 +36,7 @@ public class Sala extends JFrame {
 	private JButton btnUnirse;
 	private String nombre;
 	private Client cliente;
+	private DataBase db;
 
 	/**
 	 * Launch the application.
@@ -60,7 +64,7 @@ public class Sala extends JFrame {
 		 */
 			this.nombre = nombre;
 			this.cliente = cliente;
-
+			db = new DataBase();
 			setTitle("Listado de Salas");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 490, 423);
@@ -74,11 +78,26 @@ public class Sala extends JFrame {
 			btnCrearSala.setBounds(358, 308, 106, 23);
 			contentPane.add(btnCrearSala);
 
-			tablePartidas = new JTable();
+			db.conectar();
+			
+			List<database.Sala> lista = db.getSalas();
+			
+			DefaultTableModel dtm = new DefaultTableModel();
+			for(database.Sala sala :lista) {
+				Object[] o = new Object[5];
+				o[0]= sala.getID();
+				o[1]=sala.getNombre();
+				o[2]=sala.getCantJugadores();
+				o[3]=sala.getIP();
+				o[4]=sala.getPuerto();
+				dtm.addRow(o);
+			}
+			
+			tablePartidas = new JTable(dtm);
 			tablePartidas.setBounds(10, 10, 454, 285);
 			tablePartidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			contentPane.add(tablePartidas);
-
+			actualizarListaDeSalas(false);
 			btnUnirse = new JButton("Unirse");
 			btnUnirse.setBounds(10, 308, 106, 23);
 			btnUnirse.setEnabled(false);
@@ -91,7 +110,7 @@ public class Sala extends JFrame {
 			JButton btnRefrescar = new JButton("Refrescar");
 			btnRefrescar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//actualizarListaDeSalas(false);
+					actualizarListaDeSalas(false);
 				}
 			});
 			btnRefrescar.setBounds(192, 308, 96, 23);
@@ -110,16 +129,20 @@ public class Sala extends JFrame {
 			//actualizarListaDeSalas(true);
 		}
 
-	/*	private void actualizarListaDeSalas(boolean flag) {
-			ArrayList<NuevaSala> salas = cliente.listarSalas(flag);
+		private void actualizarListaDeSalas(boolean flag) {
+			db.conectar();
+			
+			List<database.Sala> salas = db.getSalas();
 			tablePartidas.removeAll();
 
+			System.out.println(salas);
 			if (salas != null)
-				for (NuevaSala sala : salas) {
+				for (database.Sala sala : salas) {
+					System.out.println(sala.getID());
 					DefaultTableModel model = (DefaultTableModel) tablePartidas.getModel();
 					model.addRow(new Object[] { sala.getNombre() });
 				}
-		}*/
+		}
 
 		private void addListener() {
 

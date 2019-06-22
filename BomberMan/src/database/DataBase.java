@@ -2,6 +2,7 @@ package database;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -21,7 +22,8 @@ public class DataBase {
 	private Sala sala;
 	
 	
-	public DataBase() {	}
+	public DataBase() {
+	}
 	
 	public void desconectar() {
 		session.close();
@@ -133,5 +135,12 @@ public class DataBase {
 		
 		
 		return usuario;
+	}
+	public List<Sala> getSalas(){
+		Query q = session.createQuery("Select s from Sala s");
+		@SuppressWarnings("unchecked")
+		List<Sala> lista = q.getResultList();
+		return lista!=null? lista: new ArrayList<Sala>();
+		
 	}
 }
