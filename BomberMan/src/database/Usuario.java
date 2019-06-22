@@ -14,6 +14,7 @@ public class Usuario {
 		this.Email = e;
 		this.Password = p;
 	}
+	
 
 	public String getUsuario() {
 		return Usuario;
