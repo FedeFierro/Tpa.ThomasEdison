@@ -57,7 +57,6 @@ public class ConsolePane extends JPanel implements PropertyChangeListener{
 	public void startServer() {
 		txtArea.setText("");
 		serverClient = new Servidor(port,tiempo,puntos,cantJugadores,nombre, data);
-	
 	}
 	public void stopServer() {
 		serverClient.serverClose();
