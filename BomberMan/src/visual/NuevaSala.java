@@ -84,7 +84,7 @@ public class NuevaSala extends JFrame {
 		cmbCantidadJugadores.setBounds(129, 70, 166, 20);
 		contentPane.add(cmbCantidadJugadores);
 
-		btnIniciar = new JButton("Iniciar");
+		btnIniciar = new JButton("Crear");
 		btnIniciar.setBounds(268, 217, 127, 23);
 		contentPane.add(btnIniciar);
 
@@ -148,15 +148,42 @@ public class NuevaSala extends JFrame {
 		return nombreJugador;
 	}
 
-	private void iniciarPartida() {
-		/*
-		 * try {
-		 * /////////////////////////////////////////////////////////////////////////////
-		 * /////////////////// generar servidor new Tablero();
-		 * /////////////////////////////////////////////////////////////////////////////
-		 * /////////////////// } catch (InterruptedException e1) { e1.printStackTrace();
-		 * }
-		 */
+	private void crear() {
+		String nombre = txtNombreSala.getText();
+		String puerto = txtPuerto.getText();
+		int cantJugadores = cmbCantidadJugadores.getSelectedIndex()+2;
+		String puntos = txtPuntos.getText();
+		String tiempo = cmbTiempo.getSelectedItem().toString();
+		if (nombre.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Ingrese un Nombre");
+			return;
+		}
+		
+		int port = Integer.parseInt(puerto);
+		if (puerto.isEmpty() || port ==0 ) {
+			JOptionPane.showMessageDialog(null, "Ingrese numero de puerto");
+			return;
+		}
+		int points = Integer.parseInt(puntos);
+		if (puntos.isEmpty()|| points < 1 ) {
+			JOptionPane.showMessageDialog(null, "Ingrese la cantidad de puntos para ganar el juego.");
+			return;
+		}
+
+		if (cantJugadores < 2||cantJugadores>4) {
+			JOptionPane.showMessageDialog(null, "la cantidad de Jugadores debe ser entre 2 y 4.");
+			return;
+		}
+	
+		int time = Integer.parseInt(tiempo); 
+		if (time < 40) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar un valor para el tiempo de cada nivel.");
+			return;
+		}
+
+		
+		ServerFrame  sframe = new ServerFrame(nombre,port, time,points,cantJugadores);
+		sframe.setVisible(true);
 		dispose();
 	}
 
@@ -165,7 +192,7 @@ public class NuevaSala extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 //		 VERIFICAR SI UNA VEZ CONECTADO y VUELVO NO SE PIERDE CONEX
-				iniciarPartida();
+				crear();
 			}
 		});
 		btnCancelar.addActionListener(new ActionListener() {

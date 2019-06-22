@@ -21,8 +21,8 @@ public class ServerFrame  extends JFrame{
 	JPanel contentPane;
 	ConsolePane consolePane;
 
-	public ServerFrame() {	
-	setTitle("Chat Server");
+	public ServerFrame(String nombre, int port,int tiempo, int puntosPartida, int cantJugadores) {	
+	setTitle(nombre);
 	setResizable(false);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 600, 500);
@@ -66,7 +66,7 @@ public class ServerFrame  extends JFrame{
 	btnIniciarPartida.setEnabled(false);
 	pane1.add(btnIniciarPartida);
 	add(pane1, BorderLayout.BEFORE_FIRST_LINE);
-	consolePane  = new ConsolePane();
+	consolePane  = new ConsolePane(nombre,port,tiempo,cantJugadores,puntosPartida);
 	add(consolePane);
 	
 	addWindowListener(new WindowAdapter() {
@@ -99,13 +99,6 @@ public class ServerFrame  extends JFrame{
 		btnIniciarPartida.setEnabled(false);
 		consolePane.iniciarPartida();
 	}
-	public static void main(String[] args) {
-		
-		JFrame servFrame = new ServerFrame();
-		servFrame.setVisible(true);
-		
-
-		
-	}
+	
 }
 

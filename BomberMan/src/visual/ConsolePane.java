@@ -18,9 +18,19 @@ public class ConsolePane extends JPanel implements PropertyChangeListener{
 	JTextArea txtArea;
 	Servidor serverClient;
 	ObservableData data;
+	String nombre;
+	int port;
+	int tiempo;
+	int cantJugadores;
+	int puntos;
 	
 	JScrollPane jScroll;
-	public ConsolePane() {
+	public ConsolePane(String nombre, int port, int tiempo, int cantJugadores,int puntos) {
+		this.nombre = nombre;
+		this.port = port;
+		this.tiempo=tiempo;
+		this.cantJugadores=cantJugadores;
+		this.puntos= puntos;
 		setSize(400, 400);
 		setLayout(new BorderLayout());
 	
@@ -46,8 +56,8 @@ public class ConsolePane extends JPanel implements PropertyChangeListener{
 	}
 	public void startServer() {
 		txtArea.setText("");
+		serverClient = new Servidor(port,tiempo,puntos,cantJugadores,nombre, data);
 
-		serverClient = new Servidor(11000,50,3,2,"salavip", data);	
 	}
 	public void stopServer() {
 		serverClient.serverClose();
