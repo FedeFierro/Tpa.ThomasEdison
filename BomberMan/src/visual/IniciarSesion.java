@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Client;
+import database.DataBase;
 import database.Usuario;
 
 import javax.swing.JLabel;
@@ -34,26 +35,19 @@ public class IniciarSesion extends JFrame {
 	private JLabel lblUsuario;
 	private JLabel lblContrasena;
 	private JButton btnRegistrarse;
-	private Client cliente;
 	private static Usuario user;
+	private DataBase database;
+
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IniciarSesion frame = new IniciarSesion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { IniciarSesion frame = new
+	 * IniciarSesion(); frame.setVisible(true); } catch (Exception e) {
+	 * e.printStackTrace(); } } }); }
+	 * 
+	 * /** Create the frame.
 	 */
 	public IniciarSesion(Usuario usuario) {
 		this.user = usuario;
@@ -96,8 +90,7 @@ public class IniciarSesion extends JFrame {
 		contentPane.add(btnRegistrarse);
 
 		JButton btnCancelar = new JButton("Cancelar");
-		
-		
+
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmarCierreVentana();
@@ -105,7 +98,7 @@ public class IniciarSesion extends JFrame {
 		});
 		btnCancelar.setBounds(250, 112, 110, 23);
 		contentPane.add(btnCancelar);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -128,13 +121,16 @@ public class IniciarSesion extends JFrame {
 	}
 
 	private void iniciarSesion() {
-		user.setPassword(String.valueOf(txtContrasena.getPassword()));
+
 		user.setUsuario(txtUsuario.getText());
-		
+		user.setPassword(String.valueOf(txtContrasena.getPassword()));
+
+		database = new DataBase();
+		database.conectar();
+
 		usuario = txtUsuario.getText();
 		pass = String.valueOf(txtContrasena.getPassword());
-	
-		
+
 		if (usuario.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un usuario", "Error login", JOptionPane.WARNING_MESSAGE);
 			return;
@@ -147,18 +143,13 @@ public class IniciarSesion extends JFrame {
 		}
 
 //		int state = cliente.loguear(new Usuario(usuario,null,null,null,pass)); 
-		int state = 1;
-		if (state == 1) {
-//			new Menu(usuario, cliente);
-			JOptionPane.showMessageDialog(null, "TE LOGUEASTE OK BRO, AHORA MODIFICAME");
-			
-			
-			
-			
-			dispose();
-			// LOGIN BD
+		user = database.logear(user);
 
-		} else if (state == 0) {
+		if (user.getID() > 0) {
+			JOptionPane.showMessageDialog(null, "Inicio de sesion exitoso");
+			dispose();
+
+		} else if (user.getID() == 0) {
 			JOptionPane.showMessageDialog(null, "Nombre de usuario o contrase\u00F1a incorrectos", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 		} else {
@@ -198,6 +189,5 @@ public class IniciarSesion extends JFrame {
 		});
 
 	}
-
 
 }
