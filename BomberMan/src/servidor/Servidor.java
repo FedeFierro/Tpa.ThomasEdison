@@ -42,7 +42,7 @@ public class Servidor {
 			sala.setNombre(nombre);
 			sala.setPuerto(port);
 			sala.setIP(ipDireccion.getHostAddress().toString());
-			sala.setTope(4);
+			sala.setEstado(1);
 			db.guardarSala(sala);
 			
 
