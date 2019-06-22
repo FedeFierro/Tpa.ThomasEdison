@@ -53,7 +53,6 @@ public class Menu extends JFrame {
 	 */
 	public Menu() {
 		super("Bomberman");
-
 		usuario = new Usuario(0, "test", "testnom", "testape", "testMail", "123");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
