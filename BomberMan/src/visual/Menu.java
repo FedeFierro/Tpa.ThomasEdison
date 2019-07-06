@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +24,7 @@ import cliente.Client;
 import database.Usuario;
 
 @SuppressWarnings("serial")
-public class Menu extends JFrame {
+public class Menu extends JFrame  {
 
 	private JPanel contentPane;
 	protected boolean conectado = false;
@@ -194,7 +195,7 @@ public class Menu extends JFrame {
 	private void executeAction() {
 		switch (menuOpt) {
 		case 1:
-			JFrame iniciar = new IniciarSesion(usuario);
+			JFrame iniciar = new IniciarSesion(this.usuario);
 			iniciar.setVisible(true);
 			break;
 		case 2:
@@ -237,5 +238,6 @@ public class Menu extends JFrame {
 		Menu frame = new Menu();
 		frame.setVisible(true);
 	}
+
 
 }

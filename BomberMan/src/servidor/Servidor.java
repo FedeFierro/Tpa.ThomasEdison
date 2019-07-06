@@ -87,7 +87,7 @@ public class Servidor {
 
 	public void serverClose() {
 		db.borrarSala(sala);
-		db.desconectar();
+		//db.desconectar();
 		data.setData("cerrando Servidor...");
 		try {
 			serverSocket.close();

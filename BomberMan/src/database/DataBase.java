@@ -1,148 +1,141 @@
 package database;
-import java.io.File;
-import java.net.InetAddress;
-import java.net.InetAddress;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import javax.persistence.Entity;
-import javax.swing.JOptionPane;
-public class DataBase {
 
-	private String nombreBD;
-	private String config;
+import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
+import javax.swing.JOptionPane;
+
+public class DataBase implements Disposable {
+
 	private Configuration cfg;
 	private SessionFactory factory;
 	private Session session;
-	private Sala sala;
-	
-	
+
 	public DataBase() {
-	}
-	
-	public void desconectar() {
-		session.close();
-		factory.close();
-	}
-	public void conectar() {
-		
 		cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
-
-		factory = cfg.buildSessionFactory();
-		session = factory.openSession();
-		
-	}
-	
-	public String getNombreBD() {
-		return nombreBD;
-	}
-
-	public void setNombreBD(String nombreBD) {
-		this.nombreBD = nombreBD;
-	}
-
-	public String getConfig() {
-		return config;
-	}
-
-	public void setConfig(String config) {
-		this.config = config;
-	}
-
-	public Configuration getCfg() {
-		return cfg;
-	}
-
-	public void setCfg(Configuration cfg) {
-		this.cfg = cfg;
-	}
-
-	public SessionFactory getFactory() {
-		return factory;
-	}
-
-	public void setFactory(SessionFactory factory) {
-		this.factory = factory;
-	}
-
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
-	
-	
-	
-	public Sala getSala() {
-		return sala;
-	}
-
-	public void setSala(Sala sala) {
-		this.sala = sala;
+		if (factory == null || factory.isClosed()) {
+			factory = cfg.buildSessionFactory();
+		}
 	}
 
 	public void guardarSala(Sala sala) {
-		
-		Transaction tx = session.beginTransaction();
-		session.saveOrUpdate(sala);
-		tx.commit();
-//		session.close();
-//		factory.close();
+
+		try {
+			session = factory.openSession();
+			Transaction tx = session.beginTransaction();
+			session.saveOrUpdate(sala);
+			tx.commit();
+		} catch (Exception e) {
+			mostrarError("Error al crear la sala.");
+		} finally {
+			session.close();
+		}
 	}
-	
-	
+
 	public void borrarSala(Sala sala) {
-		
-		Transaction tx = session.beginTransaction();
-		session.delete(sala);
-		tx.commit();
-//		session.close();
-//		factory.close();
+
+		try {
+			Transaction tx = session.beginTransaction();
+			session.delete(sala);
+			tx.commit();
+		} catch (Exception e) {
+			mostrarError("Error al eliminar la Sala");
+		} finally {
+			session.close();
+		}
 	}
-	
-	public void crearUsuario(Usuario user) {
-		Transaction tx = session.beginTransaction();
-		session.saveOrUpdate(user);
-		tx.commit();
+
+	public boolean crearUsuario(Usuario user) {
+		try {
+			session = factory.openSession();
+
+			Usuario existe = existeUsuario(user);
+			if (existe != null) {
+				Transaction tx = session.beginTransaction();
+				session.saveOrUpdate(user);
+				tx.commit();
+				return true;
+			}else {
+				mostrarError("El usuario ya existe.");
+				return false;
+			}
+		} catch (Exception e) {
+			mostrarError("Error al crear Usuario");
+			return false;
+		} finally {
+			session.close();
+		}
 	}
-	
+
 	public Usuario logear(Usuario user) {
-		Usuario usuario = null;
 		
-		try{
-			Query q = session.createQuery("FROM Ususario u WHERE u.username = :nombreUsuario AND u. password = :password");
+		try {
+			session = factory.openSession();
+			@SuppressWarnings("unchecked")
+			Query<Usuario> q = session
+					.createQuery("FROM Usuario u WHERE u.Usuario = :nombreUsuario AND u.Password = :password");
+			System.out.println(q.toString());
 			q.setParameter("nombreUsuario", user.getUsuario());
 			q.setParameter("password", user.getPassword());
-			usuario = (Usuario)q.uniqueResult();
+			System.out.println("query creada");
+			return q.uniqueResult();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, "ERROR INICIANDO SESION");
+			return null;
+		} finally {
+			session.close();
 		}
-		 catch (HibernateException he)
-        {
-			 JOptionPane.showMessageDialog(null, "ERROR INICIANDO SESION");
-            return null;
-        }
-        finally
-        {
-            
-        }
-				
-		
-		
-		return usuario;
+
 	}
-	public List<Sala> getSalas(){
-		Query q = session.createQuery("Select s from Sala s");
-		@SuppressWarnings("unchecked")
-		List<Sala> lista = q.getResultList();
-		return lista!=null? lista: new ArrayList<Sala>();
-		
+
+	public List<Sala> getSalas() {
+		try {
+			session = factory.openSession();
+			@SuppressWarnings("unchecked")
+			Query<Sala> q = session.createQuery("From Sala s");
+			List<Sala> lista = q.getResultList();
+			return lista != null ? lista : new ArrayList<Sala>();
+		} catch (Exception e) {
+			mostrarError("ERROR INICIANDO SESION");
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public void dispose() {
+		session.close();
+		factory.close();
+	}
+
+	private Usuario existeUsuario(Usuario user) {
+		try {
+			session = factory.openSession();
+			@SuppressWarnings("unchecked")
+			Query<Usuario> q = session.createQuery("FROM Usuario u WHERE u.Usuario = :nombreUsuario ");
+			q.setParameter("nombreUsuario", user.getUsuario());
+			return q.uniqueResult();
+		} catch (Exception e) {
+			System.err.println("error en existe usuario");
+			return null;
+		} finally {
+			session.close();
+		}
+
+	}
+
+	private void mostrarError(String mensaje) {
+		JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 }
