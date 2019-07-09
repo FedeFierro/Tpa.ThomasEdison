@@ -1,7 +1,5 @@
 package database;
 
-import java.net.InetAddress;
-
 public class Sala {
 	private int ID;
 	private String Nombre;

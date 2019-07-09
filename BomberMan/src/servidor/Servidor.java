@@ -85,6 +85,8 @@ public class Servidor {
 	}
 
 	public void serverClose() {
+		sala.setEstado(3);
+		db.guardarSala(sala);
 		db.borrarSala(sala);
 		data.setData("cerrando Servidor...");
 		try {
@@ -98,6 +100,8 @@ public class Servidor {
 	public void iniciarPartida() {
 		if (!tablero.info.iniciado) {
 			data.setData("iniciando Partida....");
+			sala.setEstado(2);
+			db.guardarSala(sala);
 			buscarConexion.interrupt();
 			timer = new Timer();
 			sendData = new TimerTask() {

@@ -13,12 +13,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-
-import cliente.Client;
 import database.*;
-import net.bytebuddy.asm.Advice.This;
+import helper.Helper;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -134,8 +130,7 @@ public class Sala extends JFrame {
 				o[0] = sala.getID();
 				o[1] = sala.getNombre();
 				o[2] = sala.getCantJugadores();
-				o[3] = sala.getIP();
-				o[4] = sala.getPuerto();
+				o[3] = (Object)Helper.getEstadoSala(sala.getEstado());
 				model.addRow(o);
 			}
 		}
@@ -143,7 +138,7 @@ public class Sala extends JFrame {
 	}
 
 	private DefaultTableModel getEncabezadoTabla() {
-		String nombreColumnas[] = { "ID", "Cantidad de Jugadores", "IP", "Puerto", "Estado" };
+		String nombreColumnas[] = { "ID","Nombre", "Cantidad de Jugadores", "Estado" };
 		return new DefaultTableModel(null, nombreColumnas);
 	}
 
@@ -168,6 +163,14 @@ public class Sala extends JFrame {
 							db = new DataBase();
 							database.Sala salaJuego = db.getSala(idSala);
 							if (salaJuego != null) {
+								if(salaJuego.getEstado() ==2) {
+									JOptionPane.showMessageDialog(null, "El juego esta Iniciado.");
+									return;
+								}
+								if(salaJuego.getEstado() ==3) {
+									JOptionPane.showMessageDialog(null, "El juego esta Finalizado.");
+									return;
+								}
 								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuerto(), nombre);
 								juego.setVisible(true);
 							}

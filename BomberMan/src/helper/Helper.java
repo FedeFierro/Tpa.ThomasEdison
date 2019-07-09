@@ -65,6 +65,17 @@ public class Helper {
 			return null;
 		}
 	}
-	
+	public static String getEstadoSala(int e) {
+		switch (e) {
+		case 1:
+			return "En Espera";
+		case 2: 
+			return "En curso";
+		case 3:
+			return "Finalizado";
+		default:
+			return "";
+		}
+	}	
 }
 
