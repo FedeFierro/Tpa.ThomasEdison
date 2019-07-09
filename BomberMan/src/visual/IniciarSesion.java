@@ -107,7 +107,6 @@ public class IniciarSesion extends JFrame {
 	}
 
 	private void iniciarSesion() {
-
 		usuario = txtUsuario.getText();
 		pass = String.valueOf(txtContrasena.getPassword());
 

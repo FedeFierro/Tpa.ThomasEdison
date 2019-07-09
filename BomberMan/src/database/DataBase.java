@@ -44,6 +44,7 @@ public class DataBase implements Disposable {
 	public void borrarSala(Sala sala) {
 
 		try {
+			session= factory.openSession();
 			Transaction tx = session.beginTransaction();
 			session.delete(sala);
 			tx.commit();
@@ -83,13 +84,10 @@ public class DataBase implements Disposable {
 			@SuppressWarnings("unchecked")
 			Query<Usuario> q = session
 					.createQuery("FROM Usuario u WHERE u.Usuario = :nombreUsuario AND u.Password = :password");
-			System.out.println(q.toString());
 			q.setParameter("nombreUsuario", user.getUsuario());
 			q.setParameter("password", user.getPassword());
-			System.out.println("query creada");
 			return q.uniqueResult();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			JOptionPane.showMessageDialog(null, "ERROR INICIANDO SESION");
 			return null;
 		} finally {
@@ -111,6 +109,21 @@ public class DataBase implements Disposable {
 		} finally {
 			session.close();
 		}
+	}
+	public Sala getSala(int idSala) {
+		try {
+		session= factory.openSession();
+		@SuppressWarnings("unchecked")
+		Query<Sala> q = session.createQuery("FROM Sala s WHERE s.ID = :idSala");
+		q.setParameter("idSala", idSala);
+		return q.uniqueResult();
+		}catch (Exception e) {
+			mostrarError(String.format("Error al obtener la sala: %d",idSala));
+			return null;
+		}finally {
+			session.close();
+		}
+		
 	}
 
 	@Override

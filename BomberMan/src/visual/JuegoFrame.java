@@ -13,9 +13,7 @@ public class JuegoFrame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JuegoPanel  contentPane;
-	public JuegoFrame() {
-		
-		
+	public JuegoFrame(String ip, int port, String usuario) {
 		super("BomberMan");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,7 +25,7 @@ public class JuegoFrame extends JFrame{
 			}
 		});
 
-		contentPane = new JuegoPanel("10.5.137.8",11000,"Fede");
+		contentPane = new JuegoPanel(ip,port,usuario);
 
 		setBackground(Color.WHITE);
 		setContentPane(contentPane);
@@ -48,10 +46,6 @@ public class JuegoFrame extends JFrame{
 		public void close() {
 			contentPane.close();
 			System.exit(0);
-		}
-
-	public static void main(String[] args) throws IOException {
-		new JuegoFrame().setVisible(true);
 		}
 	
 }

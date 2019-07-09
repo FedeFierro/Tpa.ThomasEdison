@@ -18,6 +18,7 @@ import javax.swing.table.TableModel;
 
 import cliente.Client;
 import database.*;
+import net.bytebuddy.asm.Advice.This;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -40,8 +41,8 @@ public class Sala extends JFrame {
 	private JButton btnSalir;
 	private JButton btnUnirse;
 	private String nombre;
-	private Client cliente;
 	private DataBase db;
+
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +50,7 @@ public class Sala extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Sala frame = new Sala("Test", null);
+					Sala frame = new Sala("Test");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,14 +62,12 @@ public class Sala extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Sala(String nombre, Client cliente) {
+	public Sala(String nombre) {
 
 		/**
 		 * Create the frame.
 		 */
 		this.nombre = nombre;
-		this.cliente = cliente;
-
 		setTitle("Listado de Salas");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 490, 423);
@@ -81,7 +80,7 @@ public class Sala extends JFrame {
 		btnCrearSala = new JButton("Nueva Sala ");
 		btnCrearSala.setBounds(358, 308, 106, 23);
 		contentPane.add(btnCrearSala);
-		
+
 		tablePartidas = new JTable(getEncabezadoTabla());
 		tablePartidas.setBounds(10, 10, 454, 285);
 		tablePartidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -92,7 +91,7 @@ public class Sala extends JFrame {
 		actualizarListaDeSalas();
 		btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(10, 308, 106, 23);
-		btnUnirse.setEnabled(false);
+		// btnUnirse.setEnabled(false);
 		contentPane.add(btnUnirse);
 
 		btnSalir = new JButton("Salir");
@@ -125,10 +124,10 @@ public class Sala extends JFrame {
 		db = new DataBase();
 		List<database.Sala> salas = db.getSalas();
 		DefaultTableModel model = getEncabezadoTabla();
-		for (int i=0; i< model.getRowCount();i++) {
+		for (int i = 0; i < model.getRowCount(); i++) {
 			model.removeRow(i);
 		}
-		
+
 		if (salas != null) {
 			for (database.Sala sala : salas) {
 				Object[] o = new Object[5];
@@ -152,17 +151,35 @@ public class Sala extends JFrame {
 
 		btnCrearSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NuevaSala sala = new NuevaSala("Test", null);
+				NuevaSala sala = new NuevaSala();
 				sala.setVisible(true);
-//					cliente.agregarSala(sala);
 				dispose();
 			}
 		});
 
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int row =tablePartidas.getSelectedRow();
-				tablePartidas.getValueAt(row, 0);
+				int row = tablePartidas.getSelectedRow();
+				if (row >= 0) {
+					Object sala = tablePartidas.getValueAt(row, 0);
+					if (sala != null) {
+						try {
+							int idSala = (int) sala;
+							db = new DataBase();
+							database.Sala salaJuego = db.getSala(idSala);
+							if (salaJuego != null) {
+								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuerto(), nombre);
+								juego.setVisible(true);
+							}
+
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Debe Seleccionar una sala");
+				}
+
 			}
 		});
 

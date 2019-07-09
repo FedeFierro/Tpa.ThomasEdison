@@ -30,7 +30,6 @@ public class Servidor {
 	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre,ObservableData data) {
 		sala = new Sala();
 		db = new DataBase();
-	//	db.conectar();
 		try {
 			
 			InetAddress ipDireccion = InetAddress.getLocalHost();
@@ -43,7 +42,7 @@ public class Servidor {
 			sala.setPuerto(port);
 			sala.setIP(ipDireccion.getHostAddress().toString());
 			sala.setEstado(1);
-			//db.guardarSala(sala);
+			db.guardarSala(sala);
 			
 
 			data.setData("Servidor iniciado IP: " + ipDireccion.getHostAddress().toString() + " puerto: " + port);
@@ -87,7 +86,6 @@ public class Servidor {
 
 	public void serverClose() {
 		db.borrarSala(sala);
-		//db.desconectar();
 		data.setData("cerrando Servidor...");
 		try {
 			serverSocket.close();

@@ -208,7 +208,7 @@ public class Menu extends JFrame  {
 				return;
 			}
 			if (usuario.getID() > 0) {
-				JFrame sala = new Sala(nombre, cliente);
+				JFrame sala = new Sala(this.usuario.getNombre());
 				sala.isVisible();
 			}
 
