@@ -76,5 +76,18 @@ public class Usuario {
 				+ ", Email=" + Email + ", Password=" + Password + "]";
 	}
 
+	public void copiarUsuario(Usuario u) {
+		if(u==null) {
+			return;
+		}
+		this.ID = u.ID;
+		this.Usuario = u.Usuario;
+		this.Nombre = u.Nombre;
+		this.Apellido = u.Apellido;
+		this.Email = u.Email;
+		this.Password=u.Password;
+		
+		
+	}
 	
 }

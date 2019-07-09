@@ -4,7 +4,6 @@
 <hibernate-mapping>
 	<class name="database.Sala" table="SALA">
 		<id column="ID" name="ID" type="int">
-
 			<generator class="increment" />
 		</id>
 

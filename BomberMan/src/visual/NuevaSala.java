@@ -1,13 +1,8 @@
 package visual;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,10 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import cliente.Client;
 import javax.swing.JTextField;
 
 public class NuevaSala extends JFrame {
@@ -36,7 +29,6 @@ public class NuevaSala extends JFrame {
 	public JComboBox<?> cmbCantidadJugadores;
 	public JComboBox<?> cmbTiempo;
 	private String nombreJugador;
-	private Client cliente;
 	public JLabel lblNombreSala;
 	private JTextField txtNombreSala;
 	private JTextField txtPuntos;
@@ -49,7 +41,7 @@ public class NuevaSala extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NuevaSala frame = new NuevaSala("Test", null);
+					NuevaSala frame = new NuevaSala();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,11 +53,9 @@ public class NuevaSala extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NuevaSala(String nombreJugador, Client cliente) {
+	public NuevaSala() {
 		setTitle("Nueva Sala");
-		this.nombreJugador = nombreJugador;
-		this.cliente = cliente;
-
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 416, 285);
 		contentPane = new JPanel();

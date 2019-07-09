@@ -1,6 +1,5 @@
 package visual;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,14 +17,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-import java.awt.Window.Type;
 
+
+@SuppressWarnings("serial")
 public class IniciarSesion extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	static String usuario;
 	private String pass;
 	private JPanel contentPane;
@@ -35,20 +31,10 @@ public class IniciarSesion extends JFrame {
 	private JLabel lblUsuario;
 	private JLabel lblContrasena;
 	private JButton btnRegistrarse;
-	private static Usuario user;
+	private Usuario user;
 	private DataBase database;
 
-	/**
-	 * Launch the application.
-	 */
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { IniciarSesion frame = new
-	 * IniciarSesion(); frame.setVisible(true); } catch (Exception e) {
-	 * e.printStackTrace(); } } }); }
-	 * 
-	 * /** Create the frame.
-	 */
+
 	public IniciarSesion(Usuario usuario) {
 		this.user = usuario;
 		setTitle("Iniciar Sesion");
@@ -75,7 +61,7 @@ public class IniciarSesion extends JFrame {
 		btnIngresar.setBounds(10, 112, 110, 23);
 		contentPane.add(btnIngresar);
 
-		lblContrasena = new JLabel("Contraseña");
+		lblContrasena = new JLabel("Contraseï¿½a");
 		lblContrasena.setBounds(10, 61, 73, 14);
 		contentPane.add(lblContrasena);
 
@@ -121,13 +107,6 @@ public class IniciarSesion extends JFrame {
 	}
 
 	private void iniciarSesion() {
-
-		user.setUsuario(txtUsuario.getText());
-		user.setPassword(String.valueOf(txtContrasena.getPassword()));
-
-		database = new DataBase();
-		database.conectar();
-
 		usuario = txtUsuario.getText();
 		pass = String.valueOf(txtContrasena.getPassword());
 
@@ -141,22 +120,27 @@ public class IniciarSesion extends JFrame {
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
-//		int state = cliente.loguear(new Usuario(usuario,null,null,null,pass)); 
-		user = database.logear(user);
-
-		if (user.getID() > 0) {
+		Usuario usLog = new Usuario();
+		
+		usLog.setUsuario(usuario);
+		usLog.setPassword(pass);
+		
+		database = new DataBase();
+		
+		usLog = database.logear(usLog);
+		database.dispose();
+		if (usLog !=null && usLog.getID() > 0) {
+			this.user.copiarUsuario(usLog);
 			JOptionPane.showMessageDialog(null, "Inicio de sesion exitoso");
 			dispose();
 
-		} else if (user.getID() == 0) {
+		} else if (usLog==null || usLog.getID() == 0) {
 			JOptionPane.showMessageDialog(null, "Nombre de usuario o contrase\u00F1a incorrectos", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(null, "Error al conectar con el servidor", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 		}
-
 		txtContrasena.setText("");
 		txtUsuario.setText("");
 	}
@@ -165,18 +149,6 @@ public class IniciarSesion extends JFrame {
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Registrarse().setVisible(true);
-			}
-		});
-
-		txtContrasena.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				iniciarSesion();
-			}
-		});
-
-		txtUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				iniciarSesion();
 			}
 		});
 
@@ -189,5 +161,4 @@ public class IniciarSesion extends JFrame {
 		});
 
 	}
-
 }

@@ -120,7 +120,7 @@ public class Registrarse extends JFrame {
 		txtApellido.setBounds(24, 92, 214, 20);
 		contentPane.add(txtApellido);
 		txtApellido.setColumns(10);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -144,7 +144,7 @@ public class Registrarse extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ingrese un Nombre");
 			return;
 		}
-		
+
 		if (apellido.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un Apellido");
 			return;
@@ -158,28 +158,23 @@ public class Registrarse extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ingrese una contrase\u00F1a");
 			return;
 		}
-	
+
 		if (mail.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un mail");
 			return;
 		}
-	
-		db = new DataBase();
-		db.conectar();
+
 		Usuario user = new Usuario();
 		user.setApellido(apellido);
 		user.setNombre(nombre);
 		user.setEmail(mail);
 		user.setUsuario(usuario);
 		user.setPassword(pass);
-		db.crearUsuario(user);
-		JOptionPane.showMessageDialog(this, "Usuario creado.");
-		dispose();
-		
-		/*AGREGAR BD
-		 * if (Client.crearUsuario(nombre, pass)) { JOptionPane.showMessageDialog(null,
-		 * "Usuario registrado con exito"); dispose(); }
-		 */
+		DataBase db = new DataBase();
+		if (db.crearUsuario(user)) {
+			JOptionPane.showMessageDialog(this, "Usuario creado.");
+			dispose();
+		}
 
 	}
 
@@ -223,10 +218,12 @@ public class Registrarse extends JFrame {
 
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				confirmarCierreVentana();			}
+				confirmarCierreVentana();
+			}
 		});
 
 	}
+
 	private void confirmarCierreVentana() {
 		int respuesta = JOptionPane.showConfirmDialog(this, "Desea cerrar esta ventana", "confirmar Salir",
 				JOptionPane.YES_NO_OPTION);

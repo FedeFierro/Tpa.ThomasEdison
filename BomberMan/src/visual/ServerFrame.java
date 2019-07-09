@@ -20,7 +20,7 @@ public class ServerFrame  extends JFrame{
 	JButton btnIniciarPartida;
 	JPanel contentPane;
 	ConsolePane consolePane;
-
+	
 	public ServerFrame(String nombre, int port,int tiempo, int puntosPartida, int cantJugadores) {	
 	setTitle(nombre);
 	setResizable(false);
@@ -100,7 +100,7 @@ public class ServerFrame  extends JFrame{
 		consolePane.iniciarPartida();
 	}
 	public static void main(String[] args) {
-		ServerFrame  sFrame =  new ServerFrame("Sala", 11000, 50, 2, 3);
+		ServerFrame  sFrame =  new ServerFrame("Server", 11000, 50, 2, 3);
 		sFrame.setVisible(true);
 	}
 }
