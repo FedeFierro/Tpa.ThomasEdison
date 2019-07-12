@@ -21,7 +21,7 @@ public class ServerFrame  extends JFrame{
 	JPanel contentPane;
 	ConsolePane consolePane;
 	
-	public ServerFrame(String nombre, int port,int tiempo, int puntosPartida, int cantJugadores) {	
+	public ServerFrame(String nombre, int port,int tiempo, int puntosPartida, int cantJugadores, int puertoEspectador) {	
 	setTitle(nombre);
 	setResizable(false);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,7 +66,7 @@ public class ServerFrame  extends JFrame{
 	btnIniciarPartida.setEnabled(false);
 	pane1.add(btnIniciarPartida);
 	add(pane1, BorderLayout.BEFORE_FIRST_LINE);
-	consolePane  = new ConsolePane(nombre,port,tiempo,cantJugadores,puntosPartida);
+	consolePane  = new ConsolePane(nombre,port,tiempo,cantJugadores,puntosPartida, puertoEspectador);
 	add(consolePane);
 	
 	addWindowListener(new WindowAdapter() {
@@ -100,7 +100,7 @@ public class ServerFrame  extends JFrame{
 		consolePane.iniciarPartida();
 	}
 	public static void main(String[] args) {
-		ServerFrame  sFrame =  new ServerFrame("Server", 11000, 50, 2, 3);
+		ServerFrame  sFrame =  new ServerFrame("Server", 11000, 50, 2, 3,11500);
 		sFrame.setVisible(true);
 	}
 }

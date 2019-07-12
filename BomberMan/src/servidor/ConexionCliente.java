@@ -19,6 +19,9 @@ public class ConexionCliente extends Thread {
 		socketCliente = cliente;
 
 	}
+	public ConexionCliente(Socket cliente) {
+		socketCliente = cliente;
+	}
 
 	@Override
 	public void run() {

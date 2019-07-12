@@ -1,15 +1,10 @@
 package visual;
 
-import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Insets;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +31,8 @@ public class Sala extends JFrame {
 	private JButton btnCrearSala;
 	private JButton btnSalir;
 	private JButton btnUnirse;
+	private JButton btnUnirseEspectador;
+	JButton btnRefrescar;
 	private String nombre;
 	private DataBase db;
 
@@ -73,10 +70,6 @@ public class Sala extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 
-		btnCrearSala = new JButton("Nueva Sala ");
-		btnCrearSala.setBounds(358, 308, 106, 23);
-		contentPane.add(btnCrearSala);
-
 		tablePartidas = new JTable(getEncabezadoTabla());
 		tablePartidas.setBounds(10, 10, 454, 285);
 		tablePartidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -85,22 +78,22 @@ public class Sala extends JFrame {
 		scrollPanel.add(tablePartidas);
 		contentPane.add(scrollPanel);
 		actualizarListaDeSalas();
+		
+		btnCrearSala = new JButton("Nueva Sala ");
+		btnCrearSala.setBounds(370, 308, 106, 23);
+		contentPane.add(btnCrearSala);
+		
 		btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(10, 308, 106, 23);
-		// btnUnirse.setEnabled(false);
 		contentPane.add(btnUnirse);
 
-		btnSalir = new JButton("Salir");
-		btnSalir.setBounds(10, 343, 454, 29);
-		contentPane.add(btnSalir);
-
-		JButton btnRefrescar = new JButton("Refrescar");
-		btnRefrescar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actualizarListaDeSalas();
-			}
-		});
-		btnRefrescar.setBounds(192, 308, 96, 23);
+		btnUnirseEspectador = new JButton("Espectador");
+		btnUnirseEspectador.setBounds(130, 308, 106, 23);
+		contentPane.add(btnUnirseEspectador);
+		
+		btnRefrescar = new JButton("Refrescar");
+		
+		btnRefrescar.setBounds(250, 308, 106, 23);
 		contentPane.add(btnRefrescar);
 		setVisible(true);
 
@@ -110,6 +103,11 @@ public class Sala extends JFrame {
 				confirmarCierreVentana();
 			}
 		});
+
+		btnSalir = new JButton("Salir");
+		btnSalir.setBounds(10, 343, 454, 29);
+		
+		contentPane.add(btnSalir);
 
 		addListener();
 		// actualizarListaDeSalas(true);
@@ -151,7 +149,11 @@ public class Sala extends JFrame {
 				dispose();
 			}
 		});
-
+		btnRefrescar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actualizarListaDeSalas();
+			}
+		});
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = tablePartidas.getSelectedRow();
@@ -171,7 +173,40 @@ public class Sala extends JFrame {
 									JOptionPane.showMessageDialog(null, "El juego esta Finalizado.");
 									return;
 								}
-								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuerto(), nombre);
+								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuerto(), nombre,false);
+								juego.setVisible(true);
+							}
+
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Debe Seleccionar una sala");
+				}
+
+			}
+		});
+		btnUnirseEspectador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = tablePartidas.getSelectedRow();
+				if (row >= 0) {
+					Object sala = tablePartidas.getValueAt(row, 0);
+					if (sala != null) {
+						try {
+							int idSala = (int) sala;
+							db = new DataBase();
+							database.Sala salaJuego = db.getSala(idSala);
+							if (salaJuego != null) {
+								if(salaJuego.getEstado() ==3) {
+									JOptionPane.showMessageDialog(null, "El juego esta Finalizado.");
+									return;
+								}
+								if(salaJuego.getPuertoEspectador()==0) {
+									JOptionPane.showMessageDialog(null, "El la sala no acepta espectadores.");
+									return;
+								}
+								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuertoEspectador(), nombre, true);
 								juego.setVisible(true);
 							}
 

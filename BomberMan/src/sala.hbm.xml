@@ -13,5 +13,6 @@
 		<property column="IP" name="IP" type="string" />
 		<property column="PUERTO" name="Puerto" type="int" />
 		<property column="ESTADO" name="Estado" type="int" />
+		<property column="PUERTOESPECTADOR" name="PuertoEspectador" type="int" />
 	</class>
 </hibernate-mapping>

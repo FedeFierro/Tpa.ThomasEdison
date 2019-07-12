@@ -33,6 +33,10 @@ public class NuevaSala extends JFrame {
 	private JTextField txtNombreSala;
 	private JTextField txtPuntos;
 	private JTextField txtPuerto;
+	private JTextField txtPuertoEspectador;
+	private final int COL_LABEL = 10;
+	private final int WIDTH_DATA = 166;
+	private final int COL_DATA=140;
 
 	/**
 	 * Launch the application.
@@ -50,9 +54,6 @@ public class NuevaSala extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public NuevaSala() {
 		setTitle("Nueva Sala");
 		
@@ -60,39 +61,34 @@ public class NuevaSala extends JFrame {
 		setBounds(100, 100, 416, 285);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-	
 		contentPane.setLayout(null);
-
-		JLabel lblCantidadJugadores = new JLabel("Cantidad jugadores");
-		lblCantidadJugadores.setBounds(10, 73, 109, 14);
-		contentPane.add(lblCantidadJugadores);
-
-		cmbCantidadJugadores = new JComboBox();
-		cmbCantidadJugadores.setModel(new DefaultComboBoxModel(new String[] { "2 BOMBERMAN", "3 BOMBERMAN", "4 BOMBERMAN" }));
-		cmbCantidadJugadores.setSelectedIndex(0);
 		
-		cmbCantidadJugadores.setBounds(129, 70, 166, 20);
-		contentPane.add(cmbCantidadJugadores);
-
-		btnIniciar = new JButton("Crear");
-		btnIniciar.setBounds(268, 217, 127, 23);
-		contentPane.add(btnIniciar);
-
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(106, 217, 127, 23);
-		contentPane.add(btnCancelar);
-
+		
 		lblNombreSala = new JLabel("Nombre Sala");
-		lblNombreSala.setBounds(10, 42, 94, 14);
+		lblNombreSala.setBounds(COL_LABEL, 42, 94, 14);
 		contentPane.add(lblNombreSala);
-
+		
 		txtNombreSala = new JTextField();
-		txtNombreSala.setBounds(129, 39, 166, 20);
+		txtNombreSala.setBounds(COL_DATA, 39, WIDTH_DATA, 20);
 		contentPane.add(txtNombreSala);
 		txtNombreSala.setColumns(10);
+		
+		JLabel lblCantidadJugadores = new JLabel("Cantidad jugadores");
+		lblCantidadJugadores.setBounds(COL_LABEL, 73, 109, 14);
+		contentPane.add(lblCantidadJugadores);
 
-		cmbTiempo = new JComboBox();
-		cmbTiempo.setBounds(129, 101, 166, 20);
+		cmbCantidadJugadores = new JComboBox<String>();
+		cmbCantidadJugadores.setModel(new DefaultComboBoxModel(new String[] { "2 BOMBERMAN", "3 BOMBERMAN", "4 BOMBERMAN" }));
+		cmbCantidadJugadores.setSelectedIndex(0);
+		cmbCantidadJugadores.setBounds(COL_DATA, 70, WIDTH_DATA, 20);
+		contentPane.add(cmbCantidadJugadores);
+
+		JLabel lblTiempo = new JLabel("Tiempo (segundos)");
+		lblTiempo.setBounds(COL_LABEL, 104, 109, 14);
+		contentPane.add(lblTiempo);
+		
+		cmbTiempo = new JComboBox<String>();
+		cmbTiempo.setBounds(COL_DATA, 101, WIDTH_DATA, 20);
 		
 		cmbTiempo.setModel(
 				new DefaultComboBoxModel(new String[] { "40", "60", "80", "100", "120", "140", "160", "180", "200" }));
@@ -100,28 +96,44 @@ public class NuevaSala extends JFrame {
 		
 		contentPane.add(cmbTiempo);
 
-		JLabel lblTiempo = new JLabel("Tiempo (segundos)");
-		lblTiempo.setBounds(10, 104, 109, 14);
-		contentPane.add(lblTiempo);
-
+		JLabel lblPuntos = new JLabel("Puntos");
+		lblPuntos.setBounds(COL_LABEL, 135, 48, 14);
+		contentPane.add(lblPuntos);
+		
+		
 		txtPuntos = new JTextField();
-		txtPuntos.setBounds(129, 132, 166, 20);
+		txtPuntos.setBounds(COL_DATA, 132, WIDTH_DATA, 20);
 		contentPane.add(txtPuntos);
 		txtPuntos.setColumns(10);
 
-		JLabel lblPuntos = new JLabel("Puntos");
-		lblPuntos.setBounds(10, 135, 48, 14);
-		contentPane.add(lblPuntos);
+		JLabel lblPuerto = new JLabel("Puerto");
+		lblPuerto.setBounds(COL_LABEL, 166, 48, 14);
+		contentPane.add(lblPuerto);
 
 		txtPuerto = new JTextField();
-		txtPuerto.setBounds(129, 163, 166, 20);
+		txtPuerto.setBounds(COL_DATA, 163, WIDTH_DATA, 20);
 		contentPane.add(txtPuerto);
 		txtPuerto.setColumns(10);
 
-		JLabel lblPuerto = new JLabel("Puerto");
-		lblPuerto.setBounds(10, 166, 48, 14);
-		contentPane.add(lblPuerto);
+		JLabel lblPuertoEspectador = new JLabel("Puerto Espectador");
+		lblPuertoEspectador.setBounds(COL_LABEL,197,109,14);
+		contentPane.add(lblPuertoEspectador);
 
+		txtPuertoEspectador = new JTextField();
+		txtPuertoEspectador.setBounds(COL_DATA, 194, WIDTH_DATA, 20);
+		contentPane.add(txtPuertoEspectador);
+		
+		txtPuertoEspectador.setColumns(10);
+		
+		btnIniciar = new JButton("Crear");
+		btnIniciar.setBounds(110, 225, 127, 23);
+		contentPane.add(btnIniciar);
+
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(270, 225, 127, 23);
+		contentPane.add(btnCancelar);
+
+		
 		setContentPane(contentPane);
 
 		addWindowListener(new WindowAdapter() {
@@ -144,6 +156,7 @@ public class NuevaSala extends JFrame {
 		int cantJugadores = cmbCantidadJugadores.getSelectedIndex()+2;
 		String puntos = txtPuntos.getText();
 		String tiempo = cmbTiempo.getSelectedItem().toString();
+		String puertoEspectador = txtPuertoEspectador.getText();
 		if (nombre.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un Nombre");
 			return;
@@ -170,9 +183,9 @@ public class NuevaSala extends JFrame {
 			JOptionPane.showMessageDialog(null, "Debe ingresar un valor para el tiempo de cada nivel.");
 			return;
 		}
-
+		int specPort =  puertoEspectador!=""? Integer.parseInt(puertoEspectador):0;
 		
-		ServerFrame  sframe = new ServerFrame(nombre,port, time,points,cantJugadores);
+		ServerFrame  sframe = new ServerFrame(nombre,port, time,points,cantJugadores, specPort);
 		sframe.setVisible(true);
 		dispose();
 	}
