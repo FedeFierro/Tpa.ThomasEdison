@@ -55,19 +55,21 @@ public class DataBase implements Disposable {
 
 	public boolean crearUsuario(Usuario user) {
 		try {
+			Usuario existe = existeUsuario(user);
 			session = factory.openSession();
 
-			Usuario existe = existeUsuario(user);
-			if (existe != null) {
+			if (existe == null) {
 				Transaction tx = session.beginTransaction();
 				session.saveOrUpdate(user);
 				tx.commit();
 				return true;
 			}else {
+				
 				mostrarError("El usuario ya existe.");
 				return false;
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			mostrarError("Error al crear Usuario");
 			return false;
 		} finally {
@@ -102,7 +104,8 @@ public class DataBase implements Disposable {
 			List<Sala> lista = q.getResultList();
 			return lista != null ? lista : new ArrayList<Sala>();
 		} catch (Exception e) {
-			mostrarError("ERROR INICIANDO SESION");
+			System.out.println(e.getMessage());
+			mostrarError("Error obteniendo Salas.");
 			return null;
 		} finally {
 			session.close();

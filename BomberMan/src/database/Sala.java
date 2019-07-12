@@ -7,17 +7,19 @@ public class Sala {
 	private String IP;
 	private int Puerto;
 	private int Estado;
+	private int PuertoEspectador;
 
 	
 	public Sala() {}
 	
-	public Sala(int i, String N, int c, String ip, int p) {
+	public Sala(int i, String N, int c, String ip, int p, int pEspectador) {
 		this.ID = i;
 		this.Nombre = N;
 		this.cantJugadores = c;
 		this.IP = ip;
 		this.Puerto = p;
 		this.Estado = 1;
+		this.PuertoEspectador = pEspectador;
 	}
 
 	public int getID() {
@@ -63,16 +65,18 @@ public class Sala {
 	public int getPuerto() {
 		return Puerto;
 	}
-
-	public void setPuerto(int puerto) {
-		Puerto = puerto;
+	public void setPuerto(int p) {
+		this.Puerto =p;
+	}
+	
+	public int getPuertoEspectador() {
+		return this.PuertoEspectador;
+	}
+	public void setPuertoEspectador(int pEspectador) {
+		this.PuertoEspectador = pEspectador;
 	}
 
-	@Override
-	public String toString() {
-		return "Sala [ID=" + ID + ", Nombre=" + Nombre + ", cantJugadores=" + cantJugadores + ", Estado=" + Estado + ", IP="
-				+ IP + ", Puerto=" + Puerto + "]";
-	}
+	
 	
 	
 }
