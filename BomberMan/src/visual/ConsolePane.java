@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import database.SalaDB;
 import servidor.ObservableData;
 import servidor.Servidor;;
 
@@ -19,23 +20,13 @@ public class ConsolePane extends JPanel implements PropertyChangeListener{
 	Servidor serverClient;
 	ObservableData data;
 	String nombre;
-	int port;
-	int tiempo;
-	int cantJugadores;
-	int puntos;
-	int puertoEspectador;
-	
+	SalaDB sala;
 	JScrollPane jScroll;
-	public ConsolePane(String nombre, int port, int tiempo, int cantJugadores,int puntos, int pEspectador) {
-		this.nombre = nombre;
-		this.port = port;
-		this.tiempo=tiempo;
-		this.cantJugadores=cantJugadores;
-		this.puntos= puntos;
-		this.puertoEspectador= pEspectador;
+	
+	public ConsolePane(SalaDB sala) {
+		this.sala=sala;
 		setSize(400, 400);
 		setLayout(new BorderLayout());
-	
 		txtArea = new JTextArea(10,10);
 		txtArea.setBackground(Color.BLACK);
 		txtArea.setForeground(Color.WHITE);
@@ -58,7 +49,7 @@ public class ConsolePane extends JPanel implements PropertyChangeListener{
 	}
 	public void startServer() {
 		txtArea.setText("");
-		serverClient = new Servidor(port,tiempo,puntos,cantJugadores,nombre, data, puertoEspectador);
+		serverClient = new Servidor(this.sala,data);
 	}
 	public void stopServer() {
 		serverClient.serverClose();

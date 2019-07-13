@@ -2,17 +2,20 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping">
 <hibernate-mapping>
-	<class name="database.Sala" table="SALA">
+	<class name="database.SalaDB" table="SALA">
 		<id column="ID" name="ID" type="int">
 			<generator class="increment" />
 		</id>
 
 		<property column="NOMBRE" name="Nombre" type="string" />
-		<property column="CANTJUGADORES" name="CantJugadores"
-			type="int" />
+		<property column="CANTJUGADORES" name="CantJugadores" type="int" />
 		<property column="IP" name="IP" type="string" />
 		<property column="PUERTO" name="Puerto" type="int" />
 		<property column="ESTADO" name="Estado" type="int" />
 		<property column="PUERTOESPECTADOR" name="PuertoEspectador" type="int" />
+		<property column="PRIVADA" name="Privada" type="boolean" />
+		<property column="ClAVE" name="Clave" type="string" />
+		<property column="PUNTOS" name="Puntos" type="int" />
+		<property column="TIEMPO" name="Tiempo" type="int" />
 	</class>
 </hibernate-mapping>

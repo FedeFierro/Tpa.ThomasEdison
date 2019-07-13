@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import database.SalaDB;
+
 
 @SuppressWarnings("serial")
 public class ServerFrame  extends JFrame{
@@ -21,8 +23,8 @@ public class ServerFrame  extends JFrame{
 	JPanel contentPane;
 	ConsolePane consolePane;
 	
-	public ServerFrame(String nombre, int port,int tiempo, int puntosPartida, int cantJugadores, int puertoEspectador) {	
-	setTitle(nombre);
+	public ServerFrame(SalaDB sala) {	
+	setTitle(sala.getNombre());
 	setResizable(false);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 600, 500);
@@ -66,7 +68,7 @@ public class ServerFrame  extends JFrame{
 	btnIniciarPartida.setEnabled(false);
 	pane1.add(btnIniciarPartida);
 	add(pane1, BorderLayout.BEFORE_FIRST_LINE);
-	consolePane  = new ConsolePane(nombre,port,tiempo,cantJugadores,puntosPartida, puertoEspectador);
+	consolePane  = new ConsolePane(sala);
 	add(consolePane);
 	
 	addWindowListener(new WindowAdapter() {
@@ -100,7 +102,8 @@ public class ServerFrame  extends JFrame{
 		consolePane.iniciarPartida();
 	}
 	public static void main(String[] args) {
-		ServerFrame  sFrame =  new ServerFrame("Server", 11000, 50, 2, 3,11500);
+		SalaDB salaDB = new SalaDB("Server", 2, null,11000, 3,11500, false,"",70);
+		ServerFrame  sFrame =  new ServerFrame(salaDB);
 		sFrame.setVisible(true);
 	}
 }
