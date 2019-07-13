@@ -177,7 +177,7 @@ public class Menu extends JFrame  {
 			executeAction();
 
 		}
-		if (keyCode == KeyEvent.VK_KP_UP || keyCode == KeyEvent.VK_DOWN) {
+		if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
 			int newIndex = keyCode == KeyEvent.VK_UP ? indexFocus - 1 : indexFocus + 1;
 			newIndex = newIndex < 0 ? 3 : newIndex > 3 ? 0 : newIndex;
 			menuOpt=newIndex+1;
