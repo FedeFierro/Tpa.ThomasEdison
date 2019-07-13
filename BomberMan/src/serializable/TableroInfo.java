@@ -16,7 +16,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
-public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserializer<TableroInfo>{
+public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserializer<TableroInfo> {
 	public int nivel;
 	public String tiempo;
 	public String imagen;
@@ -29,15 +29,15 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	public String mensaje;
 	public List<JugadorInfo> jugadoresInfo;
 	public List<ElementoInfo> elementos;
-	
+
 	public TableroInfo(int puntosPartida) {
-		this.iniciado=false;
-		this.mensaje= "Esperando Conexion de jugadores...";
-		this.nivel=0;
-		this.tiempo="--";
-		this.ganador="";
-		this.puntosPartida=puntosPartida;
-		pausa=true;
+		this.iniciado = false;
+		this.mensaje = "Esperando Conexion de jugadores...";
+		this.nivel = 0;
+		this.tiempo = "--";
+		this.ganador = "";
+		this.puntosPartida = puntosPartida;
+		pausa = true;
 		finJuego = false;
 		jugadoresInfo = new ArrayList<JugadorInfo>();
 		elementos = new ArrayList<ElementoInfo>();
@@ -45,7 +45,7 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 
 	@Override
 	public JsonElement serialize(TableroInfo tableroInfo, Type type, JsonSerializationContext conext) {
-				
+
 		JsonObject resultado = new JsonObject();
 		resultado.add("iniciado", new JsonPrimitive(iniciado));
 		resultado.add("mensaje", new JsonPrimitive(mensaje));
@@ -57,16 +57,18 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 		resultado.add("ganador", new JsonPrimitive(ganador));
 		resultado.add("finJuego", new JsonPrimitive(finJuego));
 		resultado.add("sonido", new JsonPrimitive(sonido));
-		
+
 		Gson gson = new Gson();
-		Type listType = new TypeToken<ArrayList<JugadorInfo>>() {}.getType();
+		Type listType = new TypeToken<ArrayList<JugadorInfo>>() {
+		}.getType();
 		String json = gson.toJson(jugadoresInfo, listType);
 		resultado.add("jugadoresInfo", new JsonPrimitive(json));
-		
-		listType = new TypeToken<ArrayList<ElementoInfo>>() {}.getType();
+
+		listType = new TypeToken<ArrayList<ElementoInfo>>() {
+		}.getType();
 		json = gson.toJson(elementos, listType);
 		resultado.add("elementos", new JsonPrimitive(json));
-		
+
 		return resultado;
 	}
 
@@ -74,37 +76,35 @@ public class TableroInfo implements JsonSerializer<TableroInfo>, JsonDeserialize
 	public TableroInfo deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context)
 			throws JsonParseException {
 		Gson gson = new Gson();
-	    TableroInfo tablero = gson.fromJson(jsonElement, type);
-	 JsonObject jo = jsonElement.getAsJsonObject();
-	 
-	 JsonArray ja =jo.getAsJsonArray("jugadoresInfo");
-	 System.out.println(ja);
-	    for(JsonElement je : ja) {
-	    	tablero.jugadoresInfo.add(new Gson().fromJson(je, JugadorInfo.class));
-	    	
-		 }
-	     ja =jo.getAsJsonArray("elementos");
-	     for(JsonElement je : ja) {
-		    	tablero.elementos.add(new Gson().fromJson(je, ElementoInfo.class));
-		    	
-			 } 
-		System.out.println(ja);
-	    return tablero;
+		TableroInfo tablero = gson.fromJson(jsonElement, type);
+		JsonObject jo = jsonElement.getAsJsonObject();
+
+		JsonArray ja = jo.getAsJsonArray("jugadoresInfo");
+		for (JsonElement je : ja) {
+			tablero.jugadoresInfo.add(new Gson().fromJson(je, JugadorInfo.class));
+
+		}
+		ja = jo.getAsJsonArray("elementos");
+		for (JsonElement je : ja) {
+			tablero.elementos.add(new Gson().fromJson(je, ElementoInfo.class));
+
+		}
+		return tablero;
 	}
-	
+
 	public void copyData(TableroInfo tablero) {
 		this.iniciado = tablero.iniciado;
-		this.mensaje= tablero.mensaje;
+		this.mensaje = tablero.mensaje;
 		this.nivel = tablero.nivel;
-		this.tiempo =  tablero.tiempo;
-		this.imagen =  tablero.imagen;
+		this.tiempo = tablero.tiempo;
+		this.imagen = tablero.imagen;
 		this.pausa = tablero.pausa;
-		this.puntosPartida =  tablero.puntosPartida;
+		this.puntosPartida = tablero.puntosPartida;
 		this.ganador = tablero.ganador;
 		this.finJuego = tablero.finJuego;
 		this.sonido = tablero.sonido;
-		this.elementos=tablero.elementos;
+		this.elementos = tablero.elementos;
 		this.jugadoresInfo = tablero.jugadoresInfo;
 	}
-	
+
 }

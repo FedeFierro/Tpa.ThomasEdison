@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +24,8 @@ public class Tablero {
 	private int tiempo;
 	private long start;
 	public TableroInfo info;
+	private List<Pared> paredes;
+	private List<PowerUp> powerups;
 
 	/*
 	 * Constructor de Tests
@@ -130,6 +133,21 @@ public class Tablero {
 	public Elemento getJugador(int x, int y) {
 		return elementosMov[x][y];
 	}
+	public void agregarPowerUp(PowerUp p) {
+		this.powerups.add(p);
+	}
+	public void quitarPowerUp(PowerUp p){
+		this.powerups.remove(p);
+	}
+	
+	public PowerUp obtenerPowerUp(Coordenada pos){
+		for(PowerUp p : powerups) {
+			if(p.pos.equals(pos)) {
+				return p;
+			}
+		}
+		return null;
+	}
 
 	public void intercambiarJugador(Coordenada posAnterior) {
 		Jugador aux = elementosMov[posAnterior.x][posAnterior.y];
@@ -163,6 +181,7 @@ public class Tablero {
 		}
 		List<JugadorInfo> jugInfo = new ArrayList<JugadorInfo>();
 		List<ElementoInfo> elements = new ArrayList<ElementoInfo>();
+		List<ElementoInfo> powerUps = new ArrayList<ElementoInfo>(); 
 		List<ElementoInfo> bombs = new ArrayList<ElementoInfo>();
 		List<ElementoInfo> exps = new ArrayList<ElementoInfo>();
 		List<ElementoInfo> players = new ArrayList<ElementoInfo>();
@@ -190,6 +209,9 @@ public class Tablero {
 
 			}
 		}
+		for(PowerUp p : powerups) {
+			powerUps.add(new ElementoInfo(p.pos.rx,Helper.HEAD_Y + p.pos.ry, p.show(), Helper.PX, Helper.PX, p.getSound()));
+		}
 		for (Jugador j : jugadores) {
 			jugInfo.add(j.info);
 		}
@@ -197,6 +219,7 @@ public class Tablero {
 
 		info.elementos = new ArrayList<ElementoInfo>();
 		info.elementos.addAll(elements);
+		info.elementos.addAll(powerUps);
 		info.elementos.addAll(bombs);
 		info.elementos.addAll(exps);
 		info.elementos.addAll(players);
@@ -233,6 +256,7 @@ public class Tablero {
 	}
 
 	private void construirMapaAleatorio() {
+		paredes = new ArrayList<Pared>();
 		for (int x = 0; x < ancho; x++) {
 			for (int y = 0; y < largo; y++) {
 				if (y == 0 || x == 0 || (x % 2 == 0 && y % 2 == 0) || x == ancho - 1
@@ -245,6 +269,10 @@ public class Tablero {
 				}
 			}
 		}
+		Collections.shuffle(paredes);
+		Pared p = paredes.get(1);
+		p.setPowerUp();
+		
 	}
 
 	private boolean esEspacioReservadoJugador(int x, int y) {
@@ -258,7 +286,9 @@ public class Tablero {
 		double limite = 0.1 + info.nivel * 0.025; /* para nivel 1 aprox 25% de paredes sube 5% por nivel */
 
 		if (rnd > 0.5 - limite && rnd < 0.5 + limite) {
-			return new Pared(new Coordenada(x, y), this);
+			Pared p= new Pared(new Coordenada(x, y), this);
+			paredes.add(p);
+			return p;
 		}
 		return new Fondo(new Coordenada(x, y), this);
 	}
@@ -268,6 +298,7 @@ public class Tablero {
 		bombas = new Elemento[ancho][largo];
 		elementos = new Elemento[ancho][largo];
 		elementosMov = new Jugador[ancho][largo];
+		powerups=new ArrayList<PowerUp>();
 
 	}
 
