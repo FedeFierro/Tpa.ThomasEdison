@@ -1,13 +1,22 @@
 package visual;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Insets;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.text.TabableView;
+
 import database.*;
 import helper.Helper;
 
@@ -22,11 +31,9 @@ import javax.swing.ListSelectionModel;
 
 public class Sala extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTable tablaTitulo;
 	private JTable tablePartidas;
 	private JButton btnCrearSala;
 	private JButton btnSalir;
@@ -35,7 +42,7 @@ public class Sala extends JFrame {
 	JButton btnRefrescar;
 	private String nombre;
 	private DataBase db;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -52,48 +59,52 @@ public class Sala extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Sala(String nombre) {
 
-		/**
-		 * Create the frame.
-		 */
 		this.nombre = nombre;
 		setTitle("Listado de Salas");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 490, 423);
+		setBounds(100, 100, 600, 423);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 
+		tablaTitulo = new JTable(getEncabezadoTabla());
+		tablaTitulo.setBounds(10, 10, 580, 20);
+		tablaTitulo.setSelectionBackground(Color.WHITE);
+		tablaTitulo.setSelectionForeground(Color.BLACK);
+		setHeaders();
+		tablaTitulo.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
+		contentPane.add(tablaTitulo);
 		tablePartidas = new JTable(getEncabezadoTabla());
-		tablePartidas.setBounds(10, 10, 454, 285);
+		tablePartidas.setBounds(0, 20, 580, 270);
 		tablePartidas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablePartidas.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
+
 		JScrollPane scrollPanel = new JScrollPane();
-		scrollPanel.setBounds(10, 10, 454, 285);
+		scrollPanel.setBounds(10, 10, 580, 285);
 		scrollPanel.add(tablePartidas);
 		contentPane.add(scrollPanel);
+		
 		actualizarListaDeSalas();
 		
-		btnCrearSala = new JButton("Nueva Sala ");
-		btnCrearSala.setBounds(370, 308, 106, 23);
-		contentPane.add(btnCrearSala);
-		
 		btnUnirse = new JButton("Unirse");
-		btnUnirse.setBounds(10, 308, 106, 23);
+		btnUnirse.setBounds(65, 308, 106, 23);
 		contentPane.add(btnUnirse);
 
+		btnCrearSala = new JButton("Nueva Sala ");
+		btnCrearSala.setBounds(425, 308, 106, 23);
+		contentPane.add(btnCrearSala);
+
 		btnUnirseEspectador = new JButton("Espectador");
-		btnUnirseEspectador.setBounds(130, 308, 106, 23);
+		btnUnirseEspectador.setBounds(185, 308, 106, 23);
 		contentPane.add(btnUnirseEspectador);
-		
+
 		btnRefrescar = new JButton("Refrescar");
-		
-		btnRefrescar.setBounds(250, 308, 106, 23);
+
+		btnRefrescar.setBounds(315, 308, 106, 23);
 		contentPane.add(btnRefrescar);
 		setVisible(true);
 
@@ -105,38 +116,62 @@ public class Sala extends JFrame {
 		});
 
 		btnSalir = new JButton("Salir");
-		btnSalir.setBounds(10, 343, 454, 29);
-		
+		btnSalir.setBounds(65, 343, 454, 29);
+
 		contentPane.add(btnSalir);
 
 		addListener();
 		// actualizarListaDeSalas(true);
 	}
 
+	private void setHeaders() {
+		DefaultTableModel model = getEncabezadoTabla();
+		Object[] enc = new Object[7];
+		enc[0] = "ID";
+		enc[1] = "NOMBRE";
+		enc[2] = "JUG.";
+		enc[3] = "PUNTOS";
+		enc[4] = "TIEMPO";
+		enc[5] = "ESTADO";
+		enc[6] = "PRIVADA";
+		model.addRow(enc);
+		tablaTitulo.setModel(model);
+
+	}
+
 	private void actualizarListaDeSalas() {
 
+		int row = tablePartidas.getSelectedRow();
 		db = new DataBase();
-		List<database.Sala> salas = db.getSalas();
+		List<SalaDB> salas = db.getSalas();
+
 		DefaultTableModel model = getEncabezadoTabla();
 		for (int i = 0; i < model.getRowCount(); i++) {
 			model.removeRow(i);
 		}
 
 		if (salas != null) {
-			for (database.Sala sala : salas) {
-				Object[] o = new Object[5];
+			for (SalaDB sala : salas) {
+				Object[] o = new Object[7];
 				o[0] = sala.getID();
 				o[1] = sala.getNombre();
 				o[2] = sala.getCantJugadores();
-				o[3] = (Object)Helper.getEstadoSala(sala.getEstado());
+				o[3] = sala.getPuntos();
+				o[4] = sala.getTiempo();
+				o[5] = (Object) Helper.getEstadoSala(sala.getEstado());
+				o[6] = sala.getPrivada() ? "Privada" : "Publica";
 				model.addRow(o);
 			}
 		}
 		tablePartidas.setModel(model);
+		if (row >= 0) {
+			System.out.println(row);
+			tablePartidas.setRowSelectionInterval(row, row);
+		}
 	}
 
 	private DefaultTableModel getEncabezadoTabla() {
-		String nombreColumnas[] = { "ID","Nombre", "Cantidad de Jugadores", "Estado" };
+		String nombreColumnas[] = { "ID", "Nombre", "Jugadores", "Puntos", "Tiempo", "Estado", "Privada" };
 		return new DefaultTableModel(null, nombreColumnas);
 	}
 
@@ -163,18 +198,24 @@ public class Sala extends JFrame {
 						try {
 							int idSala = (int) sala;
 							db = new DataBase();
-							database.Sala salaJuego = db.getSala(idSala);
+							SalaDB salaJuego = db.getSala(idSala);
 							if (salaJuego != null) {
-								if(salaJuego.getEstado() ==2) {
+								if (salaJuego.getEstado() == 2) {
 									JOptionPane.showMessageDialog(null, "El juego esta Iniciado.");
 									return;
 								}
-								if(salaJuego.getEstado() ==3) {
+								if (salaJuego.getEstado() == 3) {
 									JOptionPane.showMessageDialog(null, "El juego esta Finalizado.");
 									return;
 								}
-								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuerto(), nombre,false);
-								juego.setVisible(true);
+								if(!salaJuego.getPrivada()) {
+									abrirJuego(salaJuego, nombre);
+								}
+								else {
+									if(esClaveValida(salaJuego)) {
+										abrirJuego(salaJuego, nombre);
+									}
+								}
 							}
 
 						} catch (Exception e) {
@@ -196,18 +237,25 @@ public class Sala extends JFrame {
 						try {
 							int idSala = (int) sala;
 							db = new DataBase();
-							database.Sala salaJuego = db.getSala(idSala);
+							database.SalaDB salaJuego = db.getSala(idSala);
 							if (salaJuego != null) {
-								if(salaJuego.getEstado() ==3) {
+								if (salaJuego.getEstado() == 3) {
 									JOptionPane.showMessageDialog(null, "El juego esta Finalizado.");
 									return;
 								}
-								if(salaJuego.getPuertoEspectador()==0) {
+								if (salaJuego.getPuertoEspectador() == 0) {
 									JOptionPane.showMessageDialog(null, "El la sala no acepta espectadores.");
 									return;
 								}
-								JuegoFrame juego = new JuegoFrame(salaJuego.getIP(), salaJuego.getPuertoEspectador(), nombre, true);
-								juego.setVisible(true);
+								
+								if(!salaJuego.getPrivada()) {
+									abrirComoEspectador(salaJuego);
+								}
+								else {
+									if(esClaveValida(salaJuego)) {
+										abrirComoEspectador(salaJuego);
+									}
+								}
 							}
 
 						} catch (Exception e) {
@@ -227,6 +275,25 @@ public class Sala extends JFrame {
 			}
 		});
 	}
+	private void abrirJuego(SalaDB sala,String nombre) {
+		JuegoFrame juego = new JuegoFrame(sala.getIP(), sala.getPuerto(), nombre,false);
+			juego.setVisible(true);
+	}
+	private void abrirComoEspectador(SalaDB sala) {
+		JuegoFrame juego = new JuegoFrame(sala.getIP(), sala.getPuertoEspectador(), "",true);
+		juego.setVisible(true);
+	}
+	private boolean esClaveValida(SalaDB sala) {
+		String clave = JOptionPane.showInputDialog("Ingrese Clave");
+		if(clave==null) {
+			return false;
+		}
+		if(!clave.equals(sala.getClave())) {
+			JOptionPane.showMessageDialog(this, "Clave Incorrecta");
+			return false;
+		}
+		return true;
+	}
 
 	private void confirmarCierreVentana() {
 		int respuesta = JOptionPane.showConfirmDialog(this, "Desea cerrar esta ventana", "confirmar Salir",
@@ -234,9 +301,7 @@ public class Sala extends JFrame {
 		if (respuesta == JOptionPane.YES_OPTION) {
 			dispose();
 		} else
-
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
 	}
 
 }

@@ -8,12 +8,15 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import database.SalaDB;
 
 import javax.swing.JTextField;
 
@@ -34,9 +37,11 @@ public class NuevaSala extends JFrame {
 	private JTextField txtPuntos;
 	private JTextField txtPuerto;
 	private JTextField txtPuertoEspectador;
+	private JCheckBox chkPrivada;
+	private JTextField txtClave;
 	private final int COL_LABEL = 10;
 	private final int WIDTH_DATA = 166;
-	private final int COL_DATA=140;
+	private final int COL_DATA=180;
 
 	/**
 	 * Launch the application.
@@ -58,7 +63,7 @@ public class NuevaSala extends JFrame {
 		setTitle("Nueva Sala");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 416, 285);
+		setBounds(100, 100, 416, 340);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
@@ -84,7 +89,7 @@ public class NuevaSala extends JFrame {
 		contentPane.add(cmbCantidadJugadores);
 
 		JLabel lblTiempo = new JLabel("Tiempo (segundos)");
-		lblTiempo.setBounds(COL_LABEL, 104, 109, 14);
+		lblTiempo.setBounds(COL_LABEL, 104, 150, 14);
 		contentPane.add(lblTiempo);
 		
 		cmbTiempo = new JComboBox<String>();
@@ -116,7 +121,7 @@ public class NuevaSala extends JFrame {
 		txtPuerto.setColumns(10);
 
 		JLabel lblPuertoEspectador = new JLabel("Puerto Espectador");
-		lblPuertoEspectador.setBounds(COL_LABEL,197,109,14);
+		lblPuertoEspectador.setBounds(COL_LABEL,197,150,14);
 		contentPane.add(lblPuertoEspectador);
 
 		txtPuertoEspectador = new JTextField();
@@ -125,12 +130,29 @@ public class NuevaSala extends JFrame {
 		
 		txtPuertoEspectador.setColumns(10);
 		
+		JLabel lblPrivada = new JLabel("Privada");
+		lblPrivada.setBounds(COL_LABEL,228,48,14);
+		contentPane.add(lblPrivada);
+		
+		chkPrivada = new JCheckBox();
+		chkPrivada.setBounds(70,225, 23, 23);
+		contentPane.add(chkPrivada);
+		
+		JLabel lblClave=new JLabel("Clave");
+		lblClave.setBounds(120, 228, 48, 14);
+		contentPane.add(lblClave);
+		
+		txtClave= new JTextField();
+		txtClave.setBounds(180,225,WIDTH_DATA,20);
+		contentPane.add(txtClave);
+		txtClave.setColumns(10);
+		
 		btnIniciar = new JButton("Crear");
-		btnIniciar.setBounds(110, 225, 127, 23);
+		btnIniciar.setBounds(110, 260, 127, 23);
 		contentPane.add(btnIniciar);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(270, 225, 127, 23);
+		btnCancelar.setBounds(270, 260, 127, 23);
 		contentPane.add(btnCancelar);
 
 		
@@ -154,9 +176,11 @@ public class NuevaSala extends JFrame {
 		String nombre = txtNombreSala.getText();
 		String puerto = txtPuerto.getText();
 		int cantJugadores = cmbCantidadJugadores.getSelectedIndex()+2;
-		String puntos = txtPuntos.getText();
+		String puntos = txtPuntos.getText().trim();
 		String tiempo = cmbTiempo.getSelectedItem().toString();
-		String puertoEspectador = txtPuertoEspectador.getText();
+		String puertoEspectador = txtPuertoEspectador.getText().trim();
+		boolean privada = chkPrivada.isSelected();
+		String clave = txtClave.getText().trim();
 		if (nombre.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Ingrese un Nombre");
 			return;
@@ -184,8 +208,13 @@ public class NuevaSala extends JFrame {
 			return;
 		}
 		int specPort =  puertoEspectador!=""? Integer.parseInt(puertoEspectador):0;
-		
-		ServerFrame  sframe = new ServerFrame(nombre,port, time,points,cantJugadores, specPort);
+		if(privada && clave.isEmpty()){
+			JOptionPane.showMessageDialog(null, "Para una sala privada debe crear una clave.");
+			return;
+		}		
+		SalaDB salaDB = new SalaDB(nombre, cantJugadores, null,port,points,specPort,privada,clave,time);
+				
+		ServerFrame  sframe = new ServerFrame(salaDB);
 		sframe.setVisible(true);
 		dispose();
 	}
@@ -193,8 +222,6 @@ public class NuevaSala extends JFrame {
 	private void addListener() {
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-//		 VERIFICAR SI UNA VEZ CONECTADO y VUELVO NO SE PIERDE CONEX
 				crear();
 			}
 		});

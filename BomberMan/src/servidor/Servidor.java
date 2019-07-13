@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import com.google.gson.Gson;
 
 import database.DataBase;
-import database.Sala;
+import database.SalaDB;
 import entidades.Jugador;
 import entidades.Tablero;
 import serializable.TableroInfo;
@@ -28,37 +28,32 @@ public class Servidor {
 	private TimerTask sendData;
 	private ObservableData data;
 	private DataBase db;
-	private Sala sala;
+	private SalaDB sala;
 
-	public Servidor(int port, int tiempo, int puntosPartida, int cantJugadores, String nombre,ObservableData data, int puertoEspectador) {
-		sala = new Sala();
+	public Servidor(SalaDB sala,ObservableData data) {
+		this.sala = sala;
 		db = new DataBase();
 		try {
 			
 			InetAddress ipDireccion = InetAddress.getLocalHost();
 			this.data = data;
-			serverSocket = new ServerSocket(port);
-			data.setData("Servidor iniciado IP: "+ ipDireccion.getHostAddress().toString() + " puerto: "+port);
-			
-			sala.setCantJugadores(cantJugadores);
-			sala.setNombre(nombre);
-			sala.setPuerto(port);
+			serverSocket = new ServerSocket(sala.getPuerto());
+			data.setData("Servidor iniciado IP: "+ ipDireccion.getHostAddress().toString() + " puerto: "+sala.getPuerto());
 			sala.setIP(ipDireccion.getHostAddress().toString());
 			sala.setEstado(1);
-			sala.setPuertoEspectador(puertoEspectador);
 			db.guardarSala(sala);
 			
 
-			data.setData("Servidor iniciado IP: " + ipDireccion.getHostAddress().toString() + " puerto: " + port);
+			data.setData("Servidor iniciado IP: " + ipDireccion.getHostAddress().toString() + " puerto: " + sala.getPuerto());
 
-			tablero = new Tablero(tiempo, puntosPartida);
+			tablero = new Tablero(sala.getTiempo(), sala.getPuntos());
 			listaClientes = new ArrayList<ConexionCliente>();
 			listaEspectadores = new ArrayList<ConexionCliente>();
 			buscarConexion = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
-						int cantJugador = cantJugadores;
+						int cantJugador = sala.getCantJugadores();
 						for (int i = 1; i <= cantJugador; i++) {
 							Socket sc = serverSocket.accept();
 							DataInputStream input = new DataInputStream(sc.getInputStream());
@@ -67,7 +62,7 @@ public class Servidor {
 							ConexionCliente cliente = new ConexionCliente(sc, j);
 							data.setData("Cliente " + i + " " + usuario + " conectado");
 							listaClientes.add(cliente);
-							data.setData("Clientes conectados: " + listaClientes.size() + "/" + cantJugadores);
+							data.setData("Clientes conectados: " + listaClientes.size() + "/" + sala.getCantJugadores());
 							tablero.setJugador(j);
 							cliente.start();
 
@@ -86,7 +81,7 @@ public class Servidor {
 				@Override
 				public void run() {
 					try {
-						espectadorSocket= new ServerSocket(puertoEspectador);
+						espectadorSocket= new ServerSocket(sala.getPuertoEspectador());
 						
 					for(int e =0; e<100; e++) {
 						Socket sc = espectadorSocket.accept();
@@ -100,7 +95,7 @@ public class Servidor {
 				}
 			});
 			buscarConexion.start();
-			if(puertoEspectador>0) {
+			if(sala.getPuertoEspectador()>0) {
 				buscarEspectadores.start();
 			}
 

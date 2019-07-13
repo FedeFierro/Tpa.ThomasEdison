@@ -25,7 +25,7 @@ public class DataBase implements Disposable {
 		}
 	}
 
-	public void guardarSala(Sala sala) {
+	public void guardarSala(SalaDB sala) {
 
 		try {
 			session = factory.openSession();
@@ -39,7 +39,7 @@ public class DataBase implements Disposable {
 		}
 	}
 
-	public void borrarSala(Sala sala) {
+	public void borrarSala(SalaDB sala) {
 
 		try {
 			session= factory.openSession();
@@ -96,13 +96,13 @@ public class DataBase implements Disposable {
 
 	}
 
-	public List<Sala> getSalas() {
+	public List<SalaDB> getSalas() {
 		try {
 			session = factory.openSession();
 			@SuppressWarnings("unchecked")
-			Query<Sala> q = session.createQuery("From Sala s");
-			List<Sala> lista = q.getResultList();
-			return lista != null ? lista : new ArrayList<Sala>();
+			Query<SalaDB> q = session.createQuery("From SalaDB s");
+			List<SalaDB> lista = q.getResultList();
+			return lista != null ? lista : new ArrayList<SalaDB>();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			mostrarError("Error obteniendo Salas.");
@@ -111,11 +111,11 @@ public class DataBase implements Disposable {
 			session.close();
 		}
 	}
-	public Sala getSala(int idSala) {
+	public SalaDB getSala(int idSala) {
 		try {
 		session= factory.openSession();
 		@SuppressWarnings("unchecked")
-		Query<Sala> q = session.createQuery("FROM Sala s WHERE s.ID = :idSala");
+		Query<SalaDB> q = session.createQuery("FROM SalaDB s WHERE s.ID = :idSala");
 		q.setParameter("idSala", idSala);
 		return q.uniqueResult();
 		}catch (Exception e) {
