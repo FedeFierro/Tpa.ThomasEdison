@@ -29,8 +29,8 @@ public class NuevaSala extends JFrame {
 	private JPanel contentPane;
 	private JButton btnIniciar;
 	private JButton btnCancelar;
-	public JComboBox<?> cmbCantidadJugadores;
-	public JComboBox<?> cmbTiempo;
+	public JComboBox<String> cmbCantidadJugadores;
+	public JComboBox<String> cmbTiempo;
 	private String nombreJugador;
 	public JLabel lblNombreSala;
 	private JTextField txtNombreSala;
@@ -185,14 +185,14 @@ public class NuevaSala extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ingrese un Nombre");
 			return;
 		}
-		
 		int port = Integer.parseInt(puerto);
+		
 		if (puerto.isEmpty() || port ==0 ) {
 			JOptionPane.showMessageDialog(null, "Ingrese numero de puerto");
 			return;
 		}
 		int points = Integer.parseInt(puntos);
-		if (puntos.isEmpty()|| points < 1 ) {
+		if (puntos.isEmpty()|| points < 1) {
 			JOptionPane.showMessageDialog(null, "Ingrese la cantidad de puntos para ganar el juego.");
 			return;
 		}
@@ -207,7 +207,12 @@ public class NuevaSala extends JFrame {
 			JOptionPane.showMessageDialog(null, "Debe ingresar un valor para el tiempo de cada nivel.");
 			return;
 		}
-		int specPort =  puertoEspectador!=""? Integer.parseInt(puertoEspectador):0;
+		
+		int specPort =  !puertoEspectador.isEmpty()? Integer.parseInt(puertoEspectador):0;
+		if(port== specPort) {
+			JOptionPane.showMessageDialog(null, "El puerto para espectador no puede ser igual al puerto.");
+			return;
+		}
 		if(privada && clave.isEmpty()){
 			JOptionPane.showMessageDialog(null, "Para una sala privada debe crear una clave.");
 			return;

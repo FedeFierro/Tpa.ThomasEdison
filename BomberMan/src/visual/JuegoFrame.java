@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class JuegoFrame extends JFrame{
 
@@ -16,7 +17,7 @@ public class JuegoFrame extends JFrame{
 	public JuegoFrame(String ip, int port, String usuario, boolean espectador) {
 		super("BomberMan");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 700);
 		if(!espectador) {
 		addKeyListener(new KeyAdapter() {
@@ -34,7 +35,7 @@ public class JuegoFrame extends JFrame{
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				
+				close();
 			}
 		});
 	}
@@ -45,8 +46,15 @@ public class JuegoFrame extends JFrame{
 			
 		}
 		public void close() {
-			contentPane.close();
-			System.exit(0);
+			int respuesta = JOptionPane.showConfirmDialog(this, "Desea cerrar esta ventana", "confirmar Salir",
+					JOptionPane.YES_NO_OPTION);
+			if (respuesta == JOptionPane.YES_OPTION) {
+				dispose();
+			} else
+
+				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+
 		}
 	
 }
