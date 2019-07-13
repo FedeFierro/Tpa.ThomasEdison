@@ -9,7 +9,7 @@ import serializable.JugadorInfo;
 
 public class Jugador extends Elemento {
 
-	private final int MAXBOMBAS = 2;
+	private int maxBombas;
 	private int bombasPlantadas;
 	private int index = 0;
 	private DireccionEnum direccion;
@@ -27,6 +27,7 @@ public class Jugador extends Elemento {
 		super(tablero);
 		info = new JugadorInfo(numero, nombre);
 		pos = tablero.getPosicionInicialJugador(info.numero);
+		maxBombas=2;
 		bombasPlantadas = 0;
 		setImageName(11);
 	}
@@ -53,6 +54,11 @@ public class Jugador extends Elemento {
 					if (exp != null) {
 						explotar();
 					}
+					PowerUp pUp = tablero.obtenerPowerUp(this.pos);
+					if(pUp!=null) {
+						this.maxBombas++;
+						tablero.quitarPowerUp(pUp);
+					}
 
 				}
 			}
@@ -65,7 +71,7 @@ public class Jugador extends Elemento {
 	 */
 	public void plantarBomba() {
 		if (vivo)
-			if (bombasPlantadas < MAXBOMBAS) {
+			if (bombasPlantadas < maxBombas) {
 				bombasPlantadas += 1;
 				new Bomba(tablero, this);
 			}

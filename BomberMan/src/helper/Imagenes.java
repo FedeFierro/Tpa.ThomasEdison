@@ -128,6 +128,7 @@ public class Imagenes {
 	public Image player4_44;
 	public Image player4_45;
 	public Image otras_win;
+	public Image bomba_powerup;
 	
 	public Imagenes() {
 		/**

@@ -29,7 +29,6 @@ public class Menu extends JFrame  {
 	private JPanel contentPane;
 	protected boolean conectado = false;
 	private int menuOpt = 1;
-	private String nombre;
 	Client cliente;
 	private Usuario usuario = null;
 	/* Buttons */

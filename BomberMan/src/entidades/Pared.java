@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import helper.Helper;
 
 public class Pared extends Elemento {
+	private boolean powerUp;
 
 	public Pared(int x, int y, Tablero tablero) {
 		super(x, y, tablero);
@@ -34,6 +35,9 @@ public class Pared extends Elemento {
 	private void animateExplosion(Elemento e) {
 		tablero.setExplosion(this);	
 		tablero.quitarElemento(e);
+		if(powerUp) {
+			tablero.agregarPowerUp(new PowerUp(this.pos, this.tablero));
+		}
 		Timer t = new Timer();
 		TimerTask d = new TimerTask() {
 			int cont =1;
@@ -55,6 +59,9 @@ public class Pared extends Elemento {
 	protected void setImageName(Integer numero) {
 		imgFinal= String.format(Helper.METHOD_PARED, numero);
 		
+	}
+	public void setPowerUp() {
+		this.powerUp=true;
 	}
 	
 	
